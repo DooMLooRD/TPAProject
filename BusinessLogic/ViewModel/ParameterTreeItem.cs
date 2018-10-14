@@ -8,10 +8,10 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel
 {
-    public class ParameterViewModel : BaseTreeViewModel, ITreeViewItemBuilder
+    public class ParameterTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
     {
         public ParameterModel ParameterModel { get; set; }
-        public ParameterViewModel(ParameterModel parameterModel) : base(parameterModel.Name)
+        public ParameterTreeItem(ParameterModel parameterModel) : base(parameterModel.Name)
         {
             ParameterModel = parameterModel;
         }
@@ -19,7 +19,7 @@ namespace BusinessLogic.ViewModel
         {
             if (ParameterModel.Type != null)
             {
-                children.Add(new TreeViewItem(ParameterModel.Type.Name, ItemTypeEnum.Type , new TypeViewModel(TypeModel.TypeDictionary[ParameterModel.Type.Name])));
+                children.Add(new TreeViewItem(ParameterModel.Type.Name, ItemTypeEnum.Type , new TypeTreeItem(TypeModel.TypeDictionary[ParameterModel.Type.Name])));
             }
         }
 

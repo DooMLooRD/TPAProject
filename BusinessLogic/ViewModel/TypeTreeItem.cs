@@ -8,10 +8,10 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel
 {
-    public class TypeViewModel : BaseTreeViewModel, ITreeViewItemBuilder
+    public class TypeTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
     {
         public TypeModel TypeData { get; set; }
-        public TypeViewModel(TypeModel typeModel) : base(typeModel.Name)
+        public TypeTreeItem(TypeModel typeModel) : base(typeModel.Name)
         {
             TypeData = typeModel;
         }
@@ -20,59 +20,59 @@ namespace BusinessLogic.ViewModel
         {
             if (TypeData.BaseType != null)
             {
-                children.Add(new TreeViewItem(TypeData.BaseType.Name, ItemTypeEnum.Type, new TypeViewModel(TypeModel.TypeDictionary[TypeData.BaseType.Name])));
+                children.Add(new TreeViewItem(TypeData.BaseType.Name, ItemTypeEnum.Type, new TypeTreeItem(TypeModel.TypeDictionary[TypeData.BaseType.Name])));
             }
             if (TypeData.DeclaringType != null)
             {
-                children.Add(new TreeViewItem(TypeData.DeclaringType.Name, ItemTypeEnum.Type, new TypeViewModel(TypeModel.TypeDictionary[TypeData.DeclaringType.Name])));
+                children.Add(new TreeViewItem(TypeData.DeclaringType.Name, ItemTypeEnum.Type, new TypeTreeItem(TypeModel.TypeDictionary[TypeData.DeclaringType.Name])));
             }
             if (TypeData.Properties != null)
             {
                 foreach (PropertyModel propertyModel in TypeData.Properties)
                 {
-                    children.Add(new TreeViewItem(GetModifiers(propertyModel.Type) + propertyModel.Type.Name+" "+ propertyModel.Name, ItemTypeEnum.Property, new PropertyViewModel(propertyModel)));
+                    children.Add(new TreeViewItem(GetModifiers(propertyModel.Type) + propertyModel.Type.Name+" "+ propertyModel.Name, ItemTypeEnum.Property, new PropertyTreeItem(propertyModel)));
                 }
             }
             if (TypeData.Fields != null)
             {
                 foreach (ParameterModel parameterModel in TypeData.Fields)
                 {
-                    children.Add(new TreeViewItem(parameterModel.Name, ItemTypeEnum.Field, new ParameterViewModel(parameterModel)));
+                    children.Add(new TreeViewItem(parameterModel.Name, ItemTypeEnum.Field, new ParameterTreeItem(parameterModel)));
                 }
             }
             if (TypeData.GenericArguments != null)
             {
                 foreach (TypeModel typeModel in TypeData.GenericArguments)
                 {
-                    children.Add(new TreeViewItem(GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.GenericArgument, new TypeViewModel(TypeModel.TypeDictionary[typeModel.Name])));
+                    children.Add(new TreeViewItem(GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.GenericArgument, new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name])));
                 }
             }
             if (TypeData.ImplementedInterfaces != null)
             {
                 foreach (TypeModel typeModel in TypeData.ImplementedInterfaces)
                 {
-                    children.Add(new TreeViewItem(GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.InmplementedInterface, new TypeViewModel(TypeModel.TypeDictionary[typeModel.Name])));
+                    children.Add(new TreeViewItem(GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.InmplementedInterface, new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name])));
                 }
             }
             if (TypeData.NestedTypes != null)
             {
                 foreach (TypeModel typeModel in TypeData.NestedTypes)
                 {
-                    children.Add(new TreeViewItem(GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.NestedType, new TypeViewModel(TypeModel.TypeDictionary[typeModel.Name])));
+                    children.Add(new TreeViewItem(GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.NestedType, new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name])));
                 }
             }
             if (TypeData.Methods != null)
             {
                 foreach (MethodModel methodModel in TypeData.Methods)
                 {
-                    children.Add(new TreeViewItem(MethodViewModel.GetModifiers(methodModel) + methodModel.Name, ItemTypeEnum.Method, new MethodViewModel(methodModel)));
+                    children.Add(new TreeViewItem(MethodTreeItem.GetModifiers(methodModel) + methodModel.Name, ItemTypeEnum.Method, new MethodTreeItem(methodModel)));
                 }
             }
             if (TypeData.Constructors != null)
             {
                 foreach (MethodModel methodModel in TypeData.Constructors)
                 {
-                    children.Add(new TreeViewItem(MethodViewModel.GetModifiers(methodModel) + methodModel.Name, ItemTypeEnum.Constructor, new MethodViewModel(methodModel)));
+                    children.Add(new TreeViewItem(MethodTreeItem.GetModifiers(methodModel) + methodModel.Name, ItemTypeEnum.Constructor, new MethodTreeItem(methodModel)));
                 }
             }
         }

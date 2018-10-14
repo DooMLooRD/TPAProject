@@ -20,7 +20,7 @@ namespace BusinessLogic.ViewModel
         public ICommand Click_Show { get; }
 
         private AssemblyModel assemblyMetadata;
-        private AssemblyViewModel viewModelAssemblyMetadata;
+        private AssemblyTreeItem viewModelAssemblyMetadata;
 
         private string pathVariable;
         public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
@@ -66,7 +66,7 @@ namespace BusinessLogic.ViewModel
             {
                 assemblyMetadata = new AssemblyModel(Assembly.LoadFrom(pathVariable));
             }
-            viewModelAssemblyMetadata = new AssemblyViewModel(assemblyMetadata);
+            viewModelAssemblyMetadata = new AssemblyTreeItem(assemblyMetadata);
             LoadTreeView();
         }
 

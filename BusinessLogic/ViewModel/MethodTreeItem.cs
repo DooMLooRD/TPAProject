@@ -8,10 +8,10 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel
 {
-    public class MethodViewModel : BaseTreeViewModel, ITreeViewItemBuilder
+    public class MethodTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
     {
         public MethodModel MethodModel { get; set; }
-        public MethodViewModel(MethodModel methodModel) : base(methodModel.Name)
+        public MethodTreeItem(MethodModel methodModel) : base(methodModel.Name)
         {
             MethodModel = methodModel;
         }
@@ -22,7 +22,7 @@ namespace BusinessLogic.ViewModel
             {
                 foreach (TypeModel genericArgument in MethodModel.GenericArguments)
                 {
-                    children.Add(new TreeViewItem(genericArgument.Name, ItemTypeEnum.GenericArgument, new TypeViewModel(TypeModel.TypeDictionary[genericArgument.Name])));
+                    children.Add(new TreeViewItem(genericArgument.Name, ItemTypeEnum.GenericArgument, new TypeTreeItem(TypeModel.TypeDictionary[genericArgument.Name])));
                 }
             }
 
@@ -30,13 +30,13 @@ namespace BusinessLogic.ViewModel
             {
                 foreach (ParameterModel parameter in MethodModel.Parameters)
                 {
-                    children.Add(new TreeViewItem(parameter.Name, ItemTypeEnum.Parameter, new ParameterViewModel(parameter)));
+                    children.Add(new TreeViewItem(parameter.Name, ItemTypeEnum.Parameter, new ParameterTreeItem(parameter)));
                 }
             }
 
             if (MethodModel.ReturnType != null)
             {
-                children.Add(new TreeViewItem(MethodModel.ReturnType.Name, ItemTypeEnum.ReturnType, new TypeViewModel(TypeModel.TypeDictionary[MethodModel.ReturnType.Name])));
+                children.Add(new TreeViewItem(MethodModel.ReturnType.Name, ItemTypeEnum.ReturnType, new TypeTreeItem(TypeModel.TypeDictionary[MethodModel.ReturnType.Name])));
             }
         }
 

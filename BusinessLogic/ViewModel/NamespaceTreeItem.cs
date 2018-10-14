@@ -8,10 +8,10 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel
 {
-    public class NamespaceViewModel : BaseTreeViewModel, ITreeViewItemBuilder
+    public class NamespaceTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
     {
         public List<TypeModel> Types { get; set; }
-        public NamespaceViewModel(NamespaceModel namespaceModel) : base(namespaceModel.Name)
+        public NamespaceTreeItem(NamespaceModel namespaceModel) : base(namespaceModel.Name)
         {
             Types = namespaceModel.Types;
         }
@@ -22,7 +22,7 @@ namespace BusinessLogic.ViewModel
             {
                 foreach (TypeModel typeModel in Types)
                 {
-                    children.Add(new TreeViewItem(TypeViewModel.GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.Type, new TypeViewModel(TypeModel.TypeDictionary[typeModel.Name])));
+                    children.Add(new TreeViewItem(TypeTreeItem.GetModifiers(typeModel) + typeModel.Name, ItemTypeEnum.Type, new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name])));
                 }
             }
         }

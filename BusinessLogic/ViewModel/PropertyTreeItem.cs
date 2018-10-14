@@ -8,10 +8,10 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel
 {
-    public class PropertyViewModel : BaseTreeViewModel, ITreeViewItemBuilder
+    public class PropertyTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
     {
         public PropertyModel PropertyModel { get; set; }
-        public PropertyViewModel(PropertyModel type) : base(type.Name)
+        public PropertyTreeItem(PropertyModel type) : base(type.Name)
         {
             PropertyModel = type;
         }
@@ -20,7 +20,7 @@ namespace BusinessLogic.ViewModel
         {
             if (PropertyModel.Type != null)
             {
-                children.Add(new TreeViewItem(PropertyModel.Type.Name, ItemTypeEnum.Type ,new TypeViewModel(TypeModel.TypeDictionary[PropertyModel.Type.Name])));
+                children.Add(new TreeViewItem(PropertyModel.Type.Name, ItemTypeEnum.Type ,new TypeTreeItem(TypeModel.TypeDictionary[PropertyModel.Type.Name])));
             }
         }
     }
