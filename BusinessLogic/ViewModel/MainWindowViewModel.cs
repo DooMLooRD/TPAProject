@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using BusinessLogic.Model;
+using BusinessLogic.ViewModel.TreeViewItems;
+
 
 namespace BusinessLogic.ViewModel
 {

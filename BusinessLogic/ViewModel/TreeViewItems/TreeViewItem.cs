@@ -1,26 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class TreeViewItem
+    public class TreeViewItem 
     {
-        private bool wasBuilt;
-        private bool isExpanded;
+        private bool _wasBuilt;
+        private bool _isExpanded;
         public string Name { get; set; }
         public ItemTypeEnum ItemType { get; set; }
         public ObservableCollection<TreeViewItem> Children { get; set; }
-
         public ITreeViewItemBuilder Builder { get; set; }
 
         public TreeViewItem(string name, ItemTypeEnum itemType ,ITreeViewItemBuilder builder)
         {
             Children = new ObservableCollection<TreeViewItem>() { null };
-            this.wasBuilt = false;
+            this._wasBuilt = false;
             Name = name;
             ItemType = itemType;
             Builder = builder;
@@ -28,17 +22,18 @@ namespace BusinessLogic.ViewModel
 
         public bool IsExpanded
         {
-            get { return isExpanded; }
+            get { return _isExpanded; }
             set
             {
-                isExpanded = value;
-                if (wasBuilt)
+                _isExpanded = value;
+                if (_wasBuilt)
                     return;
                 Children.Clear();
                 Builder.BuildTreeView(Children);
-                wasBuilt = true;
+                _wasBuilt = true;
             }
         }
+        
 
     }
 }

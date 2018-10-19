@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessLogic.Model;
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class NamespaceTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
+    public class NamespaceTreeItem : ITreeViewItemBuilder
     {
+        public string Name { get; set; }
         public List<TypeModel> Types { get; set; }
-        public NamespaceTreeItem(NamespaceModel namespaceModel) : base(namespaceModel.Name)
+        public NamespaceTreeItem(NamespaceModel namespaceModel)
         {
+            Name = namespaceModel.Name;
             Types = namespaceModel.Types;
         }
 

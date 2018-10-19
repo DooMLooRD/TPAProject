@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.TreeViewItems
 {
     public interface ITreeViewItemBuilder
     {

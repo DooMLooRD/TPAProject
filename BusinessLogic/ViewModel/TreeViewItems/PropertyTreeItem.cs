@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using BusinessLogic.Model;
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class PropertyTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
+    public class PropertyTreeItem : ITreeViewItemBuilder
     {
+        public string Name { get; set; }
         public PropertyModel PropertyModel { get; set; }
-        public PropertyTreeItem(PropertyModel type) : base(type.Name)
+        public PropertyTreeItem(PropertyModel type)
         {
+            Name = type.Name;
             PropertyModel = type;
         }
 

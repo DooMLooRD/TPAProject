@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BusinessLogic.Model;
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class AssemblyTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
+    public class AssemblyTreeItem :  ITreeViewItemBuilder
     {
+        public string Name { get; set; }
         public List<NamespaceModel> Namespaces { get; set; }
-        public AssemblyTreeItem(AssemblyModel assembly) : base(assembly.Name)
+        public AssemblyTreeItem(AssemblyModel assembly)
         {
+            Name = assembly.Name;
             Namespaces = assembly.NamespaceModels;
         }
 

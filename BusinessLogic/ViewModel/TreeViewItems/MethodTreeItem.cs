@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using BusinessLogic.Model;
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class MethodTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
+    public class MethodTreeItem : ITreeViewItemBuilder
     {
+        public string Name { get; set; }
         public MethodModel MethodModel { get; set; }
-        public MethodTreeItem(MethodModel methodModel) : base(methodModel.Name)
+        public MethodTreeItem(MethodModel methodModel)
         {
+            Name = methodModel.Name;
             MethodModel = methodModel;
         }
 

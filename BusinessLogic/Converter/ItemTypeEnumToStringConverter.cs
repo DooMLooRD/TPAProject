@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using BusinessLogic.ViewModel;
+using BusinessLogic.ViewModel.TreeViewItems;
+
 
 namespace BusinessLogic.Converter
 {

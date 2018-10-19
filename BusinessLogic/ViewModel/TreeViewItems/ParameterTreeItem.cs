@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using BusinessLogic.Model;
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class ParameterTreeItem : BaseTreeViewModel, ITreeViewItemBuilder
+    public class ParameterTreeItem :  ITreeViewItemBuilder
     {
+        public string Name { get; set; }
         public ParameterModel ParameterModel { get; set; }
-        public ParameterTreeItem(ParameterModel parameterModel) : base(parameterModel.Name)
+        public ParameterTreeItem(ParameterModel parameterModel)
         {
+            Name = parameterModel.Name;
             ParameterModel = parameterModel;
         }
         public void BuildTreeView(ObservableCollection<TreeViewItem> children)
