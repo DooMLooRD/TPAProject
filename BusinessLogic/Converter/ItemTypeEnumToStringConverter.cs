@@ -15,7 +15,7 @@ namespace BusinessLogic.Converter
         public static ItemTypeEnumToStringConverter Instance = new ItemTypeEnumToStringConverter();
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((ItemTypeEnum) value).ToString();
+            return "["+(ItemTypeEnum)value+"]";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

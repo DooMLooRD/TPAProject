@@ -11,6 +11,6 @@ namespace BusinessLogic.Model
     /// </summary>
     public enum AccessLevel
     {
-        Public, Protected, Internal, Private  
+        None, Public, Protected, Internal, Private
     }
 }

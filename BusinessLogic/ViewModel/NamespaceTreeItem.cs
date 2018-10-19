@@ -22,15 +22,11 @@ namespace BusinessLogic.ViewModel
             {
                 foreach (TypeModel typeModel in Types)
                 {
-                    ItemTypeEnum typeEnum;
-                    if (typeModel.Type == TypeModel.TypeKind.Class)
-                        typeEnum = ItemTypeEnum.Class;
-                    else if (typeModel.Type == TypeModel.TypeKind.Enum)
-                        typeEnum = ItemTypeEnum.Enum;
-                    else if (typeModel.Type == TypeModel.TypeKind.Interface)
-                        typeEnum = ItemTypeEnum.Interface;
-                    else
-                        typeEnum = ItemTypeEnum.Struct;
+                    ItemTypeEnum typeEnum = typeModel.Type == TypeEnum.Class ?
+                        ItemTypeEnum.Class : typeModel.Type == TypeEnum.Enum ?
+                            ItemTypeEnum.Enum : typeModel.Type == TypeEnum.Interface ?
+                                ItemTypeEnum.Interface : ItemTypeEnum.Struct;
+
                     children.Add(new TreeViewItem(TypeTreeItem.GetModifiers(typeModel) + typeModel.Name, typeEnum, new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name])));
                 }
             }

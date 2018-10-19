@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BusinessLogic.ViewModel;
+using WPFApplication.Helper;
 
 namespace WPFApplication
 {
@@ -24,7 +25,10 @@ namespace WPFApplication
         public MainWindow()
         {
             InitializeComponent();
-            DataContext=new MainWindowViewModel();
+            DataContext=new MainWindowViewModel()
+            {
+                PathLoader = new WPFPathLoader()
+            };
         }
     }
 }

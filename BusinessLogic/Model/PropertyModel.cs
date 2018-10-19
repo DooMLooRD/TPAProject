@@ -29,11 +29,14 @@ namespace BusinessLogic.Model
         /// </summary>
         /// <param name="props"></param>
         /// <returns></returns>
-        public static IEnumerable<PropertyModel> EmitProperties(IEnumerable<PropertyInfo> props)
+        public static List<PropertyModel> EmitProperties(Type type)
         {
-            return from prop in props
-                where prop.GetGetMethod().GetVisible() || prop.GetSetMethod().GetVisible()
-                select new PropertyModel(prop.Name, TypeModel.EmitReference(prop.PropertyType));
+            List<PropertyInfo> props = type
+                .GetProperties(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
+                               BindingFlags.Static | BindingFlags.Instance).ToList();
+
+            return props.Where(t => t.GetGetMethod().GetVisible() || t.GetSetMethod().GetVisible())
+                .Select(t => new PropertyModel(t.Name, TypeModel.EmitReference(t.PropertyType))).ToList(); 
         }
     }
 }

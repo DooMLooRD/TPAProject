@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace BusinessLogic.Model
 {
     public class TypeModel : BaseModel
@@ -15,8 +16,8 @@ namespace BusinessLogic.Model
         public string NamespaceName { get; set; }
         public TypeModel BaseType { get; set; }
         public List<TypeModel> GenericArguments { get; set; }
-        public Tuple<AccessLevel, SealedEnum, AbstractEnum> Modifiers { get; set; }
-        public TypeKind Type { get; set; }
+        public Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
+        public TypeEnum Type { get; set; }
         public List<TypeModel> ImplementedInterfaces { get; set; }
         public List<TypeModel> NestedTypes { get; set; }
         public List<PropertyModel> Properties { get; set; }
@@ -25,24 +26,7 @@ namespace BusinessLogic.Model
         public List<MethodModel> Constructors { get; set; }
         public List<ParameterModel> Fields { get; set; }
 
-        static Tuple<AccessLevel, SealedEnum, AbstractEnum> EmitModifiers(Type type)
-        {
-            AccessLevel _access = AccessLevel.Private;
-            if (type.IsPublic)
-                _access = AccessLevel.Public;
-            else if (type.IsNestedPublic)
-                _access = AccessLevel.Public;
-            else if (type.IsNestedFamily)
-                _access = AccessLevel.Protected;
-            else if (type.IsNestedFamANDAssem)
-                _access = AccessLevel.Internal;
-            SealedEnum _sealed = SealedEnum.NotSealed;
-            if (type.IsSealed) _sealed = SealedEnum.Sealed;
-            AbstractEnum _abstract = AbstractEnum.NotAbstract;
-            if (type.IsAbstract)
-                _abstract = AbstractEnum.Abstract;
-            return new Tuple<AccessLevel, SealedEnum, AbstractEnum>(_access, _sealed, _abstract);
-        }
+
         public TypeModel(Type type) : base(type.Name)
         {
             if (!TypeDictionary.ContainsKey(Name))
@@ -50,17 +34,18 @@ namespace BusinessLogic.Model
                 TypeDictionary.Add(Name, this);
             }
 
-            DeclaringType = EmitDeclaringType(type.DeclaringType);
-            Constructors = MethodModel.EmitMethods(type.GetConstructors()).ToList();
-            Methods = MethodModel.EmitMethods(type.GetMethods()).ToList();
-            NestedTypes = EmitNestedTypes(type.GetNestedTypes()).ToList();
-            ImplementedInterfaces = EmitImplements(type.GetInterfaces()).ToList();
-            GenericArguments = !type.IsGenericTypeDefinition ? null : TypeModel.EmitGenericArguments(type.GetGenericArguments()).ToList();
-            Modifiers = EmitModifiers(type);
+            Type = GetTypeEnum(type);
             BaseType = EmitExtends(type.BaseType);
-            Properties = PropertyModel.EmitProperties(type.GetProperties()).ToList();
-            Type = GetTypeKind(type);
-            Fields = EmitFields(type.GetFields()).ToList();
+            Modifiers = EmitModifiers(type);
+
+            DeclaringType = EmitDeclaringType(type.DeclaringType);
+            Constructors = MethodModel.EmitConstructors(type);
+            Methods = MethodModel.EmitMethods(type);
+            NestedTypes = EmitNestedTypes(type);
+            ImplementedInterfaces = EmitImplements(type.GetInterfaces()).ToList();
+            GenericArguments = !type.IsGenericTypeDefinition ? null : EmitGenericArguments(type);
+            Properties = PropertyModel.EmitProperties(type);
+            Fields = EmitFields(type);
         }
 
         private TypeModel(string typeName, string namespaceName) : base(typeName)
@@ -73,25 +58,23 @@ namespace BusinessLogic.Model
             this.GenericArguments = genericArguments.ToList();
         }
 
-        public enum TypeKind
-        {
-            Enum, Struct, Interface, Class
-        }
 
         public static TypeModel EmitReference(Type type)
         {
             if (!type.IsGenericType)
                 return new TypeModel(type.Name, type.GetNamespace());
-            else
-                return new TypeModel(type.Name, type.GetNamespace(), EmitGenericArguments(type.GetGenericArguments()));
+
+            return new TypeModel(type.Name, type.GetNamespace(), EmitGenericArguments(type));
         }
-        public static IEnumerable<TypeModel> EmitGenericArguments(IEnumerable<Type> arguments)
+        public static List<TypeModel> EmitGenericArguments(Type type)
         {
+            List<Type> arguments = type.GetGenericArguments().ToList();
             foreach (Type typ in arguments)
             {
                 StoreType(typ);
             }
-            return from Type _argument in arguments select EmitReference(_argument);
+
+            return arguments.Select(EmitReference).ToList();
         }
 
         public static void StoreType(Type type)
@@ -102,13 +85,16 @@ namespace BusinessLogic.Model
             }
         }
 
-        private static IEnumerable<ParameterModel> EmitFields(IEnumerable<FieldInfo> fieldInfo)
+        private static List<ParameterModel> EmitFields(Type type)
         {
+            List<FieldInfo> fieldInfo = type.GetFields(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
+                                           BindingFlags.Static | BindingFlags.Instance).ToList();
+
             List<ParameterModel> parameters = new List<ParameterModel>();
             foreach (FieldInfo field in fieldInfo)
             {
                 StoreType(field.FieldType);
-                parameters.Add(new ParameterModel(field.Name, TypeModel.EmitReference(field.FieldType)));
+                parameters.Add(new ParameterModel(field.Name, EmitReference(field.FieldType)));
             }
             return parameters;
         }
@@ -120,16 +106,15 @@ namespace BusinessLogic.Model
             StoreType(declaringType);
             return EmitReference(declaringType);
         }
-        private IEnumerable<TypeModel> EmitNestedTypes(IEnumerable<Type> nestedTypes)
+        private List<TypeModel> EmitNestedTypes(Type type)
         {
+            List<Type> nestedTypes = type.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).ToList();
             foreach (Type typ in nestedTypes)
             {
                 StoreType(typ);
             }
 
-            return from _type in nestedTypes
-                   where _type.GetVisible()
-                   select new TypeModel(_type);
+            return nestedTypes.Select(t => new TypeModel(t)).ToList();
         }
         private IEnumerable<TypeModel> EmitImplements(IEnumerable<Type> interfaces)
         {
@@ -141,12 +126,32 @@ namespace BusinessLogic.Model
             return from currentInterface in interfaces
                    select EmitReference(currentInterface);
         }
-        private static TypeKind GetTypeKind(Type type)
+        private static TypeEnum GetTypeEnum(Type type)
         {
-            return type.IsEnum ? TypeKind.Enum :
-                   type.IsValueType ? TypeKind.Struct :
-                   type.IsInterface ? TypeKind.Interface :
-                   TypeKind.Class;
+            return type.IsEnum ? TypeEnum.Enum :
+                   type.IsValueType ? TypeEnum.Struct :
+                   type.IsInterface ? TypeEnum.Interface :
+                   TypeEnum.Class;
+        }
+
+        static Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> EmitModifiers(Type type)
+        {
+            AccessLevel _access = type.IsPublic || type.IsNestedPublic ? AccessLevel.Public :
+                type.IsNestedFamily ? AccessLevel.Protected :
+                type.IsNestedFamANDAssem ? AccessLevel.Internal :
+                AccessLevel.Private;
+            StaticEnum _static = type.IsSealed && type.IsAbstract ? StaticEnum.Static : StaticEnum.NotStatic;
+            SealedEnum _sealed = SealedEnum.NotSealed;
+            AbstractEnum _abstract = AbstractEnum.NotAbstract;
+            if (_static == StaticEnum.NotStatic)
+            {
+                _sealed = type.IsSealed ? SealedEnum.Sealed : SealedEnum.NotSealed;
+                _abstract = type.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
+            }
+
+
+
+            return new Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum>(_access, _sealed, _abstract,_static);
         }
 
         private static TypeModel EmitExtends(Type baseType)

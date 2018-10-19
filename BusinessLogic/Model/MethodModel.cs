@@ -41,11 +41,16 @@ namespace BusinessLogic.Model
         /// <param name="method"></param>
         public MethodModel(MethodBase method) : base(method.Name)
         {
-            GenericArguments = !method.IsGenericMethodDefinition ? null : TypeModel.EmitGenericArguments(method.GetGenericArguments()).ToList();
+            GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
             ReturnType = EmitReturnType(method);
-            Parameters = EmitParameters(method.GetParameters()).ToList();
+            Parameters = EmitParameters(method);
             Modifiers = EmitModifiers(method);
             Extension = EmitExtension(method);
+        }
+
+        private List<TypeModel> EmitGenericArguments(MethodBase method)
+        {
+            return method.GetGenericArguments().Select(t => new TypeModel(t)).ToList();
         }
 
         /// <summary>
@@ -53,11 +58,10 @@ namespace BusinessLogic.Model
         /// </summary>
         /// <param name="methods"></param>
         /// <returns></returns>
-        public static IEnumerable<MethodModel> EmitMethods(IEnumerable<MethodBase> methods)
+        public static List<MethodModel> EmitMethods(Type type)
         {
-            return from MethodBase _currentMethod in methods
-                   where _currentMethod.GetVisible()
-                   select new MethodModel(_currentMethod);
+            return type.GetMethods(BindingFlags.NonPublic | BindingFlags.DeclaredOnly | BindingFlags.Public |
+                                   BindingFlags.Static | BindingFlags.Instance).Select(t => new MethodModel(t)).ToList();
         }
 
         /// <summary>
@@ -65,10 +69,9 @@ namespace BusinessLogic.Model
         /// </summary>
         /// <param name="parms"></param>
         /// <returns></returns>
-        private static IEnumerable<ParameterModel> EmitParameters(IEnumerable<ParameterInfo> parms)
+        private static List<ParameterModel> EmitParameters(MethodBase method)
         {
-            return from parm in parms
-                   select new ParameterModel(parm.Name, TypeModel.EmitReference(parm.ParameterType));
+            return method.GetParameters().Select(t => new ParameterModel(t.Name,TypeModel.EmitReference(t.ParameterType))).ToList( );
         }
 
         /// <summary>
@@ -102,23 +105,22 @@ namespace BusinessLogic.Model
         /// <returns></returns>
         private static Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> EmitModifiers(MethodBase method)
         {
-            AccessLevel _access = AccessLevel.Private;
-            if (method.IsPublic)
-                _access = AccessLevel.Public;
-            else if (method.IsFamily)
-                _access = AccessLevel.Protected;
-            else if (method.IsFamilyAndAssembly)
-                _access = AccessLevel.Internal;
-            AbstractEnum _abstract = AbstractEnum.NotAbstract;
-            if (method.IsAbstract)
-                _abstract = AbstractEnum.Abstract;
-            StaticEnum _static = StaticEnum.NotStatic;
-            if (method.IsStatic)
-                _static = StaticEnum.Static;
-            VirtualEnum _virtual = VirtualEnum.NotVirtual;
-            if (method.IsVirtual)
-                _virtual = VirtualEnum.Virtual;
-            return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(_access, _abstract, _static, _virtual);
+            AccessLevel access = method.IsPublic ? AccessLevel.Public :
+                method.IsFamily ? AccessLevel.Protected :
+                method.IsAssembly ? AccessLevel.Internal : AccessLevel.Private;
+
+            AbstractEnum _abstract = method.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
+
+            StaticEnum _static = method.IsStatic ? StaticEnum.Static : StaticEnum.NotStatic;
+
+            VirtualEnum _virtual = method.IsVirtual ? VirtualEnum.Virtual : VirtualEnum.NotVirtual;
+
+            return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(access, _abstract, _static, _virtual);
+        }
+
+        public static List<MethodModel> EmitConstructors(Type type)
+        {
+            return type.GetConstructors().Select(t => new MethodModel(t)).ToList();
         }
     }
 }

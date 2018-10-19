@@ -9,18 +9,16 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using BusinessLogic.Model;
-using Microsoft.Win32;
 
 namespace BusinessLogic.ViewModel
 {
     public class MainWindowViewModel : BaseViewModel
     {
 
-        public ICommand Click_Open { get; }
-        public ICommand Click_Show { get; }
-
-        private AssemblyModel assemblyMetadata;
-        private AssemblyTreeItem viewModelAssemblyMetadata;
+        public ICommand ClickOpen { get; }
+        public IPathLoader PathLoader { get; set; }
+        private AssemblyModel _assemblyMetadata;
+        private AssemblyTreeItem _viewModelAssemblyMetadata;
 
         public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
 
@@ -29,46 +27,26 @@ namespace BusinessLogic.ViewModel
         public MainWindowViewModel()
         {
             HierarchicalAreas = new ObservableCollection<TreeViewItem>();
-            Click_Open = new RelayCommand(Open);
-            Click_Show = new RelayCommand(Load);
+            ClickOpen = new RelayCommand(Open);
         }
 
         private void Open()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            string path = PathLoader.LoadPath();
+            if (path!=null)
             {
-                Filter = "Dynamic Library File(*.dll)| *.dll|"
-                       + "Executable File(*.exe)| *.exe|"
-                       + "XML File(*.xml)| *.xml",
-                RestoreDirectory = true
-            };
-            openFileDialog.ShowDialog();
-            if (openFileDialog.FileName.Length == 0)
-            {
-                MessageBox.Show("No files selected");
-            }
-            else
-            {
-                PathVariable = openFileDialog.FileName;
+                PathVariable = path;
                 OnPropertyChanged("PathVariable");
+                _assemblyMetadata = new AssemblyModel(Assembly.LoadFrom(PathVariable));
+                _viewModelAssemblyMetadata = new AssemblyTreeItem(_assemblyMetadata);
+                LoadTreeView();
             }
-        }
 
-
-
-        private void Load()
-        {
-            if (PathVariable.Contains(".dll"))
-            {
-                assemblyMetadata = new AssemblyModel(Assembly.LoadFrom(PathVariable));
-            }
-            viewModelAssemblyMetadata = new AssemblyTreeItem(assemblyMetadata);
-            LoadTreeView();
         }
 
         private void LoadTreeView()
         {
-            TreeViewItem rootItem = new TreeViewItem(viewModelAssemblyMetadata.Name, ItemTypeEnum.Assembly, viewModelAssemblyMetadata);
+            TreeViewItem rootItem = new TreeViewItem(_viewModelAssemblyMetadata.Name, ItemTypeEnum.Assembly, _viewModelAssemblyMetadata);
             HierarchicalAreas.Add(rootItem);
         }
     }

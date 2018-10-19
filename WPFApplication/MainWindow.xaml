@@ -11,21 +11,7 @@
         <Border Padding="10">
             <StackPanel>
                 <!-- Buttons - Open & Save -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width = "*"/>
-                        <ColumnDefinition Width = "*"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button x:Name="Open" Grid.Column="0" Padding="0 5" Margin="20 10 20 0"  Content="Open" Command="{Binding Click_Open}"/>
-                    <Button x:Name="Save" Grid.Column="1" Padding="0 5" Margin="20 10 20 0"  Content="Save" Command="{Binding Click_Save}"/>
-                </Grid>
-
-                <!-- Button - Show -->
-                <StackPanel>
-                    <Button x:Name="Show" Padding="0 5" Margin="20 10 20 0" Content="Show" Command="{Binding Click_Show}"
-                        Visibility="{Binding ChangeControlVisibility,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
-                </StackPanel>
+                <Button x:Name="Open" Grid.Column="0" Padding="0 5" Margin="20 10 20 0"  Content="Open" Command="{Binding ClickOpen}"/>
 
                 <!-- Labels -->
                 <Grid>
@@ -42,7 +28,7 @@
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                             <StackPanel Orientation="Horizontal">
-                                <Button IsEnabled="False" Content="{Binding Path=ItemType, Converter={x:Static converter:ItemTypeEnumToStringConverter.Instance}}"/>
+                                <TextBlock FontWeight="ExtraBold" Text="{Binding Path=ItemType, Converter={x:Static converter:ItemTypeEnumToStringConverter.Instance}}"/>
                                 <TextBlock Text="{Binding Path=Name}" Margin="0 0 4 0"/>
                             </StackPanel>
                        </HierarchicalDataTemplate>

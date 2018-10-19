@@ -9,12 +9,13 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using BusinessLogic.ViewModel;
+using ConsoleApplication.Helper;
 
 namespace ConsoleApplication
 {
     class Program
     {
-        public static MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel();
+        public static MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel(){PathLoader = new CommandLinePathLoader()};
         public static TreeViewConsole ConsoleView { get; set; }
 
         static void Main(string[] args)
@@ -44,10 +45,11 @@ namespace ConsoleApplication
                 case "o":
                 case "Open":
                     {
-
+                        Console.Clear();
                         Console.WriteLine("Type absolute Path of file you want to open");
-                        ViewModel.PathVariable = Console.ReadLine();
-                        ViewModel.Click_Show.Execute(null);
+                        ViewModel.ClickOpen.Execute(null);
+                        if(ViewModel.PathVariable==null)
+                            MainMenuView();
                         break;
                     }
                 case "E":

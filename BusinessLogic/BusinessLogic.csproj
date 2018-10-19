@@ -43,23 +43,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter\ItemTypeEnumToStringConverter.cs" />
-    <Compile Include="Model\AbstractEnum.cs" />
-    <Compile Include="Model\AccessLevel.cs" />
+    <Compile Include="Model\Enums\AbstractEnum.cs" />
+    <Compile Include="Model\Enums\AccessLevel.cs" />
     <Compile Include="Model\AssemblyModel.cs" />
     <Compile Include="Model\Base\BaseModel.cs" />
+    <Compile Include="Model\Enums\TypeEnum.cs" />
     <Compile Include="Model\ExtensionMethods.cs" />
     <Compile Include="Model\MethodModel.cs" />
     <Compile Include="Model\NamespaceModel.cs" />
     <Compile Include="Model\ParameterModel.cs" />
     <Compile Include="Model\PropertyModel.cs" />
-    <Compile Include="Model\SealedEnum.cs" />
-    <Compile Include="Model\StaticEnum.cs" />
+    <Compile Include="Model\Enums\SealedEnum.cs" />
+    <Compile Include="Model\Enums\StaticEnum.cs" />
     <Compile Include="Model\TypeModel.cs" />
-    <Compile Include="Model\VirtualEnum.cs" />
+    <Compile Include="Model\Enums\VirtualEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModel\AssemblyTreeItem.cs" />
     <Compile Include="ViewModel\Base\BaseTreeItem.cs" />
     <Compile Include="ViewModel\Base\ItemTypeEnum.cs" />
+    <Compile Include="ViewModel\IPathLoader.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MethodTreeItem.cs" />
     <Compile Include="ViewModel\NamespaceTreeItem.cs" />
