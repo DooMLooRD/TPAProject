@@ -20,7 +20,7 @@ namespace BusinessLogic.ViewModel
         {
             if (TypeData.BaseType != null)
             {
-                children.Add(new TreeViewItem(TypeData.BaseType.Name, ItemTypeEnum.Type, new TypeTreeItem(TypeModel.TypeDictionary[TypeData.BaseType.Name])));
+                children.Add(new TreeViewItem(TypeData.BaseType.Name, ItemTypeEnum.BaseType, new TypeTreeItem(TypeModel.TypeDictionary[TypeData.BaseType.Name])));
             }
             if (TypeData.DeclaringType != null)
             {

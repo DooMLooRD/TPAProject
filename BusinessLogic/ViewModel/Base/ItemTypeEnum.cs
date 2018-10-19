@@ -8,6 +8,8 @@ namespace BusinessLogic.ViewModel
 {
     public enum ItemTypeEnum
     {
-        Assembly, Namespace, Method, Type, Parameter, Property, ReturnType, GenericArgument, InmplementedInterface, NestedType, Constructor, Field
+        Assembly, Namespace, Method, Type, Parameter, Property, ReturnType,
+        GenericArgument, InmplementedInterface, NestedType, Constructor, Field,
+        BaseType, Class, Enum, Struct, Interface
     }
 }

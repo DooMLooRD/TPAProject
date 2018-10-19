@@ -22,14 +22,10 @@ namespace BusinessLogic.ViewModel
         private AssemblyModel assemblyMetadata;
         private AssemblyTreeItem viewModelAssemblyMetadata;
 
-        private string pathVariable;
         public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
 
-        public string PathVariable
-        {
-            get { return pathVariable; }
-            set { pathVariable = value; }
-        }
+        public string PathVariable { get; set; }
+
         public MainWindowViewModel()
         {
             HierarchicalAreas = new ObservableCollection<TreeViewItem>();
@@ -53,7 +49,7 @@ namespace BusinessLogic.ViewModel
             }
             else
             {
-                pathVariable = openFileDialog.FileName;
+                PathVariable = openFileDialog.FileName;
                 OnPropertyChanged("PathVariable");
             }
         }
@@ -62,9 +58,9 @@ namespace BusinessLogic.ViewModel
 
         private void Load()
         {
-            if (pathVariable.Contains(".dll"))
+            if (PathVariable.Contains(".dll"))
             {
-                assemblyMetadata = new AssemblyModel(Assembly.LoadFrom(pathVariable));
+                assemblyMetadata = new AssemblyModel(Assembly.LoadFrom(PathVariable));
             }
             viewModelAssemblyMetadata = new AssemblyTreeItem(assemblyMetadata);
             LoadTreeView();
