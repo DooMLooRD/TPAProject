@@ -30,7 +30,15 @@ namespace ConsoleApplication
                 Console.WriteLine("Path:"+ ViewModel.PathVariable);
                 PrintData();
                 Console.WriteLine("Type id that you want to expand, if its already expanded shrink");
-                Expand(Int32.Parse(Console.ReadLine()));
+
+                string temp = Console.ReadLine();
+
+                while ((!Int32.TryParse(temp, out int ignoreMe)) || Int32.Parse(temp)<0 || (Int32.Parse(temp)> (ConsoleView.HierarchicalDataCollection.Count - 1)))
+                {
+                    Console.WriteLine("Incorrect format, try again");
+                    temp = Console.ReadLine();
+                }
+                Expand(Int32.Parse(temp));
             }
 
         }
