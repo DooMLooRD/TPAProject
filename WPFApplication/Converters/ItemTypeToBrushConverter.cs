@@ -8,7 +8,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using BusinessLogic.ViewModel.TreeViewItems;
 
-namespace BusinessLogic.Converter
+namespace WPFApplication.Converters
 {
     [ValueConversion(typeof(ItemTypeEnum), typeof(Brush))]
     public class ItemTypeToBrushConverter : IValueConverter
