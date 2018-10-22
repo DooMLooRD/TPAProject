@@ -42,14 +42,14 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (PropertyModel propertyModel in TypeData.Properties)
                 {
-                    children.Add(new PropertyTreeItem(propertyModel,GetModifiers(propertyModel.Type) + propertyModel.Type.Name + " " + propertyModel.Name));
+                    children.Add(new PropertyTreeItem(propertyModel, GetModifiers(propertyModel.Type) + propertyModel.Type.Name + " " + propertyModel.Name));
                 }
             }
             if (TypeData.Fields != null)
             {
                 foreach (ParameterModel parameterModel in TypeData.Fields)
                 {
-                    children.Add(new ParameterTreeItem(parameterModel));
+                    children.Add(new ParameterTreeItem(parameterModel, ItemTypeEnum.Field));
                 }
             }
             if (TypeData.GenericArguments != null)
@@ -80,7 +80,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (MethodModel methodModel in TypeData.Methods)
                 {
-                    children.Add(new MethodTreeItem(methodModel, ItemTypeEnum.Method));
+                    children.Add(new MethodTreeItem(methodModel, methodModel.Extension ? ItemTypeEnum.ExtensionMethod : ItemTypeEnum.Method));
                 }
             }
             if (TypeData.Constructors != null)

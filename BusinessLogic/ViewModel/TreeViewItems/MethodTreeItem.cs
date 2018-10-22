@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
@@ -15,9 +16,9 @@ namespace BusinessLogic.ViewModel.TreeViewItems
         {
             string type = null;
             type += model.Modifiers.Item1.ToString().ToLower() + " ";
-            type += model.Modifiers.Item2 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : "";
-            type += model.Modifiers.Item3 == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : "";
-            type += model.Modifiers.Item4 == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString().ToLower() + " " : "";
+            type += model.Modifiers.Item2 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : String.Empty;
+            type += model.Modifiers.Item3 == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : String.Empty;
+            type += model.Modifiers.Item4 == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString().ToLower() + " " : String.Empty;
             return type;
         }
 
@@ -36,7 +37,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (ParameterModel parameter in MethodModel.Parameters)
                 {
-                    children.Add(new ParameterTreeItem(parameter));
+                    children.Add(new ParameterTreeItem(parameter, ItemTypeEnum.Parameter));
                 }
             }
 

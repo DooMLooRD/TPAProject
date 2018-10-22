@@ -3,10 +3,10 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class ParameterTreeItem :  TreeViewItem
+    public class ParameterTreeItem : TreeViewItem
     {
         public ParameterModel ParameterModel { get; set; }
-        public ParameterTreeItem(ParameterModel parameterModel):base(parameterModel.Name,ItemTypeEnum.Field)
+        public ParameterTreeItem(ParameterModel parameterModel, ItemTypeEnum type) : base(parameterModel.Name, type)
         {
             ParameterModel = parameterModel;
         }

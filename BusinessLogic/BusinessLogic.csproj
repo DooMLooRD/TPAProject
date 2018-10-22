@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converter\ItemTypeEnumToStringConverter.cs" />
+    <Compile Include="Converter\ItemTypeToBrushConverter.cs" />
     <Compile Include="Model\Enums\AbstractEnum.cs" />
     <Compile Include="Model\Enums\AccessLevel.cs" />
     <Compile Include="Model\AssemblyModel.cs" />
