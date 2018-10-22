@@ -48,7 +48,7 @@ namespace BusinessLogic.ViewModel
 
         private void LoadTreeView()
         {
-            TreeViewItem rootItem = new TreeViewItem(_viewModelAssemblyMetadata.Name, ItemTypeEnum.Assembly, _viewModelAssemblyMetadata);
+            TreeViewItem rootItem = _viewModelAssemblyMetadata;
             HierarchicalAreas.Add(rootItem);
         }
     }

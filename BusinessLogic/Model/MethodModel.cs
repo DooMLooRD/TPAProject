@@ -56,7 +56,7 @@ namespace BusinessLogic.Model
         /// <summary>
         /// Emits MethodModels collection from MetodBase collection
         /// </summary>
-        /// <param name="methods"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static List<MethodModel> EmitMethods(Type type)
         {
@@ -67,7 +67,7 @@ namespace BusinessLogic.Model
         /// <summary>
         /// Emits ParametersModels collection from ParameterInfo collection
         /// </summary>
-        /// <param name="parms"></param>
+        /// <param name="method"></param>
         /// <returns></returns>
         private static List<ParameterModel> EmitParameters(MethodBase method)
         {

@@ -3,38 +3,12 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class MethodTreeItem : ITreeViewItemBuilder
+    public class MethodTreeItem : TreeViewItem
     {
-        public string Name { get; set; }
         public MethodModel MethodModel { get; set; }
-        public MethodTreeItem(MethodModel methodModel)
+        public MethodTreeItem(MethodModel methodModel, ItemTypeEnum type) : base(GetModifiers(methodModel) + methodModel.Name, type)
         {
-            Name = methodModel.Name;
             MethodModel = methodModel;
-        }
-
-        public void BuildTreeView(ObservableCollection<TreeViewItem> children)
-        {
-            if (MethodModel.GenericArguments != null)
-            {
-                foreach (TypeModel genericArgument in MethodModel.GenericArguments)
-                {
-                    children.Add(new TreeViewItem(genericArgument.Name, ItemTypeEnum.GenericArgument, new TypeTreeItem(TypeModel.TypeDictionary[genericArgument.Name])));
-                }
-            }
-
-            if (MethodModel.Parameters != null)
-            {
-                foreach (ParameterModel parameter in MethodModel.Parameters)
-                {
-                    children.Add(new TreeViewItem(parameter.Name, ItemTypeEnum.Parameter, new ParameterTreeItem(parameter)));
-                }
-            }
-
-            if (MethodModel.ReturnType != null)
-            {
-                children.Add(new TreeViewItem(MethodModel.ReturnType.Name, ItemTypeEnum.ReturnType, new TypeTreeItem(TypeModel.TypeDictionary[MethodModel.ReturnType.Name])));
-            }
         }
 
         public static string GetModifiers(MethodModel model)
@@ -45,6 +19,31 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             type += model.Modifiers.Item3 == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : "";
             type += model.Modifiers.Item4 == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString().ToLower() + " " : "";
             return type;
+        }
+
+        protected override void BuildTreeView(ObservableCollection<TreeViewItem> children)
+        {
+
+            if (MethodModel.GenericArguments != null)
+            {
+                foreach (TypeModel genericArgument in MethodModel.GenericArguments)
+                {
+                    children.Add(new TypeTreeItem(TypeModel.TypeDictionary[genericArgument.Name], ItemTypeEnum.GenericArgument));
+                }
+            }
+
+            if (MethodModel.Parameters != null)
+            {
+                foreach (ParameterModel parameter in MethodModel.Parameters)
+                {
+                    children.Add(new ParameterTreeItem(parameter));
+                }
+            }
+
+            if (MethodModel.ReturnType != null)
+            {
+                children.Add(new TypeTreeItem(TypeModel.TypeDictionary[MethodModel.ReturnType.Name], ItemTypeEnum.ReturnType ));
+            }
         }
     }
 }

@@ -10,9 +10,8 @@ namespace BusinessLogic.Model
 {
     public class TypeModel : BaseModel
     {
-        //TODO: Write comments for everthing in TypeModel class
-
         public static Dictionary<string, TypeModel> TypeDictionary = new Dictionary<string, TypeModel>();
+
         public string NamespaceName { get; set; }
         public TypeModel BaseType { get; set; }
         public List<TypeModel> GenericArguments { get; set; }

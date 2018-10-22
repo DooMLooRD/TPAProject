@@ -4,17 +4,15 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class NamespaceTreeItem : ITreeViewItemBuilder
+    public class NamespaceTreeItem : TreeViewItem
     {
-        public string Name { get; set; }
         public List<TypeModel> Types { get; set; }
-        public NamespaceTreeItem(NamespaceModel namespaceModel)
-        {
-            Name = namespaceModel.Name;
+        public NamespaceTreeItem(NamespaceModel namespaceModel):base(namespaceModel.Name, ItemTypeEnum.Namespace)
+        { 
             Types = namespaceModel.Types;
         }
 
-        public void BuildTreeView(ObservableCollection<TreeViewItem> children)
+        protected override void BuildTreeView(ObservableCollection<TreeViewItem> children)
         {
             if (Types != null)
             {
@@ -25,7 +23,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
                             ItemTypeEnum.Enum : typeModel.Type == TypeEnum.Interface ?
                                 ItemTypeEnum.Interface : ItemTypeEnum.Struct;
 
-                    children.Add(new TreeViewItem(TypeTreeItem.GetModifiers(typeModel) + typeModel.Name, typeEnum, new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name])));
+                    children.Add(new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name],typeEnum));
                 }
             }
         }

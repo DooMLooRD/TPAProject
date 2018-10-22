@@ -4,23 +4,23 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class AssemblyTreeItem :  ITreeViewItemBuilder
+    public class AssemblyTreeItem :  TreeViewItem
     {
-        public string Name { get; set; }
+
         public List<NamespaceModel> Namespaces { get; set; }
-        public AssemblyTreeItem(AssemblyModel assembly)
+        public AssemblyTreeItem(AssemblyModel assembly) : base(assembly.Name,ItemTypeEnum.Assembly)
         {
-            Name = assembly.Name;
             Namespaces = assembly.NamespaceModels;
         }
 
-        public void BuildTreeView(ObservableCollection<TreeViewItem> children)
+
+        protected override void BuildTreeView(ObservableCollection<TreeViewItem> children)
         {
             if (Namespaces != null)
             {
                 foreach (NamespaceModel namespaceModel in Namespaces)
                 {
-                    children.Add(new TreeViewItem(namespaceModel.Name, ItemTypeEnum.Namespace, new NamespaceTreeItem(namespaceModel)));
+                    children.Add(new NamespaceTreeItem(namespaceModel));
                 }
             }
         }

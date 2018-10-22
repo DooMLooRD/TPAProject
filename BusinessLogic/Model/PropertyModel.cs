@@ -27,7 +27,7 @@ namespace BusinessLogic.Model
         /// <summary>
         /// Emits PropertyModel collection from PropertyInfo collection
         /// </summary>
-        /// <param name="props"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static List<PropertyModel> EmitProperties(Type type)
         {

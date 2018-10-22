@@ -70,7 +70,6 @@
     <Compile Include="ViewModel\TreeViewItems\PropertyTreeItem.cs" />
     <Compile Include="ViewModel\TreeViewItems\TreeViewItem.cs" />
     <Compile Include="ViewModel\Base\BaseViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\ITreeViewItemBuilder.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\TreeViewItems\TypeTreeItem.cs" />
   </ItemGroup>

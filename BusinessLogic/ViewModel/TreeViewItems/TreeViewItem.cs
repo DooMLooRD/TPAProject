@@ -2,22 +2,20 @@
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class TreeViewItem 
+    public abstract class TreeViewItem 
     {
         private bool _wasBuilt;
         private bool _isExpanded;
         public string Name { get; set; }
         public ItemTypeEnum ItemType { get; set; }
         public ObservableCollection<TreeViewItem> Children { get; set; }
-        public ITreeViewItemBuilder Builder { get; set; }
 
-        public TreeViewItem(string name, ItemTypeEnum itemType ,ITreeViewItemBuilder builder)
+        protected TreeViewItem(string name, ItemTypeEnum itemType)
         {
             Children = new ObservableCollection<TreeViewItem>() { null };
             this._wasBuilt = false;
             Name = name;
             ItemType = itemType;
-            Builder = builder;
         }
 
         public bool IsExpanded
@@ -29,11 +27,12 @@ namespace BusinessLogic.ViewModel.TreeViewItems
                 if (_wasBuilt)
                     return;
                 Children.Clear();
-                Builder.BuildTreeView(Children);
+                BuildTreeView(Children);
                 _wasBuilt = true;
             }
         }
-        
+
+        protected abstract void BuildTreeView(ObservableCollection<TreeViewItem> children);
 
     }
 }

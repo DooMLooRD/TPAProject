@@ -3,21 +3,20 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
-    public class PropertyTreeItem : ITreeViewItemBuilder
+    public class PropertyTreeItem : TreeViewItem
     {
-        public string Name { get; set; }
         public PropertyModel PropertyModel { get; set; }
-        public PropertyTreeItem(PropertyModel type)
+        public PropertyTreeItem(PropertyModel type,string name): base(name,ItemTypeEnum.Property)
         {
-            Name = type.Name;
             PropertyModel = type;
         }
 
-        public void BuildTreeView(ObservableCollection<TreeViewItem> children)
+
+        protected override void BuildTreeView(ObservableCollection<TreeViewItem> children)
         {
             if (PropertyModel.Type != null)
             {
-                children.Add(new TreeViewItem(PropertyModel.Type.Name, ItemTypeEnum.Type ,new TypeTreeItem(TypeModel.TypeDictionary[PropertyModel.Type.Name])));
+                children.Add(new TypeTreeItem(TypeModel.TypeDictionary[PropertyModel.Type.Name], ItemTypeEnum.Type));
             }
         }
     }
