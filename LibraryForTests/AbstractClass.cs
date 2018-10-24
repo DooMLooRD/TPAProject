@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TestLibrary
 {
-    internal class InternalClass
+    public abstract class AbstractClass
     {
 
     }

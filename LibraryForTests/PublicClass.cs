@@ -10,7 +10,7 @@ namespace TestLibrary
     public class PublicClass : IPublicInterface
     {
         public int Property { get; set; }
-        internal InternalClass InternalClass { get; set; }
+        private AbstractClass abstractClass;
 
         public PublicClass()
         {

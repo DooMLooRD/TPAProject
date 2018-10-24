@@ -41,8 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassWithBaseClass.cs" />
     <Compile Include="IPublicInterface.cs" />
-    <Compile Include="InternalClass.cs" />
+    <Compile Include="AbstractClass.cs" />
+    <Compile Include="NamespaceTwo\ClassWithGenericArguments.cs" />
     <Compile Include="NamespaceTwo\ClassWithNestedClass.cs" />
     <Compile Include="NamespaceTwo\ClassWithNestedStructure.cs" />
     <Compile Include="NamespaceTwo\StaticClass.cs" />
