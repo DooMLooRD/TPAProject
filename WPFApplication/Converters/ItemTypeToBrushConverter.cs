@@ -19,26 +19,40 @@ namespace WPFApplication.Converters
 
             switch ((ItemTypeEnum)value)
             {
-                case ItemTypeEnum.Assembly:         
-                case ItemTypeEnum.Constructor:                               
+                case ItemTypeEnum.Assembly:
+                    return new SolidColorBrush(Colors.DarkBlue);
+                
+                case ItemTypeEnum.Namespace:
+                    return new SolidColorBrush(Colors.CornflowerBlue);
+
+                case ItemTypeEnum.Constructor:
+                    return new SolidColorBrush(Colors.CadetBlue);
+
                 case ItemTypeEnum.ExtensionMethod:
-                case ItemTypeEnum.Field:
+                    return new SolidColorBrush(Colors.Purple);
+
                 case ItemTypeEnum.GenericArgument:
+                    return new SolidColorBrush(Colors.Plum);
+
+                case ItemTypeEnum.Field:
                 case ItemTypeEnum.Parameter:
-                case ItemTypeEnum.Type:
+                case ItemTypeEnum.Property:
+                    return new SolidColorBrush(Colors.MediumPurple);
+
                 case ItemTypeEnum.Method:
-                    return new SolidColorBrush(Colors.Cyan);
+                    return new SolidColorBrush(Colors.DarkViolet);
 
                 case ItemTypeEnum.NestedEnum:
                 case ItemTypeEnum.Enum:
                 case ItemTypeEnum.InmplementedInterface:
                 case ItemTypeEnum.Interface:
                     return new SolidColorBrush(Colors.DarkSeaGreen);
-                case ItemTypeEnum.Namespace:
-                case ItemTypeEnum.Property:              
+                
+                case ItemTypeEnum.Type:
                 case ItemTypeEnum.ReturnType:
                 case ItemTypeEnum.NestedType:
                     return new SolidColorBrush(Colors.DodgerBlue);
+
                 case ItemTypeEnum.BaseType:
                 case ItemTypeEnum.NestedClass:
                 case ItemTypeEnum.Class:
