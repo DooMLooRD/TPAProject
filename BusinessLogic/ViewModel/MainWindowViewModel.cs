@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Windows.Input;
 using BusinessLogic.Model;
+using BusinessLogic.Reflection;
 using BusinessLogic.ViewModel.TreeViewItems;
 
 
@@ -12,7 +13,7 @@ namespace BusinessLogic.ViewModel
 
         public ICommand ClickOpen { get; }
         public IPathLoader PathLoader { get; set; }
-        private AssemblyModel _assemblyMetadata;
+        private Reflector _reflector;
         private AssemblyTreeItem _viewModelAssemblyMetadata;
 
         public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
@@ -32,8 +33,8 @@ namespace BusinessLogic.ViewModel
             {
                 PathVariable = path;
                 OnPropertyChanged("PathVariable");
-                _assemblyMetadata = new AssemblyModel(Assembly.LoadFrom(PathVariable));
-                _viewModelAssemblyMetadata = new AssemblyTreeItem(_assemblyMetadata);
+                _reflector = new Reflector(Assembly.LoadFrom(PathVariable));
+                _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
                 LoadTreeView();
             }
 

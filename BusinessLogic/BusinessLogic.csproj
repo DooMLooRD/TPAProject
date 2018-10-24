@@ -57,6 +57,7 @@
     <Compile Include="Model\TypeModel.cs" />
     <Compile Include="Model\Enums\VirtualEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\Reflector.cs" />
     <Compile Include="Tracing\LogCategoryEnum.cs" />
     <Compile Include="Tracing\TraceManager.cs" />
     <Compile Include="ViewModel\TreeViewItems\AssemblyTreeItem.cs" />
