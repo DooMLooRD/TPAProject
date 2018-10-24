@@ -45,8 +45,8 @@
     <Compile Include="Helper\CommandLinePathLoader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TreeViewConsole.cs" />
-    <Compile Include="TreeViewItemConsole.cs" />
+    <Compile Include="View\TreeViewConsole.cs" />
+    <Compile Include="View\TreeViewItemConsole.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

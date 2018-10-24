@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLogic.ViewModel;
+﻿using System.Collections.ObjectModel;
 using BusinessLogic.ViewModel.TreeViewItems;
 
 
-namespace ConsoleApplication
+namespace ConsoleApplication.View
 {
     public class TreeViewItemConsole
     {
