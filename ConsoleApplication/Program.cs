@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using BusinessLogic.Tracing;
 using BusinessLogic.ViewModel;
 using BusinessLogic.ViewModel.TreeViewItems;
 using ConsoleApplication.Helper;
@@ -10,7 +12,11 @@ namespace ConsoleApplication
 {
     class Program
     {
-        public static MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel() { PathLoader = new CommandLinePathLoader() };
+        public static MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel()
+        {
+            PathLoader = new CommandLinePathLoader(),
+            Logger = new TraceManager(new TextWriterTraceListener("Logs.log", "ConsoleApp"))
+        };
         public static TreeViewConsole ConsoleView { get; set; }
 
         static void Main(string[] args)

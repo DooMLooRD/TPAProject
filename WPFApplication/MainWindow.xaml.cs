@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BusinessLogic.Tracing;
 using BusinessLogic.ViewModel;
 using WPFApplication.Helper;
 
@@ -27,7 +29,8 @@ namespace WPFApplication
             InitializeComponent();
             DataContext=new MainWindowViewModel()
             {
-                PathLoader = new WPFPathLoader()
+                PathLoader = new WPFPathLoader(),
+                Logger = new TraceManager(new TextWriterTraceListener("Logs.log","WPFApp"))
             };
         }
     }
