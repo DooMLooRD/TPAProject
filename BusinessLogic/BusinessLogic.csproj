@@ -34,6 +34,7 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,7 +50,6 @@
     <Compile Include="Model\Enums\AbstractEnum.cs" />
     <Compile Include="Model\Enums\AccessLevel.cs" />
     <Compile Include="Model\AssemblyModel.cs" />
-    <Compile Include="Model\Base\BaseModel.cs" />
     <Compile Include="Model\Enums\TypeEnum.cs" />
     <Compile Include="Model\ExtensionMethods.cs" />
     <Compile Include="Model\MethodModel.cs" />
@@ -67,6 +67,9 @@
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="ViewModel\AppPageEnum.cs" />
     <Compile Include="ViewModel\Pages\SettingsViewModel.cs" />
+    <Compile Include="Serialization\XMLSerializer.cs" />
+    <Compile Include="Tracing\LogCategoryEnum.cs" />
+    <Compile Include="Tracing\TraceManager.cs" />
     <Compile Include="ViewModel\TreeViewItems\AssemblyTreeItem.cs" />
     <Compile Include="ViewModel\TreeViewItems\ItemTypeEnum.cs" />
     <Compile Include="DI\Interfaces\IPathLoader.cs" />

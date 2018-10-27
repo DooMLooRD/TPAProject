@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Model
 {
-    public class ParameterModel : BaseModel
+    [DataContract(IsReference = true)]
+    public class ParameterModel
     {
+        [DataMember]
+        public string Name { get; set; }
         /// <summary>
         /// TypeModel of the parameter
         /// </summary>
+        [DataMember]
         public TypeModel Type { get; set; }
 
         /// <summary>
@@ -18,8 +23,9 @@ namespace BusinessLogic.Model
         /// </summary>
         /// <param name="name"></param>
         /// <param name="typeModel"></param>
-        public ParameterModel(string name, TypeModel typeModel) : base(name)
+        public ParameterModel(string name, TypeModel typeModel)
         {
+            Name = name;
             Type = typeModel;
         }
     }
