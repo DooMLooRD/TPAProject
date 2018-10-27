@@ -3,44 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogic.Model
 {
-    public class MethodModel : BaseModel
+    [DataContract(IsReference = true)]
+    public class MethodModel
     {
+        [DataMember]
+        public string Name { get; set; }
         /// <summary>
         /// List of Generic arguments
         /// </summary>
+        [DataMember]
         public List<TypeModel> GenericArguments { get; set; }
 
         /// <summary>
         /// Tuple of modifiers for method ( Access level, Abstract, Static, Virtual)
         /// </summary>
+        [DataMember]
         public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
 
         /// <summary>
         /// The type that method returns
         /// </summary>
+        [DataMember]
         public TypeModel ReturnType { get; set; }
 
         /// <summary>
         /// True if method is extension method 
         /// </summary>
+        [DataMember]
         public bool Extension { get; set; }
 
         /// <summary>
         /// Parameters of the method
         /// </summary>
+        [DataMember]
         public List<ParameterModel> Parameters { get; set; }
 
         /// <summary>
         /// Constructor with MethodBase parameter
         /// </summary>
         /// <param name="method"></param>
-        public MethodModel(MethodBase method) : base(method.Name)
+        public MethodModel(MethodBase method)
         {
+            Name = method.Name;
             GenericArguments = !method.IsGenericMethodDefinition ? null : EmitGenericArguments(method);
             ReturnType = EmitReturnType(method);
             Parameters = EmitParameters(method);
