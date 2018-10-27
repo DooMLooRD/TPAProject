@@ -12,33 +12,12 @@
             <StackPanel>
                 <!-- Buttons - Open & Save -->
                 <Button x:Name="Open" Grid.Column="0" Padding="0 5" Margin="20 10 20 0"  Content="Open" Command="{Binding ClickOpen}"/>
-
+                <Button Padding="0 5" Margin="20 10 20 0"  Content="Settings" Command="{Binding SettingsOpen}"/>
                 <!-- Labels -->
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="2*"/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Text="Tree View" FontWeight="Bold" FontSize="13" Margin="0 20"/>
-                    <TextBlock Grid.Column="1" Text="{Binding Mode=OneWay,Path=PathVariable,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                </Grid>
+                
 
                 <!-- Tree View -->
-                <TreeView x:Name="TreeView" RenderTransformOrigin="0.5 0.5" Height="422" ItemsSource="{Binding HierarchicalAreas}">
-                    <TreeView.ItemTemplate>
-                        <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
-                            <StackPanel  Orientation="Horizontal">
-                                <TextBlock Padding="0 0 10 0" FontWeight="ExtraBold" Text="{Binding Path=ItemType, Converter={x:Static converter:ItemTypeEnumToStringConverter.Instance}}"/>
-                                <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Foreground="{Binding Path=ItemType, Converter={x:Static converter:ItemTypeToBrushConverter.Instance}}" Margin="0 0 4 0"/>
-                            </StackPanel>
-                       </HierarchicalDataTemplate>
-                    </TreeView.ItemTemplate>
-                    <TreeView.ItemContainerStyle>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}"/>
-                        </Style>
-                    </TreeView.ItemContainerStyle>
-                </TreeView>
+                <ContentControl Content="{Binding CurrentPage}"/>
 
             </StackPanel>
         </Border>

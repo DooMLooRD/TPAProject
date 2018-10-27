@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,21 +17,17 @@ using BusinessLogic.ViewModel;
 using BusinessLogic.ViewModel.Pages;
 using WPFApplication.Helper;
 
-namespace WPFApplication
+namespace WPFApplication.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for TreeViewPage.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class TreeViewPage : UserControl
     {
-        public MainWindow()
+        public TreeViewPage()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel()
-            {
-                SettingsViewModel = new SettingsViewModel(),
-                TreeViewViewModel = new TreeViewViewModel()
-            };
+
         }
     }
 }

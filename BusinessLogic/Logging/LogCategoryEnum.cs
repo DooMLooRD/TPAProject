@@ -4,10 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLogic.Tracing
+namespace BusinessLogic.Logging
 {
     public enum LogCategoryEnum
     {
-        Warning, Error, Success, Information
+        Debug = 1,
+        Information = 2,
+        Success = 3,
+        Warning = 4,
+        Error = 5
+
     }
 }

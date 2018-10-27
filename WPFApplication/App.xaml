@@ -2,8 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WPFApplication"
+             xmlns:views="clr-namespace:WPFApplication.View"
+             xmlns:pages="clr-namespace:BusinessLogic.ViewModel.Pages;assembly=BusinessLogic"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <DataTemplate DataType="{x:Type pages:SettingsViewModel}">
+            <views:Settings />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type pages:TreeViewViewModel}">
+            <views:TreeViewPage />
+        </DataTemplate>
     </Application.Resources>
 </Application>

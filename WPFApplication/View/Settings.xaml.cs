@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,26 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using BusinessLogic.Logging;
-using BusinessLogic.ViewModel;
 using BusinessLogic.ViewModel.Pages;
-using WPFApplication.Helper;
 
-namespace WPFApplication
+
+namespace WPFApplication.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class Settings : UserControl
     {
-        public MainWindow()
+        public Settings()
         {
             InitializeComponent();
-            DataContext = new MainWindowViewModel()
-            {
-                SettingsViewModel = new SettingsViewModel(),
-                TreeViewViewModel = new TreeViewViewModel()
-            };
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using BusinessLogic.Tracing;
+using BusinessLogic.Logging;
 using BusinessLogic.ViewModel;
 using BusinessLogic.ViewModel.TreeViewItems;
 using ConsoleApplication.Helper;
@@ -15,7 +15,7 @@ namespace ConsoleApplication
         public static MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel()
         {
             PathLoader = new CommandLinePathLoader(),
-            Logger = new TraceManager(new TextWriterTraceListener("Logs.log", "ConsoleApp"))
+            LoggerFactory = new BaseLoggerFactory(LogLevel.Informative)
         };
         public static TreeViewConsole ConsoleView { get; set; }
 
