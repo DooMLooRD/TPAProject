@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
+using BusinessLogic.DI.Base;
 using BusinessLogic.Logging;
 using BusinessLogic.ViewModel;
+using BusinessLogic.ViewModel.Pages;
 using BusinessLogic.ViewModel.TreeViewItems;
 using ConsoleApplication.Helper;
 using ConsoleApplication.View;
@@ -12,26 +13,43 @@ namespace ConsoleApplication
 {
     class Program
     {
-        public static MainWindowViewModel ViewModel { get; set; } = new MainWindowViewModel()
+        #region IoC
+
+        /// <summary>
+        /// Inject dependencies
+        /// </summary>
+        private static void BindIoC()
         {
-            PathLoader = new CommandLinePathLoader(),
-            LoggerFactory = new BaseLoggerFactory(LogLevel.Informative)
-        };
+            IoC.Setup();
+            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLoggerFactory());
+            IoC.Kernel.Bind<IPathLoader>().ToConstant(new CommandLinePathLoader());
+        }
+
+        #endregion
+
+        #region Properties
+        public static MainWindowViewModel ViewModel { get; set; }
         public static TreeViewConsole ConsoleView { get; set; }
+        #endregion
+
+        #region Main
 
         static void Main(string[] args)
         {
-
+            BindIoC();
+            ViewModel = IoC.Get<MainWindowViewModel>();
             MainMenuView(String.Empty);
-
-            
         }
+
+        #endregion
+
+        #region Views
 
         private static void TreeViewView(string message)
         {
             Console.Clear();
             Console.Write(message);
-            Console.WriteLine("Path:" + ViewModel.PathVariable);
+            Console.WriteLine("Path:" + ViewModel.TreeViewViewModel.PathVariable);
             PrintData();
             Console.WriteLine("Type id that you want to expand, if its already expanded shrink");
             Console.WriteLine("Type 'Go back', 'b', 'B' if You want to go back to Menu");
@@ -41,22 +59,22 @@ namespace ConsoleApplication
                 case "Go back":
                 case "B":
                 case "b":
-                {
-                    MainMenuView(String.Empty);
-                    break;
-                }
-                default:
-                {
-                    int parsedTemp;
-                    if (!Int32.TryParse(temp, out parsedTemp) || parsedTemp < 0 || parsedTemp > ConsoleView.HierarchicalDataCollection.Count - 1)
                     {
-                        TreeViewView("Incorrect format, try again\n");
-                        return;
+                        MainMenuView(String.Empty);
+                        break;
                     }
-                    Expand(parsedTemp);
-                    TreeViewView(String.Empty);
-                    break;
-                }
+                default:
+                    {
+                        int parsedTemp;
+                        if (!Int32.TryParse(temp, out parsedTemp) || parsedTemp < 0 || parsedTemp > ConsoleView.HierarchicalDataCollection.Count - 1)
+                        {
+                            TreeViewView("Incorrect format, try again\n");
+                            return;
+                        }
+                        Expand(parsedTemp);
+                        TreeViewView(String.Empty);
+                        break;
+                    }
             }
         }
         private static void MainMenuView(string message)
@@ -73,13 +91,13 @@ namespace ConsoleApplication
                     {
                         Console.Clear();
                         Console.WriteLine("Type absolute Path of file you want to open");
-                        ViewModel.HierarchicalAreas = new ObservableCollection<TreeViewItem>();
+                        ViewModel.TreeViewViewModel.HierarchicalAreas = new ObservableCollection<TreeViewItem>();
                         ViewModel.ClickOpen.Execute(null);
-                        if (ViewModel.PathVariable == null)
+                        if (ViewModel.TreeViewViewModel.PathVariable == null)
                             MainMenuView("Wrong Path\n");
                         else
                         {
-                            ConsoleView = new TreeViewConsole(new ObservableCollection<TreeViewItemConsole>(ViewModel.HierarchicalAreas.Select(n => new TreeViewItemConsole(n, 0))));
+                            ConsoleView = new TreeViewConsole(new ObservableCollection<TreeViewItemConsole>(ViewModel.TreeViewViewModel.HierarchicalAreas.Select(n => new TreeViewItemConsole(n, 0))));
                             TreeViewView(String.Empty);
                         }
                         break;
@@ -100,13 +118,17 @@ namespace ConsoleApplication
 
         }
 
-        public static void Expand(int index)
+        #endregion
+
+        #region Methods
+
+        private static void Expand(int index)
         {
             ConsoleView.Expand(index);
             Console.Clear();
             PrintData();
         }
-        public static void PrintData()
+        private static void PrintData()
         {
             int index = 0;
             foreach (TreeViewItemConsole itemConsole in ConsoleView.HierarchicalDataCollection)
@@ -135,5 +157,8 @@ namespace ConsoleApplication
             Console.WriteLine(value[3]);
             //Console.WriteLine("{0}{1}{2}{3}{4}", new string(' ', indent * 2), value[0], value[1], value[2],value[3]);
         }
+
+        #endregion
+
     }
 }

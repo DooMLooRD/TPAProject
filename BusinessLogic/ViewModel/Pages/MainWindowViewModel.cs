@@ -2,21 +2,35 @@
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Windows.Input;
-using BusinessLogic.DI.Interfaces;
 using BusinessLogic.Logging;
 using BusinessLogic.Model;
 using BusinessLogic.Reflection;
 using BusinessLogic.ViewModel.Pages;
 using BusinessLogic.ViewModel.TreeViewItems;
+using Ninject;
 
 
-namespace BusinessLogic.ViewModel
+namespace BusinessLogic.ViewModel.Pages
 {
     public class MainWindowViewModel : BaseViewModel
     {
         private BaseViewModel _currentPage;
-        public SettingsViewModel SettingsViewModel { get; set; }
-        public TreeViewViewModel TreeViewViewModel { get; set; }
+        private TreeViewViewModel _treeViewViewModel;
+        private SettingsViewModel _settingsViewModel;
+
+        [Inject]
+        public SettingsViewModel SettingsViewModel
+        {
+            get => _settingsViewModel;
+            set => _settingsViewModel = value;
+        }
+
+        [Inject]
+        public TreeViewViewModel TreeViewViewModel
+        {
+            get => _treeViewViewModel;
+            set => _treeViewViewModel = value;
+        }
 
         public BaseViewModel CurrentPage
         {

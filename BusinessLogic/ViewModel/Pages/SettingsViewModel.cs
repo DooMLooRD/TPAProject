@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using BusinessLogic.DI.Base;
 using BusinessLogic.Logging;
 
 namespace BusinessLogic.ViewModel.Pages
@@ -21,10 +22,11 @@ namespace BusinessLogic.ViewModel.Pages
 
         private void Save()
         {
-            using (TextWriter fileStream = new StreamWriter(File.Open("settings.config", FileMode.Append)))
+            using (TextWriter fileStream = new StreamWriter(File.Open("settings.config", FileMode.Create)))
             {
                 fileStream.WriteLine(LogLevel);
-            }
+            }           
+
         }
     }
 }

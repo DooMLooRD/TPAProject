@@ -30,9 +30,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -43,37 +47,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DI\Interfaces\ILogger.cs" />
+    <Compile Include="DI\Base\IoC.cs" />
+    <Compile Include="Logging\Interfaces\ILogger.cs" />
     <Compile Include="Logging\BaseLoggerFactory.cs" />
     <Compile Include="Logging\FileLogger.cs" />
     <Compile Include="Logging\MessageStructure.cs" />
     <Compile Include="Model\Enums\AbstractEnum.cs" />
     <Compile Include="Model\Enums\AccessLevel.cs" />
-    <Compile Include="Model\AssemblyModel.cs" />
+    <Compile Include="Model\Assembly\AssemblyModel.cs" />
     <Compile Include="Model\Enums\TypeEnum.cs" />
-    <Compile Include="Model\ExtensionMethods.cs" />
-    <Compile Include="Model\MethodModel.cs" />
-    <Compile Include="Model\NamespaceModel.cs" />
-    <Compile Include="Model\ParameterModel.cs" />
-    <Compile Include="Model\PropertyModel.cs" />
+    <Compile Include="Model\Assembly\ExtensionMethods.cs" />
+    <Compile Include="Model\Assembly\MethodModel.cs" />
+    <Compile Include="Model\Assembly\NamespaceModel.cs" />
+    <Compile Include="Model\Assembly\ParameterModel.cs" />
+    <Compile Include="Model\Assembly\PropertyModel.cs" />
     <Compile Include="Model\Enums\SealedEnum.cs" />
     <Compile Include="Model\Enums\StaticEnum.cs" />
-    <Compile Include="Model\TypeModel.cs" />
+    <Compile Include="Model\Assembly\TypeModel.cs" />
     <Compile Include="Model\Enums\VirtualEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reflection\Reflector.cs" />
-    <Compile Include="DI\Interfaces\ILogFactory.cs" />
-    <Compile Include="Logging\LogCategoryEnum.cs" />
-    <Compile Include="Logging\LogLevel.cs" />
-    <Compile Include="ViewModel\AppPageEnum.cs" />
+    <Compile Include="Logging\Interfaces\ILogFactory.cs" />
+    <Compile Include="Logging\Enums\LogCategoryEnum.cs" />
+    <Compile Include="Logging\Enums\LogLevel.cs" />
     <Compile Include="ViewModel\Pages\SettingsViewModel.cs" />
     <Compile Include="Serialization\XMLSerializer.cs" />
-    <Compile Include="Tracing\LogCategoryEnum.cs" />
-    <Compile Include="Tracing\TraceManager.cs" />
     <Compile Include="ViewModel\TreeViewItems\AssemblyTreeItem.cs" />
     <Compile Include="ViewModel\TreeViewItems\ItemTypeEnum.cs" />
-    <Compile Include="DI\Interfaces\IPathLoader.cs" />
-    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\Base\IPathLoader.cs" />
+    <Compile Include="ViewModel\Pages\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TreeViewItems\MethodTreeItem.cs" />
     <Compile Include="ViewModel\TreeViewItems\NamespaceTreeItem.cs" />
     <Compile Include="ViewModel\TreeViewItems\ParameterTreeItem.cs" />
@@ -85,7 +87,9 @@
     <Compile Include="ViewModel\Pages\TreeViewViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="DI\Implementations\" />
+    <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

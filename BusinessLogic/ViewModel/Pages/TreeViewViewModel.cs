@@ -6,17 +6,19 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using BusinessLogic.DI.Interfaces;
 using BusinessLogic.Logging;
 using BusinessLogic.Reflection;
 using BusinessLogic.ViewModel.TreeViewItems;
+using Ninject;
 
 namespace BusinessLogic.ViewModel.Pages
 {
     public class TreeViewViewModel : BaseViewModel
     {
         public ICommand ClickOpen { get; }
+        [Inject]
         public IPathLoader PathLoader { get; set; }
+        [Inject]
         public ILogFactory LoggerFactory { get; set; }
         private Reflector _reflector;
         private AssemblyTreeItem _viewModelAssemblyMetadata;

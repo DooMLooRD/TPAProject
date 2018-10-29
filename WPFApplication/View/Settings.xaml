@@ -9,7 +9,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
         >
 
-    <StackPanel>
+    <StackPanel Background="White">
         <Border Margin="10" Padding="10" BorderThickness="2" BorderBrush="Gray">
             <Grid>
                 <Grid.ColumnDefinitions>

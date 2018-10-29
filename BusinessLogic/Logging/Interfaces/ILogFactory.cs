@@ -5,12 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessLogic.Logging;
 
-namespace BusinessLogic.DI.Interfaces
+namespace BusinessLogic.Logging
 {
     public interface ILogFactory
     {
-        LogLevel SelectedLogLevel { get; set; }
-
         void AddLogger(ILogger logger);
         void RemoveLogger(ILogger logger);
 

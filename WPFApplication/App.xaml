@@ -4,7 +4,7 @@
              xmlns:local="clr-namespace:WPFApplication"
              xmlns:views="clr-namespace:WPFApplication.View"
              xmlns:pages="clr-namespace:BusinessLogic.ViewModel.Pages;assembly=BusinessLogic"
-             StartupUri="MainWindow.xaml">
+             StartupUri="MainWindow.xaml" Startup="On_Startup">
     <Application.Resources>
         <DataTemplate DataType="{x:Type pages:SettingsViewModel}">
             <views:Settings />

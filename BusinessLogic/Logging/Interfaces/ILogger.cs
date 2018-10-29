@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WPFApplication.Helper
+
+namespace BusinessLogic.Logging
 {
-    public enum AppPageEnum
+    public interface ILogger
     {
-        TreeView,
-        Settings
+        void Log(MessageStructure message, LogCategoryEnum level);
     }
 }

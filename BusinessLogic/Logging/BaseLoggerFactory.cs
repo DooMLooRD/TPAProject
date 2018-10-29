@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using BusinessLogic.DI.Interfaces;
+using Ninject;
 
 namespace BusinessLogic.Logging
 {
@@ -13,15 +13,15 @@ namespace BusinessLogic.Logging
         protected List<ILogger> Loggers = new List<ILogger>();
 
         protected object LoggerLock = new object();
-
         public LogLevel SelectedLogLevel { get; set; }
-
-        public BaseLoggerFactory(LogLevel selectedLogLevel)
+        
+        public BaseLoggerFactory(LogLevel selectedLogLevel=LogLevel.Informative)
         {
             SelectedLogLevel = selectedLogLevel;
             Loggers.Add(new FileLogger("Logs.log"));
         }
-        public BaseLoggerFactory(List<ILogger> loggers, LogLevel selectedLogLevel)
+        
+        public BaseLoggerFactory(List<ILogger> loggers, LogLevel selectedLogLevel=LogLevel.Informative)
         {
             SelectedLogLevel = selectedLogLevel;
             Loggers = loggers;
