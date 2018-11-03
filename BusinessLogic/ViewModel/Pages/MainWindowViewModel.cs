@@ -18,14 +18,12 @@ namespace BusinessLogic.ViewModel.Pages
         private TreeViewViewModel _treeViewViewModel;
         private SettingsViewModel _settingsViewModel;
 
-        [Inject]
         public SettingsViewModel SettingsViewModel
         {
             get => _settingsViewModel;
             set => _settingsViewModel = value;
         }
 
-        [Inject]
         public TreeViewViewModel TreeViewViewModel
         {
             get => _treeViewViewModel;
@@ -46,10 +44,13 @@ namespace BusinessLogic.ViewModel.Pages
         public ICommand SettingsOpen { get; }
              
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(TreeViewViewModel vm,SettingsViewModel sw)
         {
+            TreeViewViewModel = vm;
+            SettingsViewModel = sw;
             ClickOpen = new RelayCommand(Open);
             SettingsOpen= new RelayCommand(Settings);
+            SettingsViewModel.LoadSettings();
         }
 
         private void Open()
@@ -60,6 +61,7 @@ namespace BusinessLogic.ViewModel.Pages
         private void Settings()
         {
             CurrentPage = SettingsViewModel;
+            SettingsViewModel.LoadSettings();
         }
 
     }

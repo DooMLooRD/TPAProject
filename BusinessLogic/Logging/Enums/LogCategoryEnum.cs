@@ -8,11 +8,11 @@ namespace BusinessLogic.Logging
 {
     public enum LogCategoryEnum
     {
-        Debug = 1,
-        Information = 2,
-        Success = 3,
-        Warning = 4,
-        Error = 5
+        Debug = 0,
+        Information = 1,
+        Success = 2,
+        Warning = 3,
+        Error = 4
 
     }
 }

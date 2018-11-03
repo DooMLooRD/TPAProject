@@ -11,26 +11,26 @@ namespace BusinessLogic.Logging
         /// <summary>
         /// The highest level of logging (logs everything)
         /// </summary>
-        Debug = 1,
+        Debug = 0,
 
         /// <summary>
         /// Log all informations except debug messages
         /// </summary>
-        Informative = 2,
+        Informative = 1,
 
         /// <summary>
         /// Logs errors, warnings, and normal messages
         /// </summary>
-        Normal = 3,
+        Normal = 2,
 
         /// <summary>
         /// Logs errors and warnings only
         /// </summary>
-        Critical = 5,
+        Critical = 4,
 
         /// <summary>
         /// Logs nothing
         /// </summary>
-        Nothing = 6
+        Nothing = 5
     }
 }

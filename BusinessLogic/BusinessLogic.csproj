@@ -70,6 +70,7 @@
     <Compile Include="Logging\Interfaces\ILogFactory.cs" />
     <Compile Include="Logging\Enums\LogCategoryEnum.cs" />
     <Compile Include="Logging\Enums\LogLevel.cs" />
+    <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="ViewModel\Pages\SettingsViewModel.cs" />
     <Compile Include="Serialization\XMLSerializer.cs" />
     <Compile Include="ViewModel\TreeViewItems\AssemblyTreeItem.cs" />

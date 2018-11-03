@@ -18,7 +18,6 @@ namespace BusinessLogic.Logging
         public BaseLoggerFactory(LogLevel selectedLogLevel=LogLevel.Informative)
         {
             SelectedLogLevel = selectedLogLevel;
-            Loggers.Add(new FileLogger("Logs.log"));
         }
         
         public BaseLoggerFactory(List<ILogger> loggers, LogLevel selectedLogLevel=LogLevel.Informative)

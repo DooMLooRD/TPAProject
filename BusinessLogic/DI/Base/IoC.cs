@@ -39,7 +39,7 @@ namespace BusinessLogic.DI.Base
         {
             Kernel.Bind<TreeViewViewModel>().ToConstant(new TreeViewViewModel());
             Kernel.Bind<SettingsViewModel>().ToConstant(new SettingsViewModel());
-            Kernel.Bind<MainWindowViewModel>().ToConstant(new MainWindowViewModel());
+            Kernel.Bind<MainWindowViewModel>().To<MainWindowViewModel>();
         }
 
         #endregion

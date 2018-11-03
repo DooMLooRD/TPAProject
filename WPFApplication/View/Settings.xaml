@@ -24,6 +24,8 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
+
+                <!-- Logging settings -->
                 <StackPanel>
                     <TextBlock Text="Logging" FontWeight="Bold" FontSize="20"/>
                     <Border Margin="0 10" BorderThickness="0 1 0 0" BorderBrush="Gray">
@@ -34,8 +36,18 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel>
                                 <TextBlock Margin="0 5 " Text="Active Loggers:"/>
-                                <CheckBox Content="Text File Logger"/>
-                                <CheckBox Content="Database Logger"/>
+                                <CheckBox IsChecked="{Binding IsFileLoggerChecked}" Content="Text File Logger"/>
+
+                                <TextBlock  Margin="20 2.5" Text="Path:"/>
+                                <TextBox  Margin="20 2.5" Text="{Binding LoggerFilePath}"></TextBox>
+
+
+                                <CheckBox IsChecked="{Binding IsDbLoggerChecked}" Content="Database Logger"/>
+
+                                <TextBlock  Margin="20 2.5" Text="Connection String:"/>
+                                <TextBox  Margin="20 2.5 " Text="{Binding LoggerConnectionString}"></TextBox>
+
+
                             </StackPanel>
                             <StackPanel Grid.Column="1">
                                 <TextBlock Margin="0 5 " Text="Logging details:"/>
@@ -46,10 +58,30 @@
                                 <RadioButton GroupName="Detail" IsChecked="{Binding Path=LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Critical}"  Content="Critical" ToolTip="Logs only Warnings and Errors"/>
                             </StackPanel>
                         </Grid>
+                    </Border>
+                </StackPanel>
 
+                <StackPanel Grid.Column="1" Grid.Row="0">
+                    <TextBlock Text="Serializing" FontWeight="Bold" FontSize="20"/>
+                    <Border Margin="0 10" BorderThickness="0 1 0 0" BorderBrush="Gray">
+                        <StackPanel>
+                            <TextBlock Margin="0 5 " Text="Choose Serializer:"/>
+                            <RadioButton GroupName="Serializer" Content="XML Serializer"/>
+
+                            <TextBlock  Margin="20 2.5" Text="Path:"/>
+                            <TextBox  Margin="20 2.5" Text="{Binding SerializerFilePath}"></TextBox>
+
+
+                            <RadioButton GroupName="Serializer" Content="Database Serialize"/>
+
+                            <TextBlock  Margin="20 2.5" Text="Connection String:"/>
+                            <TextBox  Margin="20 2.5 " Text="{Binding SerializerConnectionString}"></TextBox>
+
+                        </StackPanel>
 
                     </Border>
                 </StackPanel>
+
                 <Button Grid.Column="1" Grid.Row="2" Content="Save" Command="{Binding SaveCommand}"></Button>
 
             </Grid>

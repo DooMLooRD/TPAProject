@@ -8,8 +8,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
-    <StackPanel>
-        <Button Content="Open" Command="{Binding ClickOpen}"></Button>
+    <StackPanel Background="White">
+        <Button Content="Open" Command="{Binding OpenCommand}"/>
+        <Button Content="Save" Command="{Binding SaveCommand}"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

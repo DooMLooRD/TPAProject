@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using BusinessLogic.Logging;
 using BusinessLogic.Reflection;
+using BusinessLogic.Serialization;
 using BusinessLogic.ViewModel.TreeViewItems;
 using Ninject;
 
@@ -15,11 +16,15 @@ namespace BusinessLogic.ViewModel.Pages
 {
     public class TreeViewViewModel : BaseViewModel
     {
-        public ICommand ClickOpen { get; }
+        public ICommand OpenCommand { get; }
+        public ICommand SaveCommand { get; }
         [Inject]
         public IPathLoader PathLoader { get; set; }
         [Inject]
         public ILogFactory LoggerFactory { get; set; }
+        [Inject]
+        public ISerializer Serializer { get; set; }
+        public string SerializePath { get; set; }
         private Reflector _reflector;
         private AssemblyTreeItem _viewModelAssemblyMetadata;
         public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
@@ -28,7 +33,23 @@ namespace BusinessLogic.ViewModel.Pages
         public TreeViewViewModel()
         {
             HierarchicalAreas = new ObservableCollection<TreeViewItem>();
-            ClickOpen = new RelayCommand(Open);
+            OpenCommand = new RelayCommand(Open);
+            SaveCommand = new RelayCommand(Save);
+        }
+
+        private void Save()
+        {
+            LoggerFactory.Log(new MessageStructure("Serialize started..."));
+            if (SerializePath != null)
+            {
+                Serializer.Serialize(_reflector.AssemblyModel, SerializePath);
+                LoggerFactory.Log(new MessageStructure("Serialize completed"),LogCategoryEnum.Success);
+            }
+            else
+            {
+                LoggerFactory.Log(new MessageStructure("Serialize failed-Path is null"),LogCategoryEnum.Error);
+            }
+            
         }
         private void Open()
         {

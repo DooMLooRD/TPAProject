@@ -10,7 +10,7 @@ using BusinessLogic.Model;
 
 namespace BusinessLogic.Serialization
 {
-    public class XMLSerializer
+    public class XMLSerializer : ISerializer
     {
         public void Serialize<T>(T _object, string path)
         {
