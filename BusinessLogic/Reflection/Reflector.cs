@@ -15,6 +15,10 @@ namespace BusinessLogic.Reflection
         {
             AssemblyModel = new AssemblyModel(assembly);
         }
+        public Reflector(AssemblyModel assemblyModel)
+        {
+            AssemblyModel = assemblyModel;
+        }
 
         public Reflector(string assemblyPath)
         {

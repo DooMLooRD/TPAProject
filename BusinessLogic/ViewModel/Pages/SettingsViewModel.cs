@@ -155,7 +155,7 @@ namespace BusinessLogic.ViewModel.Pages
                 LoggerConnectionString = vm.LoggerConnectionString;
                 LoggerFilePath = vm.LoggerFilePath;
                 //Need to add db serializer
-                Serializer = new XMLSerializer();
+                //Serializer = new XMLSerializer();
                 SerializerConnectionString = vm.SerializerConnectionString;
                 SerializerFilePath = vm.SerializerFilePath;
                 if (IsFileLoggerChecked)
@@ -167,7 +167,7 @@ namespace BusinessLogic.ViewModel.Pages
                     //Add db logger
                 }
 
-                IoC.Get<TreeViewViewModel>().Serializer = Serializer;                  
+                //IoC.Get<TreeViewViewModel>().Serializer = Serializer;                  
                 IoC.Get<TreeViewViewModel>().SerializePath = SerializerFilePath;
             }
         }

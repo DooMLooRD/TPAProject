@@ -15,7 +15,8 @@ namespace WPFApplication.Helper
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
-                Filter = "Dynamic Library File(*.dll)| *.dll",
+                Filter = "Dynamic Library File(*.dll)| *.dll|"+
+                         "XML File(*.xml)| *.xml",
                 RestoreDirectory = true
             };
             openFileDialog.ShowDialog();

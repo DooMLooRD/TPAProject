@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using BusinessLogic.DI.Base;
 using BusinessLogic.Logging;
+using BusinessLogic.Serialization;
 using BusinessLogic.ViewModel;
 using BusinessLogic.ViewModel.Pages;
 using BusinessLogic.ViewModel.TreeViewItems;
@@ -23,6 +24,8 @@ namespace ConsoleApplication
             IoC.Setup();
             IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLoggerFactory());
             IoC.Kernel.Bind<IPathLoader>().ToConstant(new CommandLinePathLoader());
+            IoC.Kernel.Bind<ISerializer>().ToConstant(new XMLSerializer());
+            
         }
 
         #endregion
@@ -38,6 +41,8 @@ namespace ConsoleApplication
         {
             BindIoC();
             ViewModel = IoC.Get<MainWindowViewModel>();
+            IoC.Get<TreeViewViewModel>().PathVariable = "SerializedObject.xml";
+            IoC.Get<BaseLoggerFactory>().AddLogger(new FileLogger("Logs.txt"));
             MainMenuView(String.Empty);
         }
 
@@ -52,6 +57,7 @@ namespace ConsoleApplication
             Console.WriteLine("Path:" + ViewModel.TreeViewViewModel.PathVariable);
             PrintData();
             Console.WriteLine("Type id that you want to expand, if its already expanded shrink");
+            Console.WriteLine("To serialize opened object and save to file type S/s/save and confirm action with 'Enter'");
             Console.WriteLine("Type 'Go back', 'b', 'B' if You want to go back to Menu");
             string temp = Console.ReadLine();
             switch (temp)
@@ -61,6 +67,14 @@ namespace ConsoleApplication
                 case "b":
                     {
                         MainMenuView(String.Empty);
+                        break;
+                    }
+                case "S":
+                case "s":
+                case "Save":
+                    {
+                        ViewModel.TreeViewViewModel.SaveCommand.Execute(null);
+                        TreeViewView("Object Serialized!");
                         break;
                     }
                 default:
@@ -81,7 +95,8 @@ namespace ConsoleApplication
         {
             Console.Clear();
             Console.Write(message);
-            Console.WriteLine("To open .dll or .exe type O/o/open and confirm action with 'Enter'\nTo exit the program type E/e/exit and confirm with 'Enter'");
+            Console.WriteLine("To open .dll or .exe type O/o/open and confirm action with 'Enter'\n" +
+                              "To exit the program type E/e/exit and confirm with 'Enter'");
             string choose = Console.ReadLine();
             switch (choose)
             {
@@ -92,7 +107,7 @@ namespace ConsoleApplication
                         Console.Clear();
                         Console.WriteLine("Type absolute Path of file you want to open");
                         ViewModel.TreeViewViewModel.HierarchicalAreas = new ObservableCollection<TreeViewItem>();
-                        ViewModel.ClickOpen.Execute(null);
+                        ViewModel.TreeViewViewModel.OpenCommand.Execute(null);
                         if (ViewModel.TreeViewViewModel.PathVariable == null)
                             MainMenuView("Wrong Path\n");
                         else
@@ -102,6 +117,7 @@ namespace ConsoleApplication
                         }
                         break;
                     }
+
                 case "E":
                 case "e":
                 case "Exit":

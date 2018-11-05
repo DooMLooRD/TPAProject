@@ -11,7 +11,7 @@ namespace ConsoleApplication.Helper
 
             string path = Console.ReadLine();
 
-            if (path != null && File.Exists(path) && path.Contains(".dll"))
+            if (path != null && File.Exists(path) && (path.Contains(".dll") || path.Contains(".xml")))
             {
                 return path;
             }
