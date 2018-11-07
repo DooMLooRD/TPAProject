@@ -22,5 +22,20 @@ namespace BusinessLogic.Logging
                 Time = DateTime.Now
             });
         }
+
+        public override bool Equals(object obj)
+        {
+            if (this.GetType() == obj?.GetType())
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        public override int GetHashCode()
+        {
+            return (repository != null ? repository.GetHashCode() : 0);
+        }
     }
 }

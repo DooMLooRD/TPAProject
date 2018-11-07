@@ -50,7 +50,6 @@ namespace BusinessLogic.ViewModel.Pages
             SettingsViewModel = sw;
             ClickOpen = new RelayCommand(Open);
             SettingsOpen= new RelayCommand(Settings);
-            SettingsViewModel.LoadSettings();
         }
 
         private void Open()
@@ -61,7 +60,6 @@ namespace BusinessLogic.ViewModel.Pages
         private void Settings()
         {
             CurrentPage = SettingsViewModel;
-            SettingsViewModel.LoadSettings();
         }
 
     }

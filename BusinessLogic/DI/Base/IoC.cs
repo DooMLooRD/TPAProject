@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogic.Logging;
 using BusinessLogic.ViewModel.Pages;
 using Ninject;
 
@@ -16,7 +17,6 @@ namespace BusinessLogic.DI.Base
         /// The kernel for our IoC container
         /// </summary>
         public static IKernel Kernel { get; private set; } = new StandardKernel();
-
         #endregion
 
         #region Construction
@@ -52,6 +52,21 @@ namespace BusinessLogic.DI.Base
         public static T Get<T>()
         {
             return Kernel.Get<T>();
+        }
+
+        public static void LoadFromSettings(Settings.Settings settings)
+        {
+            if (settings.IsFileLoggerChecked)
+            {
+                IoC.Get<ILogFactory>().AddLogger(new FileLogger(settings.LoggerFilePath));
+            }
+            if (settings.IsDbLoggerChecked)
+            {
+                IoC.Get<ILogFactory>().AddLogger(new DatabaseLogger());
+            }
+
+            //IoC.Get<TreeViewViewModel>().Serializer = Serializer;
+            IoC.Get<TreeViewViewModel>().SerializePath = settings.SerializerFilePath;
         }
     }
 }

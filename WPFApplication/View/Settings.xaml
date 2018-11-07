@@ -36,26 +36,26 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel>
                                 <TextBlock Margin="0 5 " Text="Active Loggers:"/>
-                                <CheckBox IsChecked="{Binding IsFileLoggerChecked}" Content="Text File Logger"/>
+                                <CheckBox IsChecked="{Binding Settings.IsFileLoggerChecked}" Content="Text File Logger"/>
 
                                 <TextBlock  Margin="20 2.5" Text="Path:"/>
-                                <TextBox  Margin="20 2.5" Text="{Binding LoggerFilePath}"></TextBox>
+                                <TextBox  Margin="20 2.5" Text="{Binding Settings.LoggerFilePath}"></TextBox>
 
 
-                                <CheckBox IsChecked="{Binding IsDbLoggerChecked}" Content="Database Logger"/>
+                                <CheckBox IsChecked="{Binding Settings.IsDbLoggerChecked}" Content="Database Logger"/>
 
                                 <TextBlock  Margin="20 2.5" Text="Connection String:"/>
-                                <TextBox  Margin="20 2.5 " Text="{Binding LoggerConnectionString}"></TextBox>
+                                <TextBox  Margin="20 2.5 " Text="{Binding Settings.LoggerConnectionString}"></TextBox>
 
 
                             </StackPanel>
                             <StackPanel Grid.Column="1">
                                 <TextBlock Margin="0 5 " Text="Logging details:"/>
-                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Debug}"  Content="Debug" ToolTip="Logs everything"/>
-                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Nothing}"  Content="Nothing" ToolTip="Logs nothing"/>
-                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Informative}"  Content="Informative" ToolTip="Logs everything but Debug information"/>
-                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Normal}"  Content="Normal" ToolTip="Logs Success, Warning and Errors informations"/>
-                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Critical}"  Content="Critical" ToolTip="Logs only Warnings and Errors"/>
+                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=Settings.LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Debug}"  Content="Debug" ToolTip="Logs everything"/>
+                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=Settings.LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Nothing}"  Content="Nothing" ToolTip="Logs nothing"/>
+                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=Settings.LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Informative}"  Content="Informative" ToolTip="Logs everything but Debug information"/>
+                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=Settings.LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Normal}"  Content="Normal" ToolTip="Logs Success, Warning and Errors informations"/>
+                                <RadioButton GroupName="Detail" IsChecked="{Binding Path=Settings.LogLevel,Mode=TwoWay, Converter={x:Static converters:LogLevelToBooleanConverter.Instance}, ConverterParameter=Critical}"  Content="Critical" ToolTip="Logs only Warnings and Errors"/>
                             </StackPanel>
                         </Grid>
                     </Border>
@@ -69,13 +69,13 @@
                             <RadioButton GroupName="Serializer" Content="XML Serializer"/>
 
                             <TextBlock  Margin="20 2.5" Text="Path:"/>
-                            <TextBox  Margin="20 2.5" Text="{Binding SerializerFilePath}"></TextBox>
+                            <TextBox  Margin="20 2.5" Text="{Binding Settings.SerializerFilePath}"></TextBox>
 
 
                             <RadioButton GroupName="Serializer" Content="Database Serialize"/>
 
                             <TextBlock  Margin="20 2.5" Text="Connection String:"/>
-                            <TextBox  Margin="20 2.5 " Text="{Binding SerializerConnectionString}"></TextBox>
+                            <TextBox  Margin="20 2.5 " Text="{Binding Settings.SerializerConnectionString}"></TextBox>
 
                         </StackPanel>
 

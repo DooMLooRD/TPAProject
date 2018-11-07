@@ -88,7 +88,7 @@ namespace BusinessLogic.ViewModel.Pages
 
                     _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
                     LoadTreeView();
-                }
+               }
 
                 else if (path.Contains(".xml"))
                 {

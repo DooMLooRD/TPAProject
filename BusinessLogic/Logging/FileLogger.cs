@@ -22,10 +22,30 @@ namespace BusinessLogic.Logging
             using (TextWriter fileStream = new StreamWriter(File.Open(FilePath, FileMode.Append)))
             {
                 string msg =
-                    $"[{DateTime.Now}] "+$"{level}:".PadRight(11)+$" [{message.FileName}] in {message.OriginName}() line {message.LineNumber}: {message.Message}";
+                    $"[{DateTime.Now}] "+$"{level}:".PadRight(13)+$" [{message.FileName}] in {message.OriginName}() line {message.LineNumber}: {message.Message}";
                 await fileStream.WriteLineAsync(msg);
             }
 
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (this.GetType() == obj?.GetType())
+            {
+                if (FilePath.Equals(((FileLogger) obj).FilePath))
+                    return true;
+            }
+            return false;
+        }
+
+        protected bool Equals(FileLogger other)
+        {
+            return string.Equals(FilePath, other.FilePath);
+        }
+
+        public override int GetHashCode()
+        {
+            return (FilePath != null ? FilePath.GetHashCode() : 0);
         }
     }
 }
