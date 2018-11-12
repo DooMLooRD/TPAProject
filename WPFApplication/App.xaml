@@ -6,11 +6,5 @@
              xmlns:pages="clr-namespace:BusinessLogic.ViewModel.Pages;assembly=BusinessLogic"
              StartupUri="View/MainWindow.xaml" Startup="On_Startup">
     <Application.Resources>
-        <DataTemplate DataType="{x:Type pages:SettingsViewModel}">
-            <views:Settings />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type pages:TreeViewViewModel}">
-            <views:TreeViewPage />
-        </DataTemplate>
     </Application.Resources>
 </Application>

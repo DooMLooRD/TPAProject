@@ -5,6 +5,7 @@ using System.Windows.Input;
 using BusinessLogic.Logging;
 using BusinessLogic.Model;
 using BusinessLogic.Reflection;
+using BusinessLogic.Serialization;
 using BusinessLogic.ViewModel.Pages;
 using BusinessLogic.ViewModel.TreeViewItems;
 using Ninject;
@@ -14,52 +15,113 @@ namespace BusinessLogic.ViewModel.Pages
 {
     public class MainWindowViewModel : BaseViewModel
     {
-        private BaseViewModel _currentPage;
-        private TreeViewViewModel _treeViewViewModel;
-        private SettingsViewModel _settingsViewModel;
+        public ICommand OpenCommand { get; }
+        public ICommand SaveCommand { get; }
+        [Inject]
+        public IPathLoader PathLoader { get; set; }
+        [Inject]
+        public ILogFactory LoggerFactory { get; set; }
+        [Inject]
+        public ISerializer Serializer { get; set; }
+        public string SerializePath { get; set; }
+        private Reflector _reflector;
+        private AssemblyTreeItem _viewModelAssemblyMetadata;
+        private string _pathVariable;
+        public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
 
-        public SettingsViewModel SettingsViewModel
+        public string PathVariable
         {
-            get => _settingsViewModel;
-            set => _settingsViewModel = value;
-        }
-
-        public TreeViewViewModel TreeViewViewModel
-        {
-            get => _treeViewViewModel;
-            set => _treeViewViewModel = value;
-        }
-
-        public BaseViewModel CurrentPage
-        {
-            get => _currentPage;
+            get => _pathVariable;
             set
             {
-                _currentPage = value; 
-                OnPropertyChanged(nameof(CurrentPage));
+                _pathVariable = value;
+                OnPropertyChanged(nameof(PathVariable));
             }
         }
 
-        public ICommand ClickOpen { get; }
-        public ICommand SettingsOpen { get; }
-             
-
-        public MainWindowViewModel(TreeViewViewModel vm,SettingsViewModel sw)
+        public MainWindowViewModel()
         {
-            TreeViewViewModel = vm;
-            SettingsViewModel = sw;
-            ClickOpen = new RelayCommand(Open);
-            SettingsOpen= new RelayCommand(Settings);
+            HierarchicalAreas = new ObservableCollection<TreeViewItem>();
+            OpenCommand = new RelayCommand(Open);
+            SaveCommand = new RelayCommand(Save);
         }
 
+        private void Save()
+        {
+            LoggerFactory.Log(new MessageStructure("Serialize started..."));
+            if (SerializePath != null)
+            {
+                Serializer.Serialize(_reflector.AssemblyModel, SerializePath);
+                LoggerFactory.Log(new MessageStructure("Serialize completed"), LogCategoryEnum.Success);
+            }
+            else
+            {
+                LoggerFactory.Log(new MessageStructure("Serialize failed-Path is null"), LogCategoryEnum.Error);
+            }
+
+        }
         private void Open()
         {
-            CurrentPage = TreeViewViewModel;
+            LoggerFactory.Log(new MessageStructure("Loading Path..."));
+
+            string path = PathLoader.LoadPath();
+            if (path != null)
+            {
+                if (path.Contains(".dll"))
+                {
+                    LoggerFactory.Log(new MessageStructure("Path Loaded"), LogCategoryEnum.Success);
+
+                    PathVariable = path;
+                    try
+                    {
+                        LoggerFactory.Log(new MessageStructure("Reflection started..."));
+                        _reflector = new Reflector(Assembly.LoadFrom(PathVariable));
+                    }
+                    catch (Exception e)
+                    {
+                        LoggerFactory.Log(new MessageStructure("Reflection failed"), LogCategoryEnum.Error);
+                    }
+
+                    LoggerFactory.Log(new MessageStructure("Reflection success"), LogCategoryEnum.Success);
+
+                    _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
+                    LoadTreeView();
+                }
+
+                else if (path.Contains(".xml"))
+                {
+                    LoggerFactory.Log(new MessageStructure("Path Loaded"), LogCategoryEnum.Success);
+
+                    PathVariable = path;
+                    try
+                    {
+                        LoggerFactory.Log(new MessageStructure("Deserialization started..."));
+                        _reflector = new Reflector(Serializer.Deserialize<AssemblyModel>(path));
+                    }
+                    catch (Exception e)
+                    {
+                        LoggerFactory.Log(new MessageStructure("Deserialization failed"), LogCategoryEnum.Error);
+                    }
+
+                    LoggerFactory.Log(new MessageStructure("Deserialization success"), LogCategoryEnum.Success);
+
+                    _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
+                    LoadTreeView();
+                }
+                else
+                    LoggerFactory.Log(new MessageStructure("Reflection failed"), LogCategoryEnum.Error);
+            }
+            else
+            {
+                LoggerFactory.Log(new MessageStructure("Path not loaded"), LogCategoryEnum.Error);
+            }
+
         }
 
-        private void Settings()
+        private void LoadTreeView()
         {
-            CurrentPage = SettingsViewModel;
+            TreeViewItem rootItem = _viewModelAssemblyMetadata;
+            HierarchicalAreas.Add(rootItem);
         }
 
     }

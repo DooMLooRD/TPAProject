@@ -8,7 +8,6 @@ using System.Windows;
 using BusinessLogic.DI.Base;
 using BusinessLogic.Logging;
 using BusinessLogic.Serialization;
-using BusinessLogic.Settings;
 using BusinessLogic.ViewModel;
 using WPFApplication.Helper;
 
@@ -26,9 +25,6 @@ namespace WPFApplication
             IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLoggerFactory());
             IoC.Kernel.Bind<IPathLoader>().ToConstant(new WPFPathLoader());
             IoC.Kernel.Bind<ISerializer>().ToConstant(new XMLSerializer());
-            Settings settings= new Settings();
-            IoC.Kernel.Bind<Settings>().ToConstant(settings);
-            IoC.LoadFromSettings(settings);
         }
     }
 }

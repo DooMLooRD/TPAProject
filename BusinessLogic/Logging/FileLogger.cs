@@ -28,24 +28,5 @@ namespace BusinessLogic.Logging
 
         }
 
-        public override bool Equals(object obj)
-        {
-            if (this.GetType() == obj?.GetType())
-            {
-                if (FilePath.Equals(((FileLogger) obj).FilePath))
-                    return true;
-            }
-            return false;
-        }
-
-        protected bool Equals(FileLogger other)
-        {
-            return string.Equals(FilePath, other.FilePath);
-        }
-
-        public override int GetHashCode()
-        {
-            return (FilePath != null ? FilePath.GetHashCode() : 0);
-        }
     }
 }

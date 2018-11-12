@@ -37,8 +37,6 @@ namespace BusinessLogic.DI.Base
         /// </summary>
         private static void BindViewModels()
         {
-            Kernel.Bind<TreeViewViewModel>().ToConstant(new TreeViewViewModel());
-            Kernel.Bind<SettingsViewModel>().ToConstant(new SettingsViewModel());
             Kernel.Bind<MainWindowViewModel>().To<MainWindowViewModel>();
         }
 
@@ -54,19 +52,5 @@ namespace BusinessLogic.DI.Base
             return Kernel.Get<T>();
         }
 
-        public static void LoadFromSettings(Settings.Settings settings)
-        {
-            if (settings.IsFileLoggerChecked)
-            {
-                IoC.Get<ILogFactory>().AddLogger(new FileLogger(settings.LoggerFilePath));
-            }
-            if (settings.IsDbLoggerChecked)
-            {
-                IoC.Get<ILogFactory>().AddLogger(new DatabaseLogger());
-            }
-
-            //IoC.Get<TreeViewViewModel>().Serializer = Serializer;
-            IoC.Get<TreeViewViewModel>().SerializePath = settings.SerializerFilePath;
-        }
     }
 }

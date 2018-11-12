@@ -74,11 +74,7 @@
     <Compile Include="Logging\Interfaces\ILogFactory.cs" />
     <Compile Include="Logging\Enums\LogCategoryEnum.cs" />
     <Compile Include="Logging\Enums\LogLevelEnum.cs" />
-    <Compile Include="Serialization\DatabaseSerializer.cs" />
     <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\Helper\SettingsSerializer.cs" />
-    <Compile Include="ViewModel\Pages\SettingsViewModel.cs" />
     <Compile Include="Serialization\XMLSerializer.cs" />
     <Compile Include="ViewModel\TreeViewItems\AssemblyTreeItem.cs" />
     <Compile Include="ViewModel\TreeViewItems\ItemTypeEnum.cs" />
@@ -92,7 +88,6 @@
     <Compile Include="ViewModel\Base\BaseViewModel.cs" />
     <Compile Include="ViewModel\Base\RelayCommand.cs" />
     <Compile Include="ViewModel\TreeViewItems\TypeTreeItem.cs" />
-    <Compile Include="ViewModel\Pages\TreeViewViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

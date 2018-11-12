@@ -10,35 +10,11 @@ namespace DataLayer
     {
         public void Log(LogEntity entity)
         {
-            using (TPADataContext context = new TPADataContext())
+            using (LogDataContext context = new LogDataContext())
             {
                 context.LogEntities.Add(entity);
                 context.SaveChanges();
             }
-        }
-
-        public void Serialize(SerializationEntity entity)
-        {
-            using (TPADataContext context = new TPADataContext())
-            {
-                context.SerializationEntities.ToList().ForEach(x=> context.SerializationEntities.Remove(x));
-                context.SerializationEntities.Add(entity);
-                context.SaveChanges();
-            }
-        }
-
-        public List<SerializationEntity> Deserialize()
-        {
-            List<SerializationEntity> entities = new List<SerializationEntity>();
-            using (TPADataContext context = new TPADataContext())
-            {
-                foreach (SerializationEntity serializationEntity in context.SerializationEntities)
-                {
-                    entities.Add(serializationEntity);
-                }
-            }
-
-            return entities;
         }
     }
 }

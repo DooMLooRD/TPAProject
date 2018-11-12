@@ -41,8 +41,6 @@ namespace ConsoleApplication
         {
             BindIoC();
             ViewModel = IoC.Get<MainWindowViewModel>();
-            IoC.Get<TreeViewViewModel>().PathVariable = "SerializedObject.xml";
-            IoC.Get<BaseLoggerFactory>().AddLogger(new FileLogger("Logs.txt"));
             MainMenuView(String.Empty);
         }
 
@@ -54,7 +52,7 @@ namespace ConsoleApplication
         {
             Console.Clear();
             Console.Write(message);
-            Console.WriteLine("Path:" + ViewModel.TreeViewViewModel.PathVariable);
+            Console.WriteLine("Path:" + ViewModel.PathVariable);
             PrintData();
             Console.WriteLine("Type id that you want to expand, if its already expanded shrink");
             Console.WriteLine("To serialize opened object and save to file type S/s/save and confirm action with 'Enter'");
@@ -73,7 +71,7 @@ namespace ConsoleApplication
                 case "s":
                 case "Save":
                     {
-                        ViewModel.TreeViewViewModel.SaveCommand.Execute(null);
+                        ViewModel.SaveCommand.Execute(null);
                         TreeViewView("Object Serialized!");
                         break;
                     }
@@ -106,13 +104,13 @@ namespace ConsoleApplication
                     {
                         Console.Clear();
                         Console.WriteLine("Type absolute Path of file you want to open");
-                        ViewModel.TreeViewViewModel.HierarchicalAreas = new ObservableCollection<TreeViewItem>();
-                        ViewModel.TreeViewViewModel.OpenCommand.Execute(null);
-                        if (ViewModel.TreeViewViewModel.PathVariable == null)
+                        ViewModel.HierarchicalAreas = new ObservableCollection<TreeViewItem>();
+                        ViewModel.OpenCommand.Execute(null);
+                        if (ViewModel.PathVariable == null)
                             MainMenuView("Wrong Path\n");
                         else
                         {
-                            ConsoleView = new TreeViewConsole(new ObservableCollection<TreeViewItemConsole>(ViewModel.TreeViewViewModel.HierarchicalAreas.Select(n => new TreeViewItemConsole(n, 0))));
+                            ConsoleView = new TreeViewConsole(new ObservableCollection<TreeViewItemConsole>(ViewModel.HierarchicalAreas.Select(n => new TreeViewItemConsole(n, 0))));
                             TreeViewView(String.Empty);
                         }
                         break;
