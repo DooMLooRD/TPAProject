@@ -25,6 +25,7 @@ namespace WPFApplication
             IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLoggerFactory());
             IoC.Kernel.Bind<IPathLoader>().ToConstant(new WPFPathLoader());
             IoC.Kernel.Bind<ISerializer>().ToConstant(new XMLSerializer());
+            IoC.Kernel.Bind<string>().ToConstant("serialized.xml");
         }
     }
 }

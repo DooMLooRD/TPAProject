@@ -7,15 +7,13 @@ namespace BusinessLogic.ViewModel.TreeViewItems
         private bool _wasBuilt;
         private bool _isExpanded;
         public string Name { get; set; }
-        public ItemTypeEnum ItemType { get; set; }
         public ObservableCollection<TreeViewItem> Children { get; set; }
 
-        protected TreeViewItem(string name, ItemTypeEnum itemType)
+        protected TreeViewItem(string name)
         {
             Children = new ObservableCollection<TreeViewItem>() { null };
             this._wasBuilt = false;
             Name = name;
-            ItemType = itemType;
         }
 
         public bool IsExpanded

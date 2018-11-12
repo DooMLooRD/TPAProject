@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using BusinessLogic.Model;
+using BusinessLogic.Reflection;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
     public class PropertyTreeItem : TreeViewItem
     {
         public PropertyModel PropertyModel { get; set; }
-        public PropertyTreeItem(PropertyModel type,string name): base(name,ItemTypeEnum.Property)
+        public PropertyTreeItem(PropertyModel type,string name): base(name)
         {
             PropertyModel = type;
         }
@@ -16,7 +17,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
         {
             if (PropertyModel.Type != null)
             {
-                children.Add(new TypeTreeItem(TypeModel.TypeDictionary[PropertyModel.Type.Name], ItemTypeEnum.Type));
+                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(PropertyModel.Type.Name)));
             }
         }
     }

@@ -30,9 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
@@ -68,6 +65,7 @@
     <Compile Include="Model\Assembly\TypeModel.cs" />
     <Compile Include="Model\Enums\VirtualEnum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\DictionaryTypeSingleton.cs" />
     <Compile Include="Reflection\Reflector.cs" />
     <Compile Include="Logging\Interfaces\ILogFactory.cs" />
     <Compile Include="Logging\Enums\LogCategoryEnum.cs" />
@@ -75,7 +73,6 @@
     <Compile Include="Serialization\ISerializer.cs" />
     <Compile Include="Serialization\XMLSerializer.cs" />
     <Compile Include="ViewModel\TreeViewItems\AssemblyTreeItem.cs" />
-    <Compile Include="ViewModel\TreeViewItems\ItemTypeEnum.cs" />
     <Compile Include="ViewModel\Base\IPathLoader.cs" />
     <Compile Include="ViewModel\Pages\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\TreeViewItems\MethodTreeItem.cs" />

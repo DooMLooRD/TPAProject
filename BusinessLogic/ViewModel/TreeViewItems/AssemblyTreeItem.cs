@@ -8,7 +8,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
     {
 
         public List<NamespaceModel> Namespaces { get; set; }
-        public AssemblyTreeItem(AssemblyModel assembly) : base(assembly.Name,ItemTypeEnum.Assembly)
+        public AssemblyTreeItem(AssemblyModel assembly) : base(assembly.Name)
         {
             Namespaces = assembly.NamespaceModels;
         }

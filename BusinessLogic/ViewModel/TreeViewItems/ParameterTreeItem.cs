@@ -1,12 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using BusinessLogic.Model;
+using BusinessLogic.Reflection;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
     public class ParameterTreeItem : TreeViewItem
     {
         public ParameterModel ParameterModel { get; set; }
-        public ParameterTreeItem(ParameterModel parameterModel, ItemTypeEnum type) : base(parameterModel.Name, type)
+        public ParameterTreeItem(ParameterModel parameterModel) : base(parameterModel.Name)
         {
             ParameterModel = parameterModel;
         }
@@ -14,7 +15,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
         {
             if (ParameterModel.Type != null)
             {
-                children.Add(new TypeTreeItem(TypeModel.TypeDictionary[ParameterModel.Type.Name], ItemTypeEnum.Type));
+                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(ParameterModel.Type.Name)));
             }
         }
 

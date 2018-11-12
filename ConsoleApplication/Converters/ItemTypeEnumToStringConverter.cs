@@ -10,7 +10,7 @@ using BusinessLogic.ViewModel;
 using BusinessLogic.ViewModel.TreeViewItems;
 
 
-namespace WPFApplication.Converters
+namespace ConsoleApplication.Converters
 {
     [ValueConversion(typeof(TreeViewItem), typeof(string))]
     public class ItemTypeEnumToStringConverter : IValueConverter

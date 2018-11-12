@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using BusinessLogic.Reflection;
 
 
 namespace BusinessLogic.Model
@@ -12,9 +13,6 @@ namespace BusinessLogic.Model
     [DataContract(IsReference = true)]
     public class TypeModel
     {
-        [DataMember]
-        public static Dictionary<string, TypeModel> TypeDictionary = new Dictionary<string, TypeModel>();
-
         [DataMember]
         public string Name { get; set; }
         [DataMember]
@@ -46,9 +44,9 @@ namespace BusinessLogic.Model
         public TypeModel(Type type)
         {
             Name = type.Name;
-            if (!TypeDictionary.ContainsKey(Name))
+            if (!DictionaryTypeSingleton.Instance.ContainsKey(Name))
             {
-                TypeDictionary.Add(Name, this);
+                DictionaryTypeSingleton.Instance.Add(Name, this);
             }
 
             Type = GetTypeEnum(type);
@@ -97,7 +95,7 @@ namespace BusinessLogic.Model
 
         public static void StoreType(Type type)
         {
-            if (!TypeDictionary.ContainsKey(type.Name))
+            if (!DictionaryTypeSingleton.Instance.ContainsKey(type.Name))
             {
                 new TypeModel(type);
             }
@@ -169,7 +167,7 @@ namespace BusinessLogic.Model
 
 
 
-            return new Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum>(_access, _sealed, _abstract,_static);
+            return new Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum>(_access, _sealed, _abstract, _static);
         }
 
         private static TypeModel EmitExtends(Type baseType)

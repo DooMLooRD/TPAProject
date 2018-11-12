@@ -7,6 +7,7 @@ using BusinessLogic.Serialization;
 using BusinessLogic.ViewModel;
 using BusinessLogic.ViewModel.Pages;
 using BusinessLogic.ViewModel.TreeViewItems;
+using ConsoleApplication.Converters;
 using ConsoleApplication.Helper;
 using ConsoleApplication.View;
 
@@ -25,7 +26,8 @@ namespace ConsoleApplication
             IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLoggerFactory());
             IoC.Kernel.Bind<IPathLoader>().ToConstant(new CommandLinePathLoader());
             IoC.Kernel.Bind<ISerializer>().ToConstant(new XMLSerializer());
-            
+            IoC.Kernel.Bind<string>().ToConstant("serialized.xml");
+
         }
 
         #endregion
@@ -149,7 +151,7 @@ namespace ConsoleApplication
             {
                 string[] value = new string[4];
                 value[0] = "id:" + index;
-                value[1] = "[" + itemConsole.TreeItem.ItemType + "]";
+                value[1] = (string)ItemTypeEnumToStringConverter.Instance.Convert(itemConsole.TreeItem, null, null, null); ;
                 value[2] = itemConsole.IsExpanded ? "[-] " : "[+] ";
                 value[3] = itemConsole.TreeItem.Name;
                 PrintWithIndent(value, itemConsole.Indent);

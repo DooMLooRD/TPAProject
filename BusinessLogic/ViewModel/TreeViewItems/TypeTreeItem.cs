@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using BusinessLogic.Model;
+using BusinessLogic.Reflection;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
     public class TypeTreeItem : TreeViewItem
     {
         public TypeModel TypeData { get; set; }
-        public TypeTreeItem(TypeModel typeModel, ItemTypeEnum type) : base(GetModifiers(typeModel) + typeModel.Name, type)
+        public TypeTreeItem(TypeModel typeModel) : base(GetModifiers(typeModel) + typeModel.Name)
         {
             TypeData = typeModel;
         }
@@ -32,11 +33,11 @@ namespace BusinessLogic.ViewModel.TreeViewItems
         {
             if (TypeData.BaseType != null)
             {
-                children.Add(new TypeTreeItem(TypeModel.TypeDictionary[TypeData.BaseType.Name], ItemTypeEnum.BaseType));
+                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(TypeData.BaseType.Name)));
             }
             if (TypeData.DeclaringType != null)
             {
-                children.Add(new TypeTreeItem(TypeModel.TypeDictionary[TypeData.DeclaringType.Name], ItemTypeEnum.Type));
+                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(TypeData.DeclaringType.Name)));
             }
             if (TypeData.Properties != null)
             {
@@ -49,45 +50,42 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (ParameterModel parameterModel in TypeData.Fields)
                 {
-                    children.Add(new ParameterTreeItem(parameterModel, ItemTypeEnum.Field));
+                    children.Add(new ParameterTreeItem(parameterModel));
                 }
             }
             if (TypeData.GenericArguments != null)
             {
                 foreach (TypeModel typeModel in TypeData.GenericArguments)
                 {
-                    children.Add(new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name], ItemTypeEnum.GenericArgument));
+                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(typeModel.Name)));
                 }
             }
             if (TypeData.ImplementedInterfaces != null)
             {
                 foreach (TypeModel typeModel in TypeData.ImplementedInterfaces)
                 {
-                    children.Add(new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name], ItemTypeEnum.InmplementedInterface));
+                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(typeModel.Name)));
                 }
             }
             if (TypeData.NestedTypes != null)
             {
                 foreach (TypeModel typeModel in TypeData.NestedTypes)
                 {
-                    ItemTypeEnum type = typeModel.Type == TypeEnum.Class ? ItemTypeEnum.NestedClass :
-                        typeModel.Type == TypeEnum.Struct ? ItemTypeEnum.NestedStructure :
-                        typeModel.Type == TypeEnum.Enum ? ItemTypeEnum.NestedEnum : ItemTypeEnum.NestedType;
-                    children.Add(new TypeTreeItem(TypeModel.TypeDictionary[typeModel.Name], type));
+                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(typeModel.Name)));
                 }
             }
             if (TypeData.Methods != null)
             {
                 foreach (MethodModel methodModel in TypeData.Methods)
                 {
-                    children.Add(new MethodTreeItem(methodModel, methodModel.Extension ? ItemTypeEnum.ExtensionMethod : ItemTypeEnum.Method));
+                    children.Add(new MethodTreeItem(methodModel));
                 }
             }
             if (TypeData.Constructors != null)
             {
                 foreach (MethodModel methodModel in TypeData.Constructors)
                 {
-                    children.Add(new MethodTreeItem(methodModel, ItemTypeEnum.Constructor));
+                    children.Add(new MethodTreeItem(methodModel));
                 }
             }
         }

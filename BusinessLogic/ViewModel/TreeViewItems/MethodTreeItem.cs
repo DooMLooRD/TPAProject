@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using BusinessLogic.Model;
+using BusinessLogic.Reflection;
 
 namespace BusinessLogic.ViewModel.TreeViewItems
 {
     public class MethodTreeItem : TreeViewItem
     {
         public MethodModel MethodModel { get; set; }
-        public MethodTreeItem(MethodModel methodModel, ItemTypeEnum type) : base(GetModifiers(methodModel) + methodModel.Name, type)
+        public MethodTreeItem(MethodModel methodModel) : base(GetModifiers(methodModel) + methodModel.Name)
         {
             MethodModel = methodModel;
         }
@@ -29,7 +30,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (TypeModel genericArgument in MethodModel.GenericArguments)
                 {
-                    children.Add(new TypeTreeItem(TypeModel.TypeDictionary[genericArgument.Name], ItemTypeEnum.GenericArgument));
+                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(genericArgument.Name)));
                 }
             }
 
@@ -37,13 +38,13 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (ParameterModel parameter in MethodModel.Parameters)
                 {
-                    children.Add(new ParameterTreeItem(parameter, ItemTypeEnum.Parameter));
+                    children.Add(new ParameterTreeItem(parameter));
                 }
             }
 
             if (MethodModel.ReturnType != null)
             {
-                children.Add(new TypeTreeItem(TypeModel.TypeDictionary[MethodModel.ReturnType.Name], ItemTypeEnum.ReturnType ));
+                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(MethodModel.ReturnType.Name)));
             }
         }
     }

@@ -23,6 +23,7 @@ namespace BusinessLogic.ViewModel.Pages
         public ILogFactory LoggerFactory { get; set; }
         [Inject]
         public ISerializer Serializer { get; set; }
+        [Inject]
         public string SerializePath { get; set; }
         private Reflector _reflector;
         private AssemblyTreeItem _viewModelAssemblyMetadata;
