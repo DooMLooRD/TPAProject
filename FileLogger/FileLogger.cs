@@ -1,16 +1,24 @@
 ﻿using System;
+using System.ComponentModel.Composition;
+using System.Configuration;
 using System.IO;
 using BusinessLogic.Logging;
 
 namespace FileLogger
 {
+    [Export(typeof(ILogger))]
+    [ExportMetadata("Logger", "File")]
     public class FileLogger : ILogger
     {
         public string FilePath { get; set; }
 
-        public FileLogger(string filePath)
+        public FileLogger()
         {
-            FilePath = filePath;
+            LoadPathFromConfig();
+        }
+        private void LoadPathFromConfig()
+        {
+            FilePath = ConfigurationManager.AppSettings["filename"] ?? "Log.log";
         }
         public async void Log(MessageStructure message, LogCategoryEnum level)
         {

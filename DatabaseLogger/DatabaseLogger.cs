@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using BusinessLogic.Logging;
 using DataLayer;
 
 namespace DatabaseLogger
 {
+    [Export(typeof(ILogger))]
+    [ExportMetadata("Logger", "Database")]
     public class DatabaseLogger : ILogger
     {
         Repository repository = new Repository();
