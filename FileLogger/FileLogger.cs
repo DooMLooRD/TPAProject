@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BusinessLogic.Logging;
 
-
-namespace BusinessLogic.Logging
+namespace FileLogger
 {
     public class FileLogger : ILogger
     {

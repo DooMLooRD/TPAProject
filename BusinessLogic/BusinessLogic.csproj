@@ -51,10 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DI\Base\IoC.cs" />
-    <Compile Include="Logging\DatabaseLogger.cs" />
     <Compile Include="Logging\Interfaces\ILogger.cs" />
     <Compile Include="Logging\BaseLoggerFactory.cs" />
-    <Compile Include="Logging\FileLogger.cs" />
     <Compile Include="Logging\MessageStructure.cs" />
     <Compile Include="Model\Enums\AbstractEnum.cs" />
     <Compile Include="Model\Enums\AccessLevel.cs" />
