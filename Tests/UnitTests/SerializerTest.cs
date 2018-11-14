@@ -18,7 +18,7 @@ namespace UnitTests
         public void CheckAmountOfNamespaces()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
             Assert.AreEqual(3, model.NamespaceModels.Count);
@@ -28,7 +28,7 @@ namespace UnitTests
         public void CheckAmountOfClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -47,7 +47,7 @@ namespace UnitTests
         public void CheckAmountOfStaticClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -62,7 +62,7 @@ namespace UnitTests
         public void CheckAmountOfAbstractClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -76,7 +76,7 @@ namespace UnitTests
         public void CheckAmountOfClassesWithGenericArguments()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -90,7 +90,7 @@ namespace UnitTests
         public void CheckAmountOfInterfaces()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -103,7 +103,7 @@ namespace UnitTests
         public void CheckAmountOfClassesWithBaseType()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -116,7 +116,7 @@ namespace UnitTests
         public void CheckAmountOfPublicClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -129,7 +129,7 @@ namespace UnitTests
         public void CheckAmountOfClassesWithImplementedInterfaces()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -142,7 +142,7 @@ namespace UnitTests
         public void CheckAmountOfClassesWithNestedTypes()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -155,7 +155,7 @@ namespace UnitTests
         public void CheckAmountOfPropertiesInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -168,7 +168,7 @@ namespace UnitTests
         public void CheckAmountOfMethodsInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -181,7 +181,7 @@ namespace UnitTests
         public void CheckAmountOfConstructorsInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
@@ -194,7 +194,7 @@ namespace UnitTests
         public void CheckAmountOfFieldsInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer xmlSerialization = new XMLSerializer();
+            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
             xmlSerialization.Serialize(reflector.AssemblyModel, path);
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 

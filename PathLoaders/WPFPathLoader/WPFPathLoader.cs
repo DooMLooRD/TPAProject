@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.Composition;
 using System.Windows;
 using BusinessLogic.ViewModel;
 using Microsoft.Win32;
 
-namespace WPFApplication.Helper
+namespace WPFPathLoader
 {
+    [Export(typeof(IPathLoader))]
     public class WPFPathLoader : IPathLoader
     {
         public string LoadPath()

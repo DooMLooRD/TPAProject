@@ -1,5 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Configuration;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Input;
 using BusinessLogic.Logging;
@@ -15,19 +22,36 @@ namespace BusinessLogic.ViewModel.Pages
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        #region Commands
+
         public ICommand OpenCommand { get; }
         public ICommand SaveCommand { get; }
-        [Inject]
+
+        #endregion
+
+        #region Mef
+
+        [Import(typeof(IPathLoader))]
         public IPathLoader PathLoader { get; set; }
-        [Inject]
+        [Import(typeof(ILogFactory))]
         public ILogFactory LoggerFactory { get; set; }
-        [Inject]
+        [Import(typeof(ISerializer))]
         public ISerializer Serializer { get; set; }
-        [Inject]
-        public string SerializePath { get; set; }
+
+        #endregion
+
+        #region Fields
+
         private Reflector _reflector;
         private AssemblyTreeItem _viewModelAssemblyMetadata;
         private string _pathVariable;
+
+        #endregion
+
+        #region Properties
+
+        [Inject]
+        public string SerializePath { get; set; }
         public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
 
         public string PathVariable
@@ -40,12 +64,57 @@ namespace BusinessLogic.ViewModel.Pages
             }
         }
 
+        #endregion
+
+        #region MEF Method
+
+        public void Compose()
+        {
+            NameValueCollection plugins = (NameValueCollection)ConfigurationManager.GetSection("plugins");
+            string[] pluginsCatalogs = plugins.AllKeys;
+            List<DirectoryCatalog> directoryCatalogs = new List<DirectoryCatalog>();
+            foreach (string pluginsCatalog in pluginsCatalogs)
+            {
+                if (Directory.Exists(pluginsCatalog))
+                    directoryCatalogs.Add(new DirectoryCatalog(pluginsCatalog));
+            }
+
+            AggregateCatalog catalog = new AggregateCatalog(directoryCatalogs);
+            CompositionContainer container = new CompositionContainer(catalog);
+
+            try
+            {
+                container.ComposeParts(this);
+            }
+            catch (CompositionException compositionException)
+            {
+                Console.WriteLine(compositionException.ToString());
+            }
+            catch (Exception exception) when (exception is ReflectionTypeLoadException)
+            {
+                ReflectionTypeLoadException typeLoadException = (ReflectionTypeLoadException)exception;
+                Exception[] loaderExceptions = typeLoadException.LoaderExceptions;
+                loaderExceptions.ToList().ForEach(ex => Console.WriteLine(ex.StackTrace));
+
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Constructor
+
         public MainWindowViewModel()
         {
             HierarchicalAreas = new ObservableCollection<TreeViewItem>();
             OpenCommand = new RelayCommand(Open);
             SaveCommand = new RelayCommand(Save);
+            Compose();
         }
+
+        #endregion
+
+        #region Methods
 
         private void Save()
         {
@@ -124,6 +193,8 @@ namespace BusinessLogic.ViewModel.Pages
             TreeViewItem rootItem = _viewModelAssemblyMetadata;
             HierarchicalAreas.Add(rootItem);
         }
+
+        #endregion
 
     }
 }

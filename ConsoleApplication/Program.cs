@@ -23,9 +23,6 @@ namespace ConsoleApplication
         private static void BindIoC()
         {
             IoC.Setup();
-            IoC.Kernel.Bind<ILogFactory>().ToConstant(new BaseLoggerFactory());
-            IoC.Kernel.Bind<IPathLoader>().ToConstant(new CommandLinePathLoader());
-            IoC.Kernel.Bind<ISerializer>().ToConstant(new XMLSerializer());
             IoC.Kernel.Bind<string>().ToConstant("serialized.xml");
 
         }
