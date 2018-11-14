@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
 using BusinessLogic.ViewModel;
 
 namespace ConsolePathLoader
 {
+    [Export(typeof(IPathLoader))]
     public class CommandLinePathLoader : IPathLoader
     {
         public string LoadPath()

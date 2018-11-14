@@ -66,42 +66,6 @@ namespace BusinessLogic.ViewModel.Pages
 
         #endregion
 
-        #region MEF Method
-
-        public void Compose()
-        {
-            NameValueCollection plugins = (NameValueCollection)ConfigurationManager.GetSection("plugins");
-            string[] pluginsCatalogs = plugins.AllKeys;
-            List<DirectoryCatalog> directoryCatalogs = new List<DirectoryCatalog>();
-            foreach (string pluginsCatalog in pluginsCatalogs)
-            {
-                if (Directory.Exists(pluginsCatalog))
-                    directoryCatalogs.Add(new DirectoryCatalog(pluginsCatalog));
-            }
-
-            AggregateCatalog catalog = new AggregateCatalog(directoryCatalogs);
-            CompositionContainer container = new CompositionContainer(catalog);
-
-            try
-            {
-                container.ComposeParts(this);
-            }
-            catch (CompositionException compositionException)
-            {
-                Console.WriteLine(compositionException.ToString());
-            }
-            catch (Exception exception) when (exception is ReflectionTypeLoadException)
-            {
-                ReflectionTypeLoadException typeLoadException = (ReflectionTypeLoadException)exception;
-                Exception[] loaderExceptions = typeLoadException.LoaderExceptions;
-                loaderExceptions.ToList().ForEach(ex => Console.WriteLine(ex.StackTrace));
-
-                throw;
-            }
-        }
-
-        #endregion
-
         #region Constructor
 
         public MainWindowViewModel()
@@ -109,7 +73,6 @@ namespace BusinessLogic.ViewModel.Pages
             HierarchicalAreas = new ObservableCollection<TreeViewItem>();
             OpenCommand = new RelayCommand(Open);
             SaveCommand = new RelayCommand(Save);
-            Compose();
         }
 
         #endregion
