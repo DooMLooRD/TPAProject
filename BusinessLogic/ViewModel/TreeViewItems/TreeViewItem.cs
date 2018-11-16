@@ -6,14 +6,12 @@ namespace BusinessLogic.ViewModel.TreeViewItems
     {
         private bool _wasBuilt;
         private bool _isExpanded;
-        public string Name { get; set; }
         public ObservableCollection<TreeViewItem> Children { get; set; }
 
-        protected TreeViewItem(string name)
+        protected TreeViewItem()
         {
             Children = new ObservableCollection<TreeViewItem>() { null };
             this._wasBuilt = false;
-            Name = name;
         }
 
         public bool IsExpanded

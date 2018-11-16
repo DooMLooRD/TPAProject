@@ -8,42 +8,26 @@ namespace BusinessLogic.ViewModel.TreeViewItems
     public class TypeTreeItem : TreeViewItem
     {
         public TypeModel TypeData { get; set; }
-        public TypeTreeItem(TypeModel typeModel) : base(GetModifiers(typeModel) + typeModel.Name)
+        public TypeTreeItem(TypeModel typeModel)
         {
             TypeData = typeModel;
-        }
-
-
-        public static string GetModifiers(TypeModel model)
-        {
-            if (model.Modifiers != null)
-            {
-                string type = null;
-                type += model.Modifiers.Item1.ToString().ToLower() + " ";
-                type += model.Modifiers.Item2 == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : String.Empty;
-                type += model.Modifiers.Item3 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : String.Empty;
-                type += model.Modifiers.Item4 == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : String.Empty;
-                return type;
-            }
-
-            return null;
         }
 
         protected override void BuildTreeView(ObservableCollection<TreeViewItem> children)
         {
             if (TypeData.BaseType != null)
             {
-                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(TypeData.BaseType.Name)));
+                children.Add(new TypeTreeItem(TypeData.BaseType));
             }
             if (TypeData.DeclaringType != null)
             {
-                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(TypeData.DeclaringType.Name)));
+                children.Add(new TypeTreeItem(TypeData.DeclaringType));
             }
             if (TypeData.Properties != null)
             {
                 foreach (PropertyModel propertyModel in TypeData.Properties)
                 {
-                    children.Add(new PropertyTreeItem(propertyModel, GetModifiers(propertyModel.Type) + propertyModel.Type.Name + " " + propertyModel.Name));
+                    children.Add(new PropertyTreeItem(propertyModel));
                 }
             }
             if (TypeData.Fields != null)
@@ -57,21 +41,21 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (TypeModel typeModel in TypeData.GenericArguments)
                 {
-                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(typeModel.Name)));
+                    children.Add(new TypeTreeItem(typeModel));
                 }
             }
             if (TypeData.ImplementedInterfaces != null)
             {
                 foreach (TypeModel typeModel in TypeData.ImplementedInterfaces)
                 {
-                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(typeModel.Name)));
+                    children.Add(new TypeTreeItem(typeModel));
                 }
             }
             if (TypeData.NestedTypes != null)
             {
                 foreach (TypeModel typeModel in TypeData.NestedTypes)
                 {
-                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(typeModel.Name)));
+                    children.Add(new TypeTreeItem(typeModel));
                 }
             }
             if (TypeData.Methods != null)
@@ -88,6 +72,27 @@ namespace BusinessLogic.ViewModel.TreeViewItems
                     children.Add(new MethodTreeItem(methodModel));
                 }
             }
+        }
+        public override string ToString()
+        {
+            string type = String.Empty;
+            if (TypeData.Modifiers != null)
+            {
+
+                type += TypeData.Modifiers.Item1.ToString().ToLower() + " ";
+                type += TypeData.Modifiers.Item2 == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : String.Empty;
+                type += TypeData.Modifiers.Item3 == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : String.Empty;
+                type += TypeData.Modifiers.Item4 == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : String.Empty;
+
+            }
+            type += TypeData.Type != TypeEnum.None ? TypeData.Type.ToString().ToLower() + " " : String.Empty;
+            type += TypeData.Name;
+            if (TypeData.IsGeneric)
+                type += " - generic type";
+            else if (TypeData.IsExternal)
+                type += " - external assembly: " + TypeData.AssemblyName;
+
+            return type;
         }
     }
 }

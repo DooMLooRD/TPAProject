@@ -40,7 +40,7 @@
                                 <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                                     <StackPanel  Orientation="Horizontal">
                                         <TextBlock Padding="0 0 10 0" FontWeight="ExtraBold" Text="{Binding Converter={x:Static converter:ItemTypeEnumToStringConverter.Instance}}"/>
-                                        <TextBlock FontWeight="Bold" Text="{Binding Path=Name}" Foreground="{Binding  Converter={x:Static converter:ItemTypeToBrushConverter.Instance}}" Margin="0 0 4 0"/>
+                                        <TextBlock FontWeight="Bold" Text="{Binding}" Foreground="{Binding  Converter={x:Static converter:ItemTypeToBrushConverter.Instance}}" Margin="0 0 4 0"/>
                                     </StackPanel>
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>

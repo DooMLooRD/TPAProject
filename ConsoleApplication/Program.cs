@@ -196,7 +196,7 @@ namespace ConsoleApplication
                 value[0] = "id:" + index;
                 value[1] = (string)ItemTypeEnumToStringConverter.Instance.Convert(itemConsole.TreeItem, null, null, null); ;
                 value[2] = itemConsole.IsExpanded ? "[-] " : "[+] ";
-                value[3] = itemConsole.TreeItem.Name;
+                value[3] = itemConsole.TreeItem.ToString();
                 PrintWithIndent(value, itemConsole.Indent);
                 index++;
             }

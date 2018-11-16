@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using BusinessLogic.Model;
 using BusinessLogic.Reflection;
 
@@ -7,7 +8,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
     public class PropertyTreeItem : TreeViewItem
     {
         public PropertyModel PropertyModel { get; set; }
-        public PropertyTreeItem(PropertyModel type,string name): base(name)
+        public PropertyTreeItem(PropertyModel type)
         {
             PropertyModel = type;
         }
@@ -17,8 +18,14 @@ namespace BusinessLogic.ViewModel.TreeViewItems
         {
             if (PropertyModel.Type != null)
             {
-                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(PropertyModel.Type.Name)));
+                children.Add(new TypeTreeItem(PropertyModel.Type));
             }
+        }
+        public override string ToString()
+        {
+            return PropertyModel.Type.Name + " " + PropertyModel.Name;
+
+
         }
     }
 }

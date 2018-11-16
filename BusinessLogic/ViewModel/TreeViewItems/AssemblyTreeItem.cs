@@ -6,10 +6,11 @@ namespace BusinessLogic.ViewModel.TreeViewItems
 {
     public class AssemblyTreeItem :  TreeViewItem
     {
-
+        public AssemblyModel Assembly { get; set; }
         public List<NamespaceModel> Namespaces { get; set; }
-        public AssemblyTreeItem(AssemblyModel assembly) : base(assembly.Name)
+        public AssemblyTreeItem(AssemblyModel assembly)
         {
+            Assembly = assembly;
             Namespaces = assembly.NamespaceModels;
         }
 
@@ -23,6 +24,11 @@ namespace BusinessLogic.ViewModel.TreeViewItems
                     children.Add(new NamespaceTreeItem(namespaceModel));
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return Assembly.Name;
         }
     }
 }

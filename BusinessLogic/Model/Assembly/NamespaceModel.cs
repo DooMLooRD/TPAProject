@@ -26,7 +26,7 @@ namespace BusinessLogic.Model
         public NamespaceModel(string name, List<Type> types)
         {
             Name = name;
-            Types = types.OrderBy(t => t.Name).Select(t => new TypeModel(t)).ToList();
+            Types = types.OrderBy(t => t.Name).Select(TypeModel.EmitType).ToList();
         }
 
     }

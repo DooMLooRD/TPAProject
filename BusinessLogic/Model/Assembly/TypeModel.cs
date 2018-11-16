@@ -16,7 +16,11 @@ namespace BusinessLogic.Model
         [DataMember]
         public string Name { get; set; }
         [DataMember]
-        public string NamespaceName { get; set; }
+        public string AssemblyName { get; set; }
+        [DataMember]
+        public bool IsExternal { get; set; } = true;
+        [DataMember]
+        public bool IsGeneric { get; set; } 
         [DataMember]
         public TypeModel BaseType { get; set; }
         [DataMember]
@@ -40,19 +44,19 @@ namespace BusinessLogic.Model
         [DataMember]
         public List<ParameterModel> Fields { get; set; }
 
-
-        public TypeModel(Type type)
+        private TypeModel(Type type)
         {
             Name = type.Name;
-            if (!DictionaryTypeSingleton.Instance.ContainsKey(Name))
-            {
-                DictionaryTypeSingleton.Instance.Add(Name, this);
-            }
+            IsGeneric = type.IsGenericParameter;
+            AssemblyName = type.AssemblyQualifiedName;
+        }
 
+        private void Analyze(Type type)
+        {
             Type = GetTypeEnum(type);
             BaseType = EmitExtends(type.BaseType);
             Modifiers = EmitModifiers(type);
-
+            
             DeclaringType = EmitDeclaringType(type.DeclaringType);
             Constructors = MethodModel.EmitConstructors(type);
             Methods = MethodModel.EmitMethods(type);
@@ -61,45 +65,45 @@ namespace BusinessLogic.Model
             GenericArguments = !type.IsGenericTypeDefinition ? null : EmitGenericArguments(type);
             Properties = PropertyModel.EmitProperties(type);
             Fields = EmitFields(type);
+            IsExternal = false;
+            _isAnalyzed = true;
         }
 
-        private TypeModel(string typeName, string namespaceName)
+
+        public static TypeModel EmitType(Type type)
         {
-            Name = typeName;
-            this.NamespaceName = namespaceName;
-        }
+            if (!DictionaryTypeSingleton.Instance.ContainsKey(type.Name))
+            {
+                DictionaryTypeSingleton.Instance.Add(type.Name, new TypeModel(type));
+            }
 
-        private TypeModel(string typeName, string namespaceName, IEnumerable<TypeModel> genericArguments) : this(typeName, namespaceName)
-        {
-            this.GenericArguments = genericArguments.ToList();
-        }
+            if (!DictionaryTypeSingleton.Instance.Get(type.Name)._isAnalyzed)
+            {
+                DictionaryTypeSingleton.Instance.Get(type.Name).Analyze(type);
+            }
 
+            return DictionaryTypeSingleton.Instance.Get(type.Name);
+        }
 
         public static TypeModel EmitReference(Type type)
         {
-            if (!type.IsGenericType)
-                return new TypeModel(type.Name, type.GetNamespace());
+            if (!DictionaryTypeSingleton.Instance.ContainsKey(type.Name))
+            {
+                DictionaryTypeSingleton.Instance.Add(type.Name, new TypeModel(type));
 
-            return new TypeModel(type.Name, type.GetNamespace(), EmitGenericArguments(type));
+            }
+            return DictionaryTypeSingleton.Instance.Get(type.Name);
         }
+
         public static List<TypeModel> EmitGenericArguments(Type type)
         {
             List<Type> arguments = type.GetGenericArguments().ToList();
-            foreach (Type typ in arguments)
-            {
-                StoreType(typ);
-            }
 
             return arguments.Select(EmitReference).ToList();
         }
 
-        public static void StoreType(Type type)
-        {
-            if (!DictionaryTypeSingleton.Instance.ContainsKey(type.Name))
-            {
-                new TypeModel(type);
-            }
-        }
+
+        #region Private Emits
 
         private static List<ParameterModel> EmitFields(Type type)
         {
@@ -109,7 +113,6 @@ namespace BusinessLogic.Model
             List<ParameterModel> parameters = new List<ParameterModel>();
             foreach (FieldInfo field in fieldInfo)
             {
-                StoreType(field.FieldType);
                 parameters.Add(new ParameterModel(field.Name, EmitReference(field.FieldType)));
             }
             return parameters;
@@ -119,26 +122,16 @@ namespace BusinessLogic.Model
         {
             if (declaringType == null)
                 return null;
-            StoreType(declaringType);
             return EmitReference(declaringType);
         }
         private List<TypeModel> EmitNestedTypes(Type type)
         {
             List<Type> nestedTypes = type.GetNestedTypes(BindingFlags.Public | BindingFlags.NonPublic).ToList();
-            foreach (Type typ in nestedTypes)
-            {
-                StoreType(typ);
-            }
 
-            return nestedTypes.Select(t => new TypeModel(t)).ToList();
+            return nestedTypes.Select(EmitType).ToList();
         }
         private IEnumerable<TypeModel> EmitImplements(IEnumerable<Type> interfaces)
         {
-            foreach (Type @interface in interfaces)
-            {
-                StoreType(@interface);
-            }
-
             return from currentInterface in interfaces
                    select EmitReference(currentInterface);
         }
@@ -150,7 +143,7 @@ namespace BusinessLogic.Model
                    TypeEnum.Class;
         }
 
-        static Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> EmitModifiers(Type type)
+        private static Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> EmitModifiers(Type type)
         {
             AccessLevel _access = type.IsPublic || type.IsNestedPublic ? AccessLevel.Public :
                 type.IsNestedFamily ? AccessLevel.Protected :
@@ -174,8 +167,12 @@ namespace BusinessLogic.Model
         {
             if (baseType == null || baseType == typeof(Object) || baseType == typeof(ValueType) || baseType == typeof(Enum))
                 return null;
-            StoreType(baseType);
             return EmitReference(baseType);
         }
+        private bool _isAnalyzed = false;
+
+        #endregion
+
+
     }
 }

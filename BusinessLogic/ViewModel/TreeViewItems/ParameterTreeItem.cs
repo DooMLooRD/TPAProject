@@ -7,7 +7,7 @@ namespace BusinessLogic.ViewModel.TreeViewItems
     public class ParameterTreeItem : TreeViewItem
     {
         public ParameterModel ParameterModel { get; set; }
-        public ParameterTreeItem(ParameterModel parameterModel) : base(parameterModel.Name)
+        public ParameterTreeItem(ParameterModel parameterModel)
         {
             ParameterModel = parameterModel;
         }
@@ -15,9 +15,12 @@ namespace BusinessLogic.ViewModel.TreeViewItems
         {
             if (ParameterModel.Type != null)
             {
-                children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(ParameterModel.Type.Name)));
+                children.Add(new TypeTreeItem(ParameterModel.Type));
             }
         }
-
+        public override string ToString()
+        {
+            return ParameterModel.Type.Name + " " + ParameterModel.Name;
+        }
     }
 }

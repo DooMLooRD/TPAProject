@@ -7,9 +7,11 @@ namespace BusinessLogic.ViewModel.TreeViewItems
 {
     public class NamespaceTreeItem : TreeViewItem
     {
+        public NamespaceModel NamespaceModel { get; set; }
         public List<TypeModel> Types { get; set; }
-        public NamespaceTreeItem(NamespaceModel namespaceModel):base(namespaceModel.Name)
-        { 
+        public NamespaceTreeItem(NamespaceModel namespaceModel)
+        {
+            NamespaceModel = namespaceModel;
             Types = namespaceModel.Types;
         }
 
@@ -19,9 +21,13 @@ namespace BusinessLogic.ViewModel.TreeViewItems
             {
                 foreach (TypeModel typeModel in Types)
                 {
-                    children.Add(new TypeTreeItem(DictionaryTypeSingleton.Instance.Get(typeModel.Name)));
+                    children.Add(new TypeTreeItem(typeModel));
                 }
             }
+        }
+        public override string ToString()
+        {
+            return NamespaceModel.Name;
         }
     }
 }

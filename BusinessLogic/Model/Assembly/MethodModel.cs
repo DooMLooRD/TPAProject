@@ -60,7 +60,7 @@ namespace BusinessLogic.Model
 
         private List<TypeModel> EmitGenericArguments(MethodBase method)
         {
-            return method.GetGenericArguments().Select(t => new TypeModel(t)).ToList();
+            return method.GetGenericArguments().Select(TypeModel.EmitReference).ToList();
         }
 
         /// <summary>
@@ -94,7 +94,6 @@ namespace BusinessLogic.Model
             MethodInfo methodInfo = method as MethodInfo;
             if (methodInfo == null)
                 return null;
-            TypeModel.StoreType(methodInfo.ReturnType);
             return TypeModel.EmitReference(methodInfo.ReturnType);
         }
 
