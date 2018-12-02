@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BusinessLogic.Model
+namespace BusinessLogic.Model.Assembly
 {
-    [DataContract(IsReference = true)]
-    public class NamespaceModel
+    public class NamespaceModel 
     {
-        [DataMember]
         public string Name { get; set; }
         /// <summary>
         /// The List of types in the namespace
         /// </summary>
-        [DataMember]
         public List<TypeModel> Types { get; set; }
 
+        public NamespaceModel()
+        {
+            
+        }
         /// <summary>
         /// Constructor with name of the namespace and types as params 
         /// </summary>
@@ -28,6 +27,5 @@ namespace BusinessLogic.Model
             Name = name;
             Types = types.OrderBy(t => t.Name).Select(TypeModel.EmitType).ToList();
         }
-
     }
 }

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WPFApplication"
              xmlns:views="clr-namespace:WPFApplication.View"
-             xmlns:pages="clr-namespace:BusinessLogic.ViewModel.Pages;assembly=BusinessLogic"
              StartupUri="View/MainWindow.xaml" Startup="On_Startup">
     <Application.Resources>
     </Application.Resources>

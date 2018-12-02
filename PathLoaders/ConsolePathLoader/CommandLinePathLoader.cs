@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using System.IO;
-using BusinessLogic.ViewModel;
+using MEF;
 
 namespace ConsolePathLoader
 {

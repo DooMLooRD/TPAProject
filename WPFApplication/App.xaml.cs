@@ -10,12 +10,8 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using BusinessLogic.DI.Base;
-using BusinessLogic.Logging;
-using BusinessLogic.Serialization;
-using BusinessLogic.ViewModel;
-using BusinessLogic.ViewModel.Pages;
-using WPFApplication.View;
+using ViewModels.DI.Base;
+using ViewModels.Pages;
 
 
 namespace WPFApplication

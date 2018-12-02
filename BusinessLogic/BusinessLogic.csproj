@@ -48,50 +48,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DI\Base\IoC.cs" />
-    <Compile Include="Logging\Interfaces\ILogger.cs" />
-    <Compile Include="Logging\MessageStructure.cs" />
+    <Compile Include="Model\Assembly\AssemblyModel.cs" />
+    <Compile Include="Model\Assembly\MethodModifiers.cs" />
+    <Compile Include="Model\Assembly\TypeModifiers.cs" />
     <Compile Include="Model\Enums\AbstractEnum.cs" />
     <Compile Include="Model\Enums\AccessLevel.cs" />
-    <Compile Include="Model\Assembly\AssemblyModel.cs" />
+    <Compile Include="Model\Enums\SealedEnum.cs" />
+    <Compile Include="Model\Enums\StaticEnum.cs" />
     <Compile Include="Model\Enums\TypeEnum.cs" />
+    <Compile Include="Model\Enums\VirtualEnum.cs" />
     <Compile Include="Model\Assembly\ExtensionMethods.cs" />
     <Compile Include="Model\Assembly\MethodModel.cs" />
     <Compile Include="Model\Assembly\NamespaceModel.cs" />
     <Compile Include="Model\Assembly\ParameterModel.cs" />
     <Compile Include="Model\Assembly\PropertyModel.cs" />
-    <Compile Include="Model\Enums\SealedEnum.cs" />
-    <Compile Include="Model\Enums\StaticEnum.cs" />
     <Compile Include="Model\Assembly\TypeModel.cs" />
-    <Compile Include="Model\Enums\VirtualEnum.cs" />
+    <Compile Include="Model\DictionaryTypeSingleton.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reflection\DictionaryTypeSingleton.cs" />
     <Compile Include="Reflection\Reflector.cs" />
-    <Compile Include="Logging\Interfaces\ILogFactory.cs" />
-    <Compile Include="Logging\Enums\LogCategoryEnum.cs" />
-    <Compile Include="Logging\Enums\LogLevelEnum.cs" />
-    <Compile Include="Serialization\ISerializer.cs" />
-    <Compile Include="ViewModel\TreeViewItems\AssemblyTreeItem.cs" />
-    <Compile Include="ViewModel\Base\IPathLoader.cs" />
-    <Compile Include="ViewModel\Pages\MainWindowViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewItems\MethodTreeItem.cs" />
-    <Compile Include="ViewModel\TreeViewItems\NamespaceTreeItem.cs" />
-    <Compile Include="ViewModel\TreeViewItems\ParameterTreeItem.cs" />
-    <Compile Include="ViewModel\TreeViewItems\PropertyTreeItem.cs" />
-    <Compile Include="ViewModel\TreeViewItems\TreeViewItem.cs" />
-    <Compile Include="ViewModel\Base\BaseViewModel.cs" />
-    <Compile Include="ViewModel\Base\RelayCommand.cs" />
-    <Compile Include="ViewModel\TreeViewItems\TypeTreeItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
-      <Project>{61bd659d-ba46-450b-bde0-dd2229c86707}</Project>
-      <Name>DataLayer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

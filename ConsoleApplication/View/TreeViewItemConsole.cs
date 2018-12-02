@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using BusinessLogic.ViewModel.TreeViewItems;
+using ViewModels.TreeViewItems;
 
 
 namespace ConsoleApplication.View

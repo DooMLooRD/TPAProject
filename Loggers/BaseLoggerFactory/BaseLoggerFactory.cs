@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Configuration;
 using System.Linq;
-using BusinessLogic.Logging;
+using MEF;
 
 namespace BaseLoggerFactory
 {

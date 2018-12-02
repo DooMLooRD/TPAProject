@@ -1,6 +1,6 @@
 ﻿using System.Windows;
-using BusinessLogic.DI.Base;
-using BusinessLogic.ViewModel.Pages;
+using ViewModels.DI.Base;
+using ViewModels.Pages;
 
 namespace WPFApplication.View
 {

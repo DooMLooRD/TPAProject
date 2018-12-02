@@ -1,23 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BusinessLogic.Model
+﻿
+namespace BusinessLogic.Model.Assembly
 {
-    [DataContract(IsReference = true)]
     public class ParameterModel
     {
-        [DataMember]
         public string Name { get; set; }
         /// <summary>
         /// TypeModel of the parameter
         /// </summary>
-        [DataMember]
         public TypeModel Type { get; set; }
 
+        public ParameterModel()
+        {
+            
+        }
         /// <summary>
         /// Constructor with name and TypeModel as params
         /// </summary>
@@ -28,5 +23,8 @@ namespace BusinessLogic.Model
             Name = name;
             Type = typeModel;
         }
+
+
+
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BusinessLogic.Model;
 using BusinessLogic.Reflection;
-using BusinessLogic.Serialization;
+using DataLayer.Model.Assembly;
+using DataLayer.Model.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests
@@ -53,7 +53,7 @@ namespace UnitTests
 
             List<TypeModel> staticClasses = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary.NamespaceTwo").Types
-                .Where(t => t.Modifiers.Item4 == StaticEnum.Static).ToList();
+                .Where(t => t.Modifiers.StaticEnum == StaticEnum.Static).ToList();
 
             Assert.AreEqual(1, staticClasses.Count());
         }
@@ -68,7 +68,7 @@ namespace UnitTests
 
             List<TypeModel> abstractClasses = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types
-                .Where(t => t.Modifiers.Item3 == AbstractEnum.Abstract).ToList();
+                .Where(t => t.Modifiers.AbstractEnum == AbstractEnum.Abstract).ToList();
             Assert.AreEqual(2, abstractClasses.Count);
         }
 
@@ -121,7 +121,7 @@ namespace UnitTests
             AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
 
             List<TypeModel> publicClasses = model.NamespaceModels
-                .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Modifiers.Item1 == AccessLevel.Public).ToList();
+                .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Modifiers.AccessLevel == AccessLevel.Public).ToList();
             Assert.AreEqual(4, publicClasses.Count);
         }
 

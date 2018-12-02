@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BusinessLogic.Model;
+using BusinessLogic.Model.Assembly;
+using BusinessLogic.Model.Enums;
 using BusinessLogic.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -45,7 +46,7 @@ namespace UnitTests
             Reflector reflector = new Reflector(path);
             List<TypeModel> staticClasses = reflector.AssemblyModel.NamespaceModels
                 .Find(t => t.Name == "TestLibrary.NamespaceTwo").Types
-                .Where(t => t.Modifiers.Item4 == StaticEnum.Static).ToList();
+                .Where(t => t.Modifiers.StaticEnum == StaticEnum.Static).ToList();
             Assert.AreEqual(1, staticClasses.Count);
         }
 
@@ -55,7 +56,7 @@ namespace UnitTests
             Reflector reflector = new Reflector(path);
             List<TypeModel> abstractClasses = reflector.AssemblyModel.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types
-                .Where(t => t.Modifiers.Item3 == AbstractEnum.Abstract).ToList();
+                .Where(t => t.Modifiers.AbstractEnum == AbstractEnum.Abstract).ToList();
             Assert.AreEqual(2, abstractClasses.Count);
         }
 
@@ -92,7 +93,7 @@ namespace UnitTests
         {
             Reflector reflector = new Reflector(path);
             List<TypeModel> publicClasses = reflector.AssemblyModel.NamespaceModels
-                .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Modifiers.Item1 == AccessLevel.Public).ToList();
+                .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Modifiers.AccessLevel == AccessLevel.Public).ToList();
             Assert.AreEqual(4, publicClasses.Count);
         }
 

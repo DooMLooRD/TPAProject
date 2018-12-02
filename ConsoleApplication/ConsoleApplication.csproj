@@ -55,7 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helper\CommandLinePathLoader.cs" />
     <Compile Include="Converters\ItemTypeEnumToStringConverter.cs" />
     <Compile Include="Converters\ItemTypeToConsoleColorConverter.cs" />
     <Compile Include="Program.cs" />
@@ -71,6 +70,10 @@
     <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
       <Project>{90BC2271-CBD9-48C9-9A2A-1D32CAA58C08}</Project>
       <Name>BusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{1CF1CFD7-ACFD-453F-9E75-E15EFB30C1BB}</Project>
+      <Name>ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

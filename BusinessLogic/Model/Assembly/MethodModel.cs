@@ -4,46 +4,44 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+using BusinessLogic.Model.Enums;
 
-namespace BusinessLogic.Model
+
+namespace BusinessLogic.Model.Assembly
 {
-    [DataContract(IsReference = true)]
+    
     public class MethodModel
     {
-        [DataMember]
         public string Name { get; set; }
         /// <summary>
         /// List of Generic arguments
         /// </summary>
-        [DataMember]
         public List<TypeModel> GenericArguments { get; set; }
 
         /// <summary>
         /// Tuple of modifiers for method ( Access level, Abstract, Static, Virtual)
         /// </summary>
-        [DataMember]
-        public Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> Modifiers { get; set; }
+        public MethodModifiers Modifiers { get; set; }
 
         /// <summary>
         /// The type that method returns
         /// </summary>
-        [DataMember]
         public TypeModel ReturnType { get; set; }
 
         /// <summary>
         /// True if method is extension method 
         /// </summary>
-        [DataMember]
         public bool Extension { get; set; }
 
         /// <summary>
         /// Parameters of the method
         /// </summary>
-        [DataMember]
         public List<ParameterModel> Parameters { get; set; }
 
+        public MethodModel()
+        {
+            
+        }
         /// <summary>
         /// Constructor with MethodBase parameter
         /// </summary>
@@ -112,7 +110,7 @@ namespace BusinessLogic.Model
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        private static Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum> EmitModifiers(MethodBase method)
+        private static MethodModifiers EmitModifiers(MethodBase method)
         {
             AccessLevel access = method.IsPublic ? AccessLevel.Public :
                 method.IsFamily ? AccessLevel.Protected :
@@ -124,12 +122,19 @@ namespace BusinessLogic.Model
 
             VirtualEnum _virtual = method.IsVirtual ? VirtualEnum.Virtual : VirtualEnum.NotVirtual;
 
-            return new Tuple<AccessLevel, AbstractEnum, StaticEnum, VirtualEnum>(access, _abstract, _static, _virtual);
+            return new MethodModifiers()
+            {
+                AbstractEnum = _abstract,
+                StaticEnum = _static,
+                VirtualEnum = _virtual,
+                AccessLevel = access
+            };
         }
 
         public static List<MethodModel> EmitConstructors(Type type)
         {
             return type.GetConstructors().Select(t => new MethodModel(t)).ToList();
         }
+
     }
 }

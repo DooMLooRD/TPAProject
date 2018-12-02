@@ -108,16 +108,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{90bc2271-cbd9-48c9-9a2a-1d32caa58c08}</Project>
-      <Name>BusinessLogic</Name>
+    <ProjectReference Include="..\ViewModels\ViewModels.csproj">
+      <Project>{1CF1CFD7-ACFD-453F-9E75-E15EFB30C1BB}</Project>
+      <Name>ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Helper\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,47 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
-using BusinessLogic.Reflection;
+using BusinessLogic.Model.Enums;
 
 
-namespace BusinessLogic.Model
+namespace BusinessLogic.Model.Assembly
 {
-    [DataContract(IsReference = true)]
     public class TypeModel
     {
-        [DataMember]
         public string Name { get; set; }
-        [DataMember]
         public string AssemblyName { get; set; }
-        [DataMember]
         public bool IsExternal { get; set; } = true;
-        [DataMember]
         public bool IsGeneric { get; set; } 
-        [DataMember]
         public TypeModel BaseType { get; set; }
-        [DataMember]
         public List<TypeModel> GenericArguments { get; set; }
-        [DataMember]
-        public Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> Modifiers { get; set; }
-        [DataMember]
+        public TypeModifiers Modifiers { get; set; }
         public TypeEnum Type { get; set; }
-        [DataMember]
         public List<TypeModel> ImplementedInterfaces { get; set; }
-        [DataMember]
         public List<TypeModel> NestedTypes { get; set; }
-        [DataMember]
         public List<PropertyModel> Properties { get; set; }
-        [DataMember]
         public TypeModel DeclaringType { get; set; }
-        [DataMember]
         public List<MethodModel> Methods { get; set; }
-        [DataMember]
         public List<MethodModel> Constructors { get; set; }
-        [DataMember]
         public List<ParameterModel> Fields { get; set; }
 
+        public TypeModel()
+        {
+            
+        }
         private TypeModel(Type type)
         {
             Name = type.Name;
@@ -143,7 +129,7 @@ namespace BusinessLogic.Model
                    TypeEnum.Class;
         }
 
-        private static Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum> EmitModifiers(Type type)
+        private static TypeModifiers EmitModifiers(Type type)
         {
             AccessLevel _access = type.IsPublic || type.IsNestedPublic ? AccessLevel.Public :
                 type.IsNestedFamily ? AccessLevel.Protected :
@@ -158,9 +144,13 @@ namespace BusinessLogic.Model
                 _abstract = type.IsAbstract ? AbstractEnum.Abstract : AbstractEnum.NotAbstract;
             }
 
-
-
-            return new Tuple<AccessLevel, SealedEnum, AbstractEnum, StaticEnum>(_access, _sealed, _abstract, _static);
+            return new TypeModifiers()
+            {
+                AbstractEnum = _abstract,
+                AccessLevel = _access,
+                SealedEnum = _sealed,
+                StaticEnum = _static
+            };
         }
 
         private static TypeModel EmitExtends(Type baseType)
@@ -172,7 +162,6 @@ namespace BusinessLogic.Model
         private bool _isAnalyzed = false;
 
         #endregion
-
 
     }
 }

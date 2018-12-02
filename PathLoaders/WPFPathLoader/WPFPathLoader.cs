@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using BusinessLogic.ViewModel;
+using MEF;
 using Microsoft.Win32;
 
 namespace WPFPathLoader

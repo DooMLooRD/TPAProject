@@ -6,8 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using System.Windows.Media;
-using BusinessLogic.ViewModel;
-using BusinessLogic.ViewModel.TreeViewItems;
+using ViewModels.TreeViewItems;
 
 
 namespace WPFApplication.Converters

@@ -62,9 +62,13 @@
       <Project>{90bc2271-cbd9-48c9-9a2a-1d32caa58c08}</Project>
       <Name>BusinessLogic</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Serializers\XMLSerializer\XMLSerializer.csproj">
-      <Project>{21D60DEE-084F-4544-B36F-33D3659F36BC}</Project>
-      <Name>XMLSerializer</Name>
+    <ProjectReference Include="..\..\DataLayer\DataLayer.csproj">
+      <Project>{61BD659D-BA46-450B-BDE0-DD2229C86707}</Project>
+      <Name>DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MEF\MEF.csproj">
+      <Project>{930D0A86-922D-444F-9BA4-1D3F476C906D}</Project>
+      <Name>MEF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

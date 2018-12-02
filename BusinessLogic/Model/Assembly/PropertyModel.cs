@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BusinessLogic.Model
+
+namespace BusinessLogic.Model.Assembly
 {
-    [DataContract(IsReference = true)]
     public class PropertyModel
     {
-        [DataMember]
+
         public string Name { get; set; }
         /// <summary>
         /// TypeModel of the Property
         /// </summary>
-        [DataMember]
         public TypeModel Type { get; set; }
 
+        public PropertyModel()
+        {
+            
+        }
         /// <summary>
         /// Constructor with name and TypeModel as params
         /// </summary>
@@ -44,5 +45,6 @@ namespace BusinessLogic.Model
             return props.Where(t => t.GetGetMethod().GetVisible() || t.GetSetMethod().GetVisible())
                 .Select(t => new PropertyModel(t.Name, TypeModel.EmitReference(t.PropertyType))).ToList(); 
         }
+
     }
 }

@@ -50,6 +50,10 @@
       <Project>{90bc2271-cbd9-48c9-9a2a-1d32caa58c08}</Project>
       <Name>BusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\MEF\MEF.csproj">
+      <Project>{930D0A86-922D-444F-9BA4-1D3F476C906D}</Project>
+      <Name>MEF</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

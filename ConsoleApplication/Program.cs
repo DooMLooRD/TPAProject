@@ -8,15 +8,11 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using BusinessLogic.DI.Base;
-using BusinessLogic.Logging;
-using BusinessLogic.Serialization;
-using BusinessLogic.ViewModel;
-using BusinessLogic.ViewModel.Pages;
-using BusinessLogic.ViewModel.TreeViewItems;
 using ConsoleApplication.Converters;
-using ConsoleApplication.Helper;
 using ConsoleApplication.View;
+using ViewModels.DI.Base;
+using ViewModels.Pages;
+using ViewModels.TreeViewItems;
 
 namespace ConsoleApplication
 {
