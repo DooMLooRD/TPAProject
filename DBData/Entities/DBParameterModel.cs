@@ -7,14 +7,20 @@ using MEF;
 namespace DBData.Entities
 {
     [Table("ParameterModel")]
-    public partial class DBParameterModel : IModelMapper<ParameterModel, DBParameterModel>
+    public class DBParameterModel : IModelMapper<ParameterModel, DBParameterModel>
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+   
+        #region Constructor
+
         public DBParameterModel()
         {
             MethodParameters = new HashSet<DBMethodModel>();
             TypeFields = new HashSet<DBTypeModel>();
         }
+
+        #endregion
+
+        #region Properties
 
         public int Id { get; set; }
 
@@ -22,31 +28,36 @@ namespace DBData.Entities
         [StringLength(150)]
         public string Name { get; set; }
 
-        [StringLength(150)]
-        public string TypeId { get; set; }
-        [ForeignKey("TypeId")]
         public DBTypeModel Type { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        #endregion
+
+        #region Inverse Properties
+
         public virtual ICollection<DBMethodModel> MethodParameters { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DBTypeModel> TypeFields { get; set; }
+
+        #endregion
+
+        #region IModelMapper
 
         public ParameterModel MapUp(DBParameterModel model)
         {
             ParameterModel parameterModel = new ParameterModel();
             parameterModel.Name = model.Name;
-            if (model.Type != null)
-                parameterModel.Type = DBTypeModel.EmitType(model.Type);
+            parameterModel.Type = DBTypeModel.EmitType(model.Type);
             return parameterModel;
         }
 
         public DBParameterModel MapDown(ParameterModel model)
         {
             Name = model.Name;
-            Type = model.Type != null ? DBTypeModel.EmitDBType(model.Type) : null;
+            Type = DBTypeModel.EmitDBType(model.Type);
             return this;
         }
+
+        #endregion
+
     }
 }

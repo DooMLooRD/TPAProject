@@ -8,9 +8,11 @@ using MEF;
 namespace DBData.Entities
 {
     [Table("MethodModel")]
-    public partial class DBMethodModel : IModelMapper<MethodModel, DBMethodModel>
+    public class DBMethodModel : IModelMapper<MethodModel, DBMethodModel>
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+
+        #region Constructor
+
         public DBMethodModel()
         {
             GenericArguments = new HashSet<DBTypeModel>();
@@ -18,6 +20,10 @@ namespace DBData.Entities
             TypeConstructors = new HashSet<DBTypeModel>();
             TypeMethods = new HashSet<DBTypeModel>();
         }
+
+        #endregion
+
+        #region Propeties
 
         public int Id { get; set; }
 
@@ -28,37 +34,31 @@ namespace DBData.Entities
         public bool Extension { get; set; }
         public MethodModifiers Modifiers { get; set; }
 
-        [StringLength(150)]
-        public string ReturnTypeId { get; set; }
-        [ForeignKey("ReturnTypeId")]
         public virtual DBTypeModel ReturnType { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DBTypeModel> GenericArguments { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DBParameterModel> Parameters { get; set; }
 
+        #endregion
 
+        #region Inverse Properties
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DBTypeModel> TypeConstructors { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DBTypeModel> TypeMethods { get; set; }
+
+        #endregion
+
+        #region IModelMapper
 
         public MethodModel MapUp(DBMethodModel model)
         {
             MethodModel methodModel = new MethodModel();
             methodModel.Name = model.Name;
             methodModel.Extension = model.Extension;
-            if (model.GenericArguments != null)
-                methodModel.GenericArguments = model.GenericArguments.Select(c => DBTypeModel.EmitType(c)).ToList();
-            methodModel.Modifiers = model.Modifiers;
-            if (model.Parameters != null)
-                methodModel.Parameters = model.Parameters.Select(p => p.MapUp(p)).ToList();
-            if (model.ReturnType != null)
-                methodModel.ReturnType = DBTypeModel.EmitType(model.ReturnType);
+            methodModel.GenericArguments = model.GenericArguments?.Select(c => DBTypeModel.EmitType(c)).ToList();
+            methodModel.Modifiers = model.Modifiers ?? new MethodModifiers();
+            methodModel.Parameters = model.Parameters?.Select(p => p.MapUp(p)).ToList();
+            methodModel.ReturnType = DBTypeModel.EmitType(model.ReturnType);
             return methodModel;
         }
 
@@ -66,11 +66,14 @@ namespace DBData.Entities
         {
             Name = model.Name;
             Extension = model.Extension;
-            GenericArguments = model.GenericArguments != null ? model.GenericArguments.Select(c => DBTypeModel.EmitDBType(c)).ToList() : new List<DBTypeModel>();
+            GenericArguments = model.GenericArguments?.Select(c => DBTypeModel.EmitDBType(c)).ToList();
             Modifiers = model.Modifiers ?? new MethodModifiers();
-            Parameters = model.Parameters != null ? model.Parameters.Select(p => new DBParameterModel().MapDown(p)).ToList() : new List<DBParameterModel>();
-            ReturnType = model.ReturnType != null ? DBTypeModel.EmitDBType(model.ReturnType) : null;
+            Parameters = model.Parameters?.Select(p => new DBParameterModel().MapDown(p)).ToList();
+            ReturnType = DBTypeModel.EmitDBType(model.ReturnType);
             return this;
         }
+
+        #endregion
+
     }
 }

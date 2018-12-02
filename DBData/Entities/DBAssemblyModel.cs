@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using BusinessLogic.Model.Assembly;
 using MEF;
 
@@ -9,6 +10,8 @@ namespace DBData.Entities
     [Table("AssemblyModel")]
     public class DBAssemblyModel : IModelMapper<AssemblyModel, DBAssemblyModel>
     {
+        #region Properties
+
         public int Id { get; set; }
 
         [Required]
@@ -17,42 +20,26 @@ namespace DBData.Entities
 
         public List<DBNamespaceModel> NamespaceModels { get; set; }
 
+        #endregion
+
+        #region IModelMapper
+
         public AssemblyModel MapUp(DBAssemblyModel model)
         {
             AssemblyModel assemblyModel = new AssemblyModel();
             assemblyModel.Name = model.Name;
-            assemblyModel.NamespaceModels=new List<NamespaceModel>();
-            if(model.NamespaceModels != null)
-            {
-                foreach (DBNamespaceModel namespaceModel in model.NamespaceModels)
-                {
-                    assemblyModel.NamespaceModels.Add(new DBNamespaceModel().MapUp(namespaceModel));
-                }
-            }
-            else
-            {
-                assemblyModel.NamespaceModels = null;
-            }
+            assemblyModel.NamespaceModels = model.NamespaceModels?.Select(t => new DBNamespaceModel().MapUp(t)).ToList();
             return assemblyModel;
-
         }
 
         public DBAssemblyModel MapDown(AssemblyModel model)
         {
             Name = model.Name;
-            NamespaceModels = new List<DBNamespaceModel>();
-            if (model.NamespaceModels != null)
-            {
-                foreach (NamespaceModel namespaceModel in model.NamespaceModels)
-                {
-                    NamespaceModels.Add(new DBNamespaceModel().MapDown(namespaceModel));
-                }
-            }
-            else
-            {
-                NamespaceModels = null;
-            }
+            NamespaceModels = model.NamespaceModels?.Select(t=> new DBNamespaceModel().MapDown(t)).ToList();
             return this;
         }
+
+        #endregion
+
     }
 }

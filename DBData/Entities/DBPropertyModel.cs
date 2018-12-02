@@ -7,13 +7,19 @@ using MEF;
 namespace DBData.Entities
 {
     [Table("PropertyModel")]
-    public partial class DBPropertyModel : IModelMapper<PropertyModel, DBPropertyModel>
+    public class DBPropertyModel : IModelMapper<PropertyModel, DBPropertyModel>
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+
+        #region Constructor
+
         public DBPropertyModel()
         {
             TypeProperties = new HashSet<DBTypeModel>();
         }
+
+        #endregion
+
+        #region Properties
 
         public int Id { get; set; }
 
@@ -21,28 +27,34 @@ namespace DBData.Entities
         [StringLength(150)]
         public string Name { get; set; }
 
-        [StringLength(150)]
-        public string TypeId { get; set; }
-        [ForeignKey("TypeId")]
         public DBTypeModel Type { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        #endregion
+
+        #region Inverse Properties
+
         public virtual ICollection<DBTypeModel> TypeProperties { get; set; }
+
+        #endregion
+
+        #region IModelMapper
 
         public PropertyModel MapUp(DBPropertyModel model)
         {
             PropertyModel propertyModel = new PropertyModel();
             propertyModel.Name = model.Name;
-            if (model.Type != null)
-                propertyModel.Type = DBTypeModel.EmitType(model.Type);
+            propertyModel.Type = DBTypeModel.EmitType(model.Type);
             return propertyModel;
         }
 
         public DBPropertyModel MapDown(PropertyModel model)
         {
             Name = model.Name;
-            Type = model.Type != null ? DBTypeModel.EmitDBType(model.Type) : null;
+            Type = DBTypeModel.EmitDBType(model.Type);
             return this;
         }
+
+        #endregion
+
     }
 }

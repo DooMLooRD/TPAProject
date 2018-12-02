@@ -7,38 +7,40 @@ using MEF;
 
 namespace DBData.Entities
 {
-
-
     [Table("NamespaceModel")]
-    public partial class DBNamespaceModel : IModelMapper<NamespaceModel, DBNamespaceModel>
+    public class DBNamespaceModel : IModelMapper<NamespaceModel, DBNamespaceModel>
     {
+
+        #region Properties
+
         public int Id { get; set; }
 
-        [Required] [StringLength(150)] public string Name { get; set; }
+        [Required, StringLength(150)]
+        public string Name { get; set; }
 
         public List<DBTypeModel> Types { get; set; }
-        [StringLength(150)] public string AssemblyId { get; set; }
+
+        #endregion
+
+        #region IModelMapper
 
         public NamespaceModel MapUp(DBNamespaceModel model)
         {
             NamespaceModel namespaceModel = new NamespaceModel();
             namespaceModel.Name = model.Name;
-            if (model.Types != null)
-                namespaceModel.Types = model.Types.Select(c=>DBTypeModel.EmitType(c)).ToList();
+            namespaceModel.Types = model.Types?.Select(c => DBTypeModel.EmitType(c)).ToList();
             return namespaceModel;
         }
 
         public DBNamespaceModel MapDown(NamespaceModel model)
         {
             Name = model.Name;
-            Types = new List<DBTypeModel>();
-            foreach (TypeModel type in model.Types)
-            {
-                Types.Add(new DBTypeModel().MapDown(type));
-            }
-
+            Types = model.Types?.Select(t=> new DBTypeModel().MapDown(t)).ToList();
             return this;
         }
+
+        #endregion
+
     }
 
 }

@@ -14,6 +14,7 @@ namespace DBData
 
         public void Save(AssemblyModel _object, string path)
         {
+            Database.SetInitializer(new DropCreateDatabaseAlways<TPADBContext>());
             using (TPADBContext context = new TPADBContext())
             {
                 DBAssemblyModel assemblyModel = new DBAssemblyModel().MapDown(_object);
