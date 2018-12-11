@@ -1,4 +1,4 @@
-﻿namespace MEF
+﻿namespace ViewModels
 {
     public interface IPathLoader
     {

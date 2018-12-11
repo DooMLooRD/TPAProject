@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.ComponentModel.Composition;
+using System.Reflection;
 using BusinessLogic.Model.Assembly;
 
 namespace BusinessLogic.Reflection

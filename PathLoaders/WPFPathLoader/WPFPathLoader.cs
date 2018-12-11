@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.Composition;
 using System.Windows;
-using MEF;
 using Microsoft.Win32;
+using ViewModels;
 
 namespace WPFPathLoader
 {

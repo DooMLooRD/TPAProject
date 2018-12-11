@@ -1,6 +1,6 @@
-﻿using BusinessLogic.Model.Enums;
+﻿using DataLayer.DataModel.Enums;
 
-namespace BusinessLogic.Model.Assembly
+namespace DataLayer.DataModel
 {
     public class MethodModifiers
     {

@@ -2,9 +2,9 @@
 using System.ComponentModel.Composition;
 using System.Data.Entity;
 using System.Linq;
-using BusinessLogic.Model.Assembly;
+using DataLayer;
+using DataLayer.DataModel;
 using DBData.Entities;
-using MEF;
 
 namespace DBData
 {
@@ -12,18 +12,18 @@ namespace DBData
     public class DatabaseSerializer : ISerializer
     {
 
-        public void Save(AssemblyModel _object, string path)
+        public void Save(IAssemblyModel _object, string path)
         {
             Database.SetInitializer(new DropCreateDatabaseAlways<TPADBContext>());
             using (TPADBContext context = new TPADBContext())
             {
-                DBAssemblyModel assemblyModel = new DBAssemblyModel().MapDown(_object);
+                DBAssemblyModel assemblyModel =(DBAssemblyModel)_object;
                 context.AssemblyModel.Add(assemblyModel);
                 context.SaveChanges();
             }
         }
 
-        public AssemblyModel Read(string path)
+        public IAssemblyModel Read(string path)
         {
             using (TPADBContext context = new TPADBContext())
             {
@@ -65,8 +65,9 @@ namespace DBData
                 DBAssemblyModel dbAssemblyModel = context.AssemblyModel
                     .Include(a => a.NamespaceModels)
                     .ToList()[0];
-                return dbAssemblyModel?.MapUp(dbAssemblyModel);
+                return dbAssemblyModel;
             }
         }
+
     }
 }

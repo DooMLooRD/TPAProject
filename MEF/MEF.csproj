@@ -45,19 +45,10 @@
   <ItemGroup>
     <Compile Include="ILogFactory.cs" />
     <Compile Include="ILogger.cs" />
-    <Compile Include="IModelMapper.cs" />
-    <Compile Include="IPathLoader.cs" />
-    <Compile Include="ISerializer.cs" />
     <Compile Include="LogCategoryEnum.cs" />
     <Compile Include="LogLevelEnum.cs" />
     <Compile Include="MessageStructure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{90BC2271-CBD9-48C9-9A2A-1D32CAA58C08}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using BusinessLogic.Model.Assembly;
 
-
-namespace BusinessLogic.Model
+namespace BusinessLogic.Model.Assembly
 {
     public sealed class DictionaryTypeSingleton
     {

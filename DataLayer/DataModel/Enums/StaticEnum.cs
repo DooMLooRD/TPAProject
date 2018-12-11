@@ -1,4 +1,4 @@
-﻿namespace BusinessLogic.Model.Enums
+﻿namespace DataLayer.DataModel.Enums
 {
     /// <summary>
     /// Enum for static modifier

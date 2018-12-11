@@ -36,6 +36,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
@@ -49,6 +50,8 @@
     <Compile Include="Base\BaseViewModel.cs" />
     <Compile Include="Base\RelayCommand.cs" />
     <Compile Include="DI\Base\IoC.cs" />
+    <Compile Include="IInformationDisplay.cs" />
+    <Compile Include="IPathLoader.cs" />
     <Compile Include="Pages\MainWindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreeViewItems\AssemblyTreeItem.cs" />

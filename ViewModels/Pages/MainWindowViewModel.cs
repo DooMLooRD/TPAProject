@@ -1,8 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel.Composition;
+using System.ComponentModel.Composition.Hosting;
+using System.Configuration;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using BusinessLogic;
 using BusinessLogic.Reflection;
 using MEF;
 using Ninject;
@@ -26,8 +34,10 @@ namespace ViewModels.Pages
         public IPathLoader PathLoader { get; set; }
         [Import(typeof(ILogFactory))]
         public ILogFactory LoggerFactory { get; set; }
-        [Import(typeof(ISerializer))]
-        public ISerializer Serializer { get; set; }
+        [Import(typeof(IInformationDisplay))]
+        public IInformationDisplay DisplayInfo { get; set; }
+        [Import(typeof(IReflectionService))]
+        public IReflectionService Service { get; set; }
 
         #endregion
 
@@ -36,6 +46,7 @@ namespace ViewModels.Pages
         private Reflector _reflector;
         private AssemblyTreeItem _viewModelAssemblyMetadata;
         private string _pathVariable;
+        private ObservableCollection<TreeViewItem> _hierarchicalAreas;
 
         #endregion
 
@@ -43,7 +54,17 @@ namespace ViewModels.Pages
 
         [Inject]
         public string SerializePath { get; set; }
-        public ObservableCollection<TreeViewItem> HierarchicalAreas { get; set; }
+
+
+        public ObservableCollection<TreeViewItem> HierarchicalAreas
+        {
+            get => _hierarchicalAreas;
+            set
+            {
+                _hierarchicalAreas = value;
+                OnPropertyChanged(nameof(HierarchicalAreas));
+            }
+        }
 
         public string PathVariable
         {
@@ -61,9 +82,8 @@ namespace ViewModels.Pages
 
         public MainWindowViewModel()
         {
-            HierarchicalAreas = new ObservableCollection<TreeViewItem>();
-            OpenCommand = new RelayCommand(Open);
-            SaveCommand = new RelayCommand(Save);
+            OpenCommand = new RelayCommand(async () => await Task.Run(() => { Open(); }));
+            SaveCommand = new RelayCommand(async () => await Task.Run(() => { Save(); }));
         }
 
         #endregion
@@ -75,8 +95,9 @@ namespace ViewModels.Pages
             LoggerFactory.Log(new MessageStructure("Serialize started..."));
             if (SerializePath != null)
             {
-                Serializer.Save(_reflector.AssemblyModel, SerializePath);
+                Service.Save(_reflector.AssemblyModel, SerializePath);
                 LoggerFactory.Log(new MessageStructure("Serialize completed"), LogCategoryEnum.Success);
+                DisplayInfo.ShowInfo("Serialization Completed");
             }
             else
             {
@@ -109,7 +130,7 @@ namespace ViewModels.Pages
                     LoggerFactory.Log(new MessageStructure("Reflection success"), LogCategoryEnum.Success);
 
                     _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
-                    LoadTreeView();
+                    HierarchicalAreas = new ObservableCollection<TreeViewItem> { _viewModelAssemblyMetadata };
                 }
 
                 else if (path.Contains(".xml"))
@@ -120,7 +141,7 @@ namespace ViewModels.Pages
                     try
                     {
                         LoggerFactory.Log(new MessageStructure("Deserialization started..."));
-                        _reflector = new Reflector(Serializer.Read(path));
+                        _reflector = new Reflector(Service.Load(path));
                     }
                     catch (Exception e)
                     {
@@ -130,7 +151,7 @@ namespace ViewModels.Pages
                     LoggerFactory.Log(new MessageStructure("Deserialization success"), LogCategoryEnum.Success);
 
                     _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
-                    LoadTreeView();
+                    HierarchicalAreas = new ObservableCollection<TreeViewItem> { _viewModelAssemblyMetadata };
                 }
                 else
                     LoggerFactory.Log(new MessageStructure("Reflection failed"), LogCategoryEnum.Error);
@@ -142,13 +163,8 @@ namespace ViewModels.Pages
 
         }
 
-        private void LoadTreeView()
-        {
-            TreeViewItem rootItem = _viewModelAssemblyMetadata;
-            HierarchicalAreas.Add(rootItem);
-        }
 
         #endregion
-
+  
     }
 }

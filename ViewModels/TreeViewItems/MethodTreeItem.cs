@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using BusinessLogic.Model.Assembly;
-using BusinessLogic.Model.Enums;
 
 namespace ViewModels.TreeViewItems
 {
@@ -40,15 +39,7 @@ namespace ViewModels.TreeViewItems
         }
         public override string ToString()
         {
-            string type = String.Empty;
-            type += MethodModel.Modifiers.AccessLevel.ToString().ToLower() + " ";
-            type += MethodModel.Modifiers.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : String.Empty;
-            type += MethodModel.Modifiers.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : String.Empty;
-            type += MethodModel.Modifiers.VirtualEnum == VirtualEnum.Virtual ? VirtualEnum.Virtual.ToString().ToLower() + " " : String.Empty;
-            type += MethodModel.ReturnType != null ? MethodModel.ReturnType.Name +" " : String.Empty;
-            type += MethodModel.Name;
-            type += MethodModel.Extension ? " :Extension method" : String.Empty;
-            return type;
+            return MethodModel.ToString();
         }
     }
 }

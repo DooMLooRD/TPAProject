@@ -67,10 +67,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{90BC2271-CBD9-48C9-9A2A-1D32CAA58C08}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ViewModels\ViewModels.csproj">
       <Project>{1CF1CFD7-ACFD-453F-9E75-E15EFB30C1BB}</Project>
       <Name>ViewModels</Name>

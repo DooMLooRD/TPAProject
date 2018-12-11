@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization;
-using BusinessLogic.Model.Enums;
+using DataLayer.DataModel;
+using DataLayer.DataModel.Enums;
+using Ninject.Infrastructure.Language;
 
 
 namespace BusinessLogic.Model.Assembly
@@ -13,7 +14,7 @@ namespace BusinessLogic.Model.Assembly
         public string Name { get; set; }
         public string AssemblyName { get; set; }
         public bool IsExternal { get; set; } = true;
-        public bool IsGeneric { get; set; } 
+        public bool IsGeneric { get; set; }
         public TypeModel BaseType { get; set; }
         public List<TypeModel> GenericArguments { get; set; }
         public TypeModifiers Modifiers { get; set; }
@@ -25,10 +26,11 @@ namespace BusinessLogic.Model.Assembly
         public List<MethodModel> Methods { get; set; }
         public List<MethodModel> Constructors { get; set; }
         public List<ParameterModel> Fields { get; set; }
+        public List<TypeModel> Attributes { get; set; }
 
         public TypeModel()
         {
-            
+
         }
         private TypeModel(Type type)
         {
@@ -42,7 +44,7 @@ namespace BusinessLogic.Model.Assembly
             Type = GetTypeEnum(type);
             BaseType = EmitExtends(type.BaseType);
             Modifiers = EmitModifiers(type);
-            
+
             DeclaringType = EmitDeclaringType(type.DeclaringType);
             Constructors = MethodModel.EmitConstructors(type);
             Methods = MethodModel.EmitMethods(type);
@@ -51,6 +53,7 @@ namespace BusinessLogic.Model.Assembly
             GenericArguments = !type.IsGenericTypeDefinition ? null : EmitGenericArguments(type);
             Properties = PropertyModel.EmitProperties(type);
             Fields = EmitFields(type);
+            Attributes = EmitAttributes(type);
             IsExternal = false;
             _isAnalyzed = true;
         }
@@ -116,6 +119,14 @@ namespace BusinessLogic.Model.Assembly
 
             return nestedTypes.Select(EmitType).ToList();
         }
+
+        private List<TypeModel> EmitAttributes(Type type)
+        {
+            List<TypeModel> attributes = type.GetCustomAttributes(false)
+                .Select(a => new TypeModel(a.GetType())).ToList();
+
+            return attributes;
+        }
         private IEnumerable<TypeModel> EmitImplements(IEnumerable<Type> interfaces)
         {
             return from currentInterface in interfaces
@@ -133,8 +144,8 @@ namespace BusinessLogic.Model.Assembly
         {
             AccessLevel _access = type.IsPublic || type.IsNestedPublic ? AccessLevel.Public :
                 type.IsNestedFamily ? AccessLevel.Protected :
-                type.IsNestedFamANDAssem ? AccessLevel.Internal :
-                AccessLevel.Private;
+                type.IsNestedPrivate ? AccessLevel.Private :
+                AccessLevel.Internal;
             StaticEnum _static = type.IsSealed && type.IsAbstract ? StaticEnum.Static : StaticEnum.NotStatic;
             SealedEnum _sealed = SealedEnum.NotSealed;
             AbstractEnum _abstract = AbstractEnum.NotAbstract;
@@ -163,5 +174,25 @@ namespace BusinessLogic.Model.Assembly
 
         #endregion
 
+        public override string ToString()
+        {
+            string type = String.Empty;
+            if (Modifiers != null)
+            {
+                type += Modifiers.AccessLevel.ToString().ToLower() + " ";
+                type += Modifiers.SealedEnum == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : String.Empty;
+                type += Modifiers.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : String.Empty;
+                type += Modifiers.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : String.Empty;
+
+            }
+            type += Type != TypeEnum.None ? Type.ToString().ToLower() + " " : String.Empty;
+            type += Name;
+            if (IsGeneric)
+                type += " - generic type";
+            else if (IsExternal)
+                type += " - external assembly: " + AssemblyName;
+
+            return type;
+        }
     }
 }

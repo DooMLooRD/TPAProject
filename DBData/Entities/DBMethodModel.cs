@@ -1,14 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using BusinessLogic.Model.Assembly;
-using MEF;
+using DataLayer.DataModel;
 
 namespace DBData.Entities
 {
     [Table("MethodModel")]
-    public class DBMethodModel : IModelMapper<MethodModel, DBMethodModel>
+    public class DBMethodModel
     {
 
         #region Constructor
@@ -47,33 +45,7 @@ namespace DBData.Entities
         public virtual ICollection<DBTypeModel> TypeMethods { get; set; }
 
         #endregion
-
-        #region IModelMapper
-
-        public MethodModel MapUp(DBMethodModel model)
-        {
-            MethodModel methodModel = new MethodModel();
-            methodModel.Name = model.Name;
-            methodModel.Extension = model.Extension;
-            methodModel.GenericArguments = model.GenericArguments?.Select(c => DBTypeModel.EmitType(c)).ToList();
-            methodModel.Modifiers = model.Modifiers ?? new MethodModifiers();
-            methodModel.Parameters = model.Parameters?.Select(p => p.MapUp(p)).ToList();
-            methodModel.ReturnType = DBTypeModel.EmitType(model.ReturnType);
-            return methodModel;
-        }
-
-        public DBMethodModel MapDown(MethodModel model)
-        {
-            Name = model.Name;
-            Extension = model.Extension;
-            GenericArguments = model.GenericArguments?.Select(c => DBTypeModel.EmitDBType(c)).ToList();
-            Modifiers = model.Modifiers ?? new MethodModifiers();
-            Parameters = model.Parameters?.Select(p => new DBParameterModel().MapDown(p)).ToList();
-            ReturnType = DBTypeModel.EmitDBType(model.ReturnType);
-            return this;
-        }
-
-        #endregion
+     
 
     }
 }

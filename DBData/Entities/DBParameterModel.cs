@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using BusinessLogic.Model.Assembly;
-using MEF;
 
 namespace DBData.Entities
 {
     [Table("ParameterModel")]
-    public class DBParameterModel : IModelMapper<ParameterModel, DBParameterModel>
+    public class DBParameterModel 
     {
    
         #region Constructor
@@ -37,25 +35,6 @@ namespace DBData.Entities
         public virtual ICollection<DBMethodModel> MethodParameters { get; set; }
 
         public virtual ICollection<DBTypeModel> TypeFields { get; set; }
-
-        #endregion
-
-        #region IModelMapper
-
-        public ParameterModel MapUp(DBParameterModel model)
-        {
-            ParameterModel parameterModel = new ParameterModel();
-            parameterModel.Name = model.Name;
-            parameterModel.Type = DBTypeModel.EmitType(model.Type);
-            return parameterModel;
-        }
-
-        public DBParameterModel MapDown(ParameterModel model)
-        {
-            Name = model.Name;
-            Type = DBTypeModel.EmitDBType(model.Type);
-            return this;
-        }
 
         #endregion
 

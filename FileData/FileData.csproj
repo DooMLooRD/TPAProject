@@ -56,9 +56,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{90BC2271-CBD9-48C9-9A2A-1D32CAA58C08}</Project>
-      <Name>BusinessLogic</Name>
+    <ProjectReference Include="..\DataLayer\DataLayer.csproj">
+      <Project>{370C4201-A28B-442D-9C2A-3AC304159985}</Project>
+      <Name>DataLayer</Name>
     </ProjectReference>
     <ProjectReference Include="..\MEF\MEF.csproj">
       <Project>{930D0A86-922D-444F-9BA4-1D3F476C906D}</Project>

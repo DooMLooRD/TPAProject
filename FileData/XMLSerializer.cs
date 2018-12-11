@@ -1,20 +1,32 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.IO;
 using System.Runtime.Serialization;
-using BusinessLogic.Model.Assembly;
+using DataLayer;
+using DataLayer.DataModel;
 using FileData.XMLModel;
-using MEF;
+
 
 namespace FileData
 {
     [Export(typeof(ISerializer))]
     public class XMLSerializer : ISerializer
     {
-        public void Save(AssemblyModel _object, string path)
+        public void Save(IAssemblyModel _object, string path)
         {
-            XMLAssemblyModel assembly = new XMLAssemblyModel().MapDown(_object);
+            XMLAssemblyModel assembly = (XMLAssemblyModel)_object;
+            List<Type> knownTypes = new List<Type>
+            {
+                typeof(XMLTypeModel),
+                typeof(XMLNamespaceModel),
+                typeof(XMLMethodModel),
+                typeof(XMLParameterModel),
+                typeof(XMLPropertyModel)
+            };
+
             DataContractSerializer dataContractSerializer =
-                new DataContractSerializer(typeof(XMLAssemblyModel));
+                new DataContractSerializer(typeof(XMLAssemblyModel),knownTypes);
 
             using (FileStream fileStream = new FileStream(path, FileMode.Create))
             {
@@ -22,16 +34,25 @@ namespace FileData
             }
         }
 
-        public AssemblyModel Read(string path)
+        public IAssemblyModel Read(string path)
         {
             XMLAssemblyModel model;
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(XMLAssemblyModel));
+            List<Type> knownTypes = new List<Type>
+            {
+                typeof(XMLTypeModel),
+                typeof(XMLNamespaceModel),
+                typeof(XMLMethodModel),
+                typeof(XMLParameterModel),
+                typeof(XMLPropertyModel)
+            };
+
+            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(XMLAssemblyModel),knownTypes);
             using (FileStream fileStream = new FileStream(path, FileMode.Open))
             {
                 model = (XMLAssemblyModel)dataContractSerializer.ReadObject(fileStream);
             }
 
-            return model.MapUp(model);
+            return model;
         }
     }
 }

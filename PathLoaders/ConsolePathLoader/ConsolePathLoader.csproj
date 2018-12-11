@@ -46,13 +46,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{90bc2271-cbd9-48c9-9a2a-1d32caa58c08}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\MEF\MEF.csproj">
-      <Project>{930D0A86-922D-444F-9BA4-1D3F476C906D}</Project>
-      <Name>MEF</Name>
+    <ProjectReference Include="..\..\ViewModels\ViewModels.csproj">
+      <Project>{1CF1CFD7-ACFD-453F-9E75-E15EFB30C1BB}</Project>
+      <Name>ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

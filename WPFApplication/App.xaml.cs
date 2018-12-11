@@ -45,7 +45,7 @@ namespace WPFApplication
 
             try
             {
-                container.ComposeParts(obj);
+                container.SatisfyImportsOnce(obj);
             }
             catch (CompositionException compositionException)
             {

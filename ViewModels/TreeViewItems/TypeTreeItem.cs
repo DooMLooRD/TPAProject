@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using BusinessLogic.Model.Assembly;
-using BusinessLogic.Model.Enums;
 
 namespace ViewModels.TreeViewItems
 {
@@ -15,6 +14,13 @@ namespace ViewModels.TreeViewItems
 
         protected override void BuildTreeView(ObservableCollection<TreeViewItem> children)
         {
+            if (TypeData.Attributes != null)
+            {
+                foreach (TypeModel attribute in TypeData.Attributes)
+                {
+                    children.Add(new TypeTreeItem(attribute));
+                }
+            }
             if (TypeData.BaseType != null)
             {
                 children.Add(new TypeTreeItem(TypeData.BaseType));
@@ -72,27 +78,11 @@ namespace ViewModels.TreeViewItems
                     children.Add(new MethodTreeItem(methodModel));
                 }
             }
+
         }
         public override string ToString()
         {
-            string type = String.Empty;
-            if (TypeData.Modifiers != null)
-            {
-
-                type += TypeData.Modifiers.AccessLevel.ToString().ToLower() + " ";
-                type += TypeData.Modifiers.SealedEnum == SealedEnum.Sealed ? SealedEnum.Sealed.ToString().ToLower() + " " : String.Empty;
-                type += TypeData.Modifiers.AbstractEnum == AbstractEnum.Abstract ? AbstractEnum.Abstract.ToString().ToLower() + " " : String.Empty;
-                type += TypeData.Modifiers.StaticEnum == StaticEnum.Static ? StaticEnum.Static.ToString().ToLower() + " " : String.Empty;
-
-            }
-            type += TypeData.Type != TypeEnum.None ? TypeData.Type.ToString().ToLower() + " " : String.Empty;
-            type += TypeData.Name;
-            if (TypeData.IsGeneric)
-                type += " - generic type";
-            else if (TypeData.IsExternal)
-                type += " - external assembly: " + TypeData.AssemblyName;
-
-            return type;
+            return TypeData.ToString();
         }
     }
 }

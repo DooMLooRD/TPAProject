@@ -1,4 +1,4 @@
-﻿namespace BusinessLogic.Model.Enums
+﻿namespace DataLayer.DataModel.Enums
 {
     public enum TypeEnum
     {
