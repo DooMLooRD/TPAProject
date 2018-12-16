@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DataLayer.DataModel;
 
 namespace DBData.Entities
 {
     [Table("PropertyModel")]
-    public class DBPropertyModel
+    public class DBPropertyModel : BasePropertyModel
     {
 
         #region Constructor
@@ -23,9 +24,9 @@ namespace DBData.Entities
 
         [Required]
         [StringLength(150)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
-        public DBTypeModel Type { get; set; }
+        public new DBTypeModel Type { get; set; }
 
         #endregion
 

@@ -4,7 +4,7 @@ namespace DataLayer
 {
     public interface ISerializer
     {
-        void Save(IAssemblyModel _object, string path);
-        IAssemblyModel Read(string path);
+        void Save(BaseAssemblyModel _object, string path);
+        BaseAssemblyModel Read(string path);
     }
 }

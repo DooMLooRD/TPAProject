@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DataLayer.DataModel;
 
 namespace DBData.Entities
 {
     [Table("NamespaceModel")]
-    public class DBNamespaceModel 
+    public class DBNamespaceModel : BaseNamespaceModel
     {
 
         #region Properties
@@ -13,9 +14,9 @@ namespace DBData.Entities
         public int Id { get; set; }
 
         [Required, StringLength(150)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
-        public List<DBTypeModel> Types { get; set; }
+        public new List<DBTypeModel> Types { get; set; }
 
         #endregion
   

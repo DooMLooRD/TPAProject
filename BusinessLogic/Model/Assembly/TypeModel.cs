@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using DataLayer.DataModel;
 using DataLayer.DataModel.Enums;
-using Ninject.Infrastructure.Language;
 
 
 namespace BusinessLogic.Model.Assembly

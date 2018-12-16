@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,13 +42,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataModel\BaseMethodModel.cs" />
+    <Compile Include="DataModel\BaseNamespaceModel.cs" />
+    <Compile Include="DataModel\BaseParameterModel.cs" />
+    <Compile Include="DataModel\BasePropertyModel.cs" />
+    <Compile Include="DataModel\BaseTypeModel.cs" />
     <Compile Include="DataModel\Enums\AbstractEnum.cs" />
     <Compile Include="DataModel\Enums\AccessLevel.cs" />
     <Compile Include="DataModel\Enums\SealedEnum.cs" />
     <Compile Include="DataModel\Enums\StaticEnum.cs" />
     <Compile Include="DataModel\Enums\TypeEnum.cs" />
     <Compile Include="DataModel\Enums\VirtualEnum.cs" />
-    <Compile Include="DataModel\IAssemblyModel.cs" />
+    <Compile Include="DataModel\BaseAssemblyModel.cs" />
     <Compile Include="DataModel\MethodModifiers.cs" />
     <Compile Include="DataModel\TypeModifiers.cs" />
     <Compile Include="ISerializer.cs" />

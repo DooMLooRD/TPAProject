@@ -12,18 +12,18 @@ namespace DBData
     public class DatabaseSerializer : ISerializer
     {
 
-        public void Save(IAssemblyModel _object, string path)
+        public void Save(BaseAssemblyModel _object, string path)
         {
             Database.SetInitializer(new DropCreateDatabaseAlways<TPADBContext>());
             using (TPADBContext context = new TPADBContext())
             {
-                DBAssemblyModel assemblyModel =(DBAssemblyModel)_object;
+                DBAssemblyModel assemblyModel = (DBAssemblyModel)_object;
                 context.AssemblyModel.Add(assemblyModel);
                 context.SaveChanges();
             }
         }
 
-        public IAssemblyModel Read(string path)
+        public BaseAssemblyModel Read(string path)
         {
             using (TPADBContext context = new TPADBContext())
             {
@@ -69,5 +69,16 @@ namespace DBData
             }
         }
 
+        private void ClearDB()
+        {
+            using (TPADBContext context = new TPADBContext())
+            {
+                context.AssemblyModel.RemoveRange(context.AssemblyModel);
+                context.NamespaceModel.RemoveRange(context.NamespaceModel);
+                context.TypeModel.RemoveRange(context.TypeModel);
+                context.ParameterModel.RemoveRange(context.ParameterModel);
+                context.PropertyModel.RemoveRange(context.PropertyModel);
+            }
+        }
     }
 }

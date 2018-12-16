@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DataLayer.DataModel;
@@ -6,7 +7,8 @@ using DataLayer.DataModel;
 namespace DBData.Entities
 {
     [Table("AssemblyModel")]
-    public class DBAssemblyModel : IAssemblyModel
+    [Export(typeof(BaseAssemblyModel))]
+    public class DBAssemblyModel : BaseAssemblyModel
     {
         #region Properties
 
@@ -14,9 +16,9 @@ namespace DBData.Entities
 
         [Required]
         [StringLength(150)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
-        public List<DBNamespaceModel> NamespaceModels { get; set; }
+        public new List<DBNamespaceModel> NamespaceModels { get; set; }
 
         #endregion
 

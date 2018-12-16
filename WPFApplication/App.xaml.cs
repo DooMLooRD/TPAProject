@@ -39,13 +39,16 @@ namespace WPFApplication
                 if (Directory.Exists(pluginsCatalog))
                     directoryCatalogs.Add(new DirectoryCatalog(pluginsCatalog));
             }
-
+            //string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+            //UriBuilder uri = new UriBuilder(codeBase);
+            //string path = Uri.UnescapeDataString(uri.Path);
+            //directoryCatalogs.Add(new DirectoryCatalog(Path.GetDirectoryName(path)));
             AggregateCatalog catalog = new AggregateCatalog(directoryCatalogs);
             CompositionContainer container = new CompositionContainer(catalog);
 
             try
             {
-                container.SatisfyImportsOnce(obj);
+                container.ComposeParts(obj);
             }
             catch (CompositionException compositionException)
             {

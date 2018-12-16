@@ -36,8 +36,6 @@ namespace ViewModels.Pages
         public ILogFactory LoggerFactory { get; set; }
         [Import(typeof(IInformationDisplay))]
         public IInformationDisplay DisplayInfo { get; set; }
-        [Import(typeof(IReflectionService))]
-        public IReflectionService Service { get; set; }
 
         #endregion
 
@@ -54,7 +52,8 @@ namespace ViewModels.Pages
 
         [Inject]
         public string SerializePath { get; set; }
-
+        [ImportMany(typeof(LogicService))]
+        public IEnumerable<LogicService> Service { get; set; }
 
         public ObservableCollection<TreeViewItem> HierarchicalAreas
         {
@@ -95,7 +94,7 @@ namespace ViewModels.Pages
             LoggerFactory.Log(new MessageStructure("Serialize started..."));
             if (SerializePath != null)
             {
-                Service.Save(_reflector.AssemblyModel, SerializePath);
+                Service.ToList().FirstOrDefault()?.Save(_reflector.AssemblyModel, SerializePath);
                 LoggerFactory.Log(new MessageStructure("Serialize completed"), LogCategoryEnum.Success);
                 DisplayInfo.ShowInfo("Serialization Completed");
             }
@@ -141,7 +140,7 @@ namespace ViewModels.Pages
                     try
                     {
                         LoggerFactory.Log(new MessageStructure("Deserialization started..."));
-                        _reflector = new Reflector(Service.Load(path));
+                        _reflector = new Reflector(Service.ToList().FirstOrDefault()?.Load(path));
                     }
                     catch (Exception e)
                     {

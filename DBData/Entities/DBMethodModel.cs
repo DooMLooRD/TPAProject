@@ -6,15 +6,15 @@ using DataLayer.DataModel;
 namespace DBData.Entities
 {
     [Table("MethodModel")]
-    public class DBMethodModel
+    public class DBMethodModel : BaseMethodModel
     {
 
         #region Constructor
 
         public DBMethodModel()
         {
-            GenericArguments = new HashSet<DBTypeModel>();
-            Parameters = new HashSet<DBParameterModel>();
+            GenericArguments= new List<DBTypeModel>();
+            Parameters=new List<DBParameterModel>();
             TypeConstructors = new HashSet<DBTypeModel>();
             TypeMethods = new HashSet<DBTypeModel>();
         }
@@ -27,14 +27,14 @@ namespace DBData.Entities
 
         [Required]
         [StringLength(150)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
-        public bool Extension { get; set; }
-        public MethodModifiers Modifiers { get; set; }
+        public override bool Extension { get; set; }
+        public override MethodModifiers Modifiers { get; set; }
 
-        public virtual DBTypeModel ReturnType { get; set; }
-        public virtual ICollection<DBTypeModel> GenericArguments { get; set; }
-        public virtual ICollection<DBParameterModel> Parameters { get; set; }
+        public new DBTypeModel ReturnType { get; set; }
+        public new List<DBTypeModel> GenericArguments { get; set; }
+        public new List<DBParameterModel> Parameters { get; set; }
 
         #endregion
 

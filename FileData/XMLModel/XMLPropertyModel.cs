@@ -1,11 +1,15 @@
 ﻿using System.Runtime.Serialization;
+using DataLayer.DataModel;
 
 namespace FileData.XMLModel
 {
     [DataContract(IsReference = true)]
-    public class XMLPropertyModel 
+    public class XMLPropertyModel : BasePropertyModel
     {
-        [DataMember] public string Name { get; set; }
-        [DataMember] public XMLTypeModel Type { get; set; }
+
+        [DataMember] public override string Name { get; set; }
+
+        [DataMember] public new XMLTypeModel Type { get; set; }
+
     }
 }

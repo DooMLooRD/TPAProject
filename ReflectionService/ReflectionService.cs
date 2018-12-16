@@ -19,12 +19,12 @@ namespace ReflectionService
 
         public void Save(AssemblyModel model, string path)
         {
-            Serializer.ToList()[0].Save(Mapper.MapDown(model), path);
+            Serializer.ToList().FirstOrDefault()?.Save(Mapper.MapDown(model), path);
         }
 
         public AssemblyModel Load(string path)
         {
-            return Mapper.MapUp(Serializer.ToList()[0].Read(path));
+            return Mapper.MapUp(Serializer.ToList().FirstOrDefault()?.Read(path));
         }
     }
 }

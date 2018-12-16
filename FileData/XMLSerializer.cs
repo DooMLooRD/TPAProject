@@ -13,20 +13,11 @@ namespace FileData
     [Export(typeof(ISerializer))]
     public class XMLSerializer : ISerializer
     {
-        public void Save(IAssemblyModel _object, string path)
+        public void Save(BaseAssemblyModel _object, string path)
         {
             XMLAssemblyModel assembly = (XMLAssemblyModel)_object;
-            List<Type> knownTypes = new List<Type>
-            {
-                typeof(XMLTypeModel),
-                typeof(XMLNamespaceModel),
-                typeof(XMLMethodModel),
-                typeof(XMLParameterModel),
-                typeof(XMLPropertyModel)
-            };
-
             DataContractSerializer dataContractSerializer =
-                new DataContractSerializer(typeof(XMLAssemblyModel),knownTypes);
+                new DataContractSerializer(typeof(XMLAssemblyModel));
 
             using (FileStream fileStream = new FileStream(path, FileMode.Create))
             {
@@ -34,19 +25,11 @@ namespace FileData
             }
         }
 
-        public IAssemblyModel Read(string path)
+        public BaseAssemblyModel Read(string path)
         {
             XMLAssemblyModel model;
-            List<Type> knownTypes = new List<Type>
-            {
-                typeof(XMLTypeModel),
-                typeof(XMLNamespaceModel),
-                typeof(XMLMethodModel),
-                typeof(XMLParameterModel),
-                typeof(XMLPropertyModel)
-            };
 
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(XMLAssemblyModel),knownTypes);
+            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(XMLAssemblyModel));
             using (FileStream fileStream = new FileStream(path, FileMode.Open))
             {
                 model = (XMLAssemblyModel)dataContractSerializer.ReadObject(fileStream);

@@ -7,7 +7,7 @@ using DataLayer.DataModel.Enums;
 namespace DBData.Entities
 {
     [Table("TypeModel")]
-    public class DBTypeModel 
+    public class DBTypeModel : BaseTypeModel
     {
 
         #region Constructor
@@ -15,16 +15,17 @@ namespace DBData.Entities
         public DBTypeModel()
         {
             MethodGenericArguments = new HashSet<DBMethodModel>();
-            Constructors = new HashSet<DBMethodModel>();
-            Fields = new HashSet<DBParameterModel>();
             TypeGenericArguments = new HashSet<DBTypeModel>();
-            GenericArguments = new HashSet<DBTypeModel>();
             TypeImplementedInterfaces = new HashSet<DBTypeModel>();
-            ImplementedInterfaces = new HashSet<DBTypeModel>();
-            Methods = new HashSet<DBMethodModel>();
             TypeNestedTypes = new HashSet<DBTypeModel>();
-            NestedTypes = new HashSet<DBTypeModel>();
-            Properties = new HashSet<DBPropertyModel>();
+            Constructors=new List<DBMethodModel>();
+            Fields=new List<DBParameterModel>();
+            GenericArguments=new List<DBTypeModel>();
+            ImplementedInterfaces=new List<DBTypeModel>();
+            Methods=new List<DBMethodModel>();
+            NestedTypes=new List<DBTypeModel>();
+            Properties=new List<DBPropertyModel>();
+
         }
 
         #endregion
@@ -32,37 +33,36 @@ namespace DBData.Entities
         #region Properties
 
         [Key, StringLength(150)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
-        [StringLength(150)]
-        public string AssemblyName { get; set; }
+        public override string AssemblyName { get; set; }
 
-        public bool IsExternal { get; set; }
+        public override bool IsExternal { get; set; }
 
-        public bool IsGeneric { get; set; }
+        public override bool IsGeneric { get; set; }
 
-        public DBTypeModel BaseType { get; set; }
+        public new DBTypeModel BaseType { get; set; }
 
-        public TypeEnum Type { get; set; }
-        public DBTypeModel DeclaringType { get; set; }
+        public override TypeEnum Type { get; set; }
+        public new DBTypeModel DeclaringType { get; set; }
 
-        public TypeModifiers Modifiers { get; set; }
+        public override TypeModifiers Modifiers { get; set; }
 
         public int? NamespaceId { get; set; }
 
-        public virtual ICollection<DBMethodModel> Constructors { get; set; }
+        public new List<DBMethodModel> Constructors { get; set; }
 
-        public virtual ICollection<DBParameterModel> Fields { get; set; }
+        public new List<DBParameterModel> Fields { get; set; }
 
-        public virtual ICollection<DBTypeModel> GenericArguments { get; set; }
+        public new List<DBTypeModel> GenericArguments { get; set; }
 
-        public virtual ICollection<DBTypeModel> ImplementedInterfaces { get; set; }
+        public new List<DBTypeModel> ImplementedInterfaces { get; set; }
 
-        public virtual ICollection<DBMethodModel> Methods { get; set; }
+        public new List<DBMethodModel> Methods { get; set; }
 
-        public virtual ICollection<DBTypeModel> NestedTypes { get; set; }
+        public new List<DBTypeModel> NestedTypes { get; set; }
 
-        public virtual ICollection<DBPropertyModel> Properties { get; set; }
+        public new List<DBPropertyModel> Properties { get; set; }
 
         #endregion
 
