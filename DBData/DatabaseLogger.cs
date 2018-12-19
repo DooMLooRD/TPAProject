@@ -6,7 +6,6 @@ using MEF;
 namespace DBData
 {
     [Export(typeof(ILogger))]
-    [ExportMetadata("Logger", "Database")]
     public class DatabaseLogger : ILogger
     {
         public void Log(MessageStructure message, LogCategoryEnum level)

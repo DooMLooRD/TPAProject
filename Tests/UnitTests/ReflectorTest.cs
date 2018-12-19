@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using BusinessLogic.Model.Assembly;
-using BusinessLogic.Model.Enums;
 using BusinessLogic.Reflection;
+using DataLayer.DataModel.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTests

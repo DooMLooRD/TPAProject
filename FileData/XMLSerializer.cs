@@ -28,7 +28,8 @@ namespace FileData
         public BaseAssemblyModel Read(string path)
         {
             XMLAssemblyModel model;
-
+            if (!File.Exists(path))
+                throw new ArgumentException("File not exist");
             DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(XMLAssemblyModel));
             using (FileStream fileStream = new FileStream(path, FileMode.Open))
             {

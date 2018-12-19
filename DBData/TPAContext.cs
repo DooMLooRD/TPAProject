@@ -5,12 +5,11 @@ namespace DBData
 {
 
 
-    public  class TPADBContext : DbContext
+    public class TPADBContext : DbContext
     {
-        private const string connectionString =
-            @"data source=(LocalDb)\MSSQLLocalDB;initial catalog=DBData.TPAContext;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework";
+
         public TPADBContext()
-            : base(connectionString)
+                   : base("TPADb")
         {
         }
 

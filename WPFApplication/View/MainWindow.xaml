@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFApplication"
         xmlns:converter="clr-namespace:WPFApplication.Converters"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="668.4" Width="800">
     <Grid>
@@ -20,9 +21,15 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0" Padding="0 5" Margin="20 10 20 0"  Content="Open" Command="{Binding OpenCommand}"/>
-                    <Button Grid.Column="1" Padding="0 5" Margin="20 10 20 0"  Content="Save" Command="{Binding SaveCommand}"/>
+                    <Button Grid.Column="0" Padding="0 5" Margin="20 20 20 20"  Content="Open" Command="{Binding OpenCommand}"/>
+                    <StackPanel Grid.Column="1">
+                        <Button  Padding="0 5" Margin="20 10 20 0"  Content="Save" Command="{Binding SaveCommand}"/>
+                        <Button  Padding="0 5" Margin="20 10 20 0"  Content="Load" Command="{Binding LoadCommand}"/>
+                        
 
+                        
+                    </StackPanel>
+                    
                 </Grid>
 
                 <Border Grid.Row="1" BorderThickness="1" BorderBrush="Black" Margin="20 10" Padding="10">
@@ -31,9 +38,11 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="Tree View" FontWeight="Bold" FontSize="13" Margin="0 20"/>
                             <TextBlock Grid.Column="1" Text="{Binding Mode=OneWay,Path=PathVariable,UpdateSourceTrigger=PropertyChanged}" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                            <xctk:BusyIndicator Grid.Column="2"  IsBusy="{Binding IsBusy, FallbackValue=true}" BusyContent="{Binding BusyContent}" HorizontalAlignment="Right" />
                         </Grid>
                         <TreeView x:Name="TreeView" RenderTransformOrigin="0.5 0.5" Height="422" ItemsSource="{Binding HierarchicalAreas}">
                             <TreeView.ItemTemplate>

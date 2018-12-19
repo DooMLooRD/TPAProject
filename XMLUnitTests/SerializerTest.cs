@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using BusinessLogic.Mapper;
+using BusinessLogic.Model.Assembly;
 using BusinessLogic.Reflection;
-using DataLayer.Model.Assembly;
-using DataLayer.Model.Enums;
+using DataLayer.DataModel;
+using DataLayer.DataModel.Enums;
+using FileData;
+using FileData.XMLModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests
+namespace XMLUnitTests
 {
     [TestClass]
     public class SerializerTest
     {
         private string path = "test.xml";
-        private string reflectorPath = @"..\..\..\LibraryForTests\bin\Debug\LibraryForTests.dll";
-
+        private string reflectorPath = @"..\..\..\Tests\LibraryForTests\bin\Debug\LibraryForTests.dll";
+        private BaseAssemblyModel assemblyModel = new XMLAssemblyModel();
         [TestMethod]
         public void CheckAmountOfNamespaces()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel,assemblyModel.GetType()),path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
             Assert.AreEqual(3, model.NamespaceModels.Count);
         }
 
@@ -28,9 +31,9 @@ namespace UnitTests
         public void CheckAmountOfClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> testLibraryTypes =
                 model.NamespaceModels.Find(t => t.Name == "TestLibrary").Types;
@@ -47,9 +50,9 @@ namespace UnitTests
         public void CheckAmountOfStaticClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> staticClasses = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary.NamespaceTwo").Types
@@ -62,9 +65,9 @@ namespace UnitTests
         public void CheckAmountOfAbstractClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> abstractClasses = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types
@@ -76,9 +79,9 @@ namespace UnitTests
         public void CheckAmountOfClassesWithGenericArguments()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> genericClasses = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary.NamespaceTwo").Types.Where(t => t.GenericArguments != null)
@@ -90,9 +93,9 @@ namespace UnitTests
         public void CheckAmountOfInterfaces()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> interfaces = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Type == TypeEnum.Interface).ToList();
@@ -103,9 +106,9 @@ namespace UnitTests
         public void CheckAmountOfClassesWithBaseType()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> classesWithBaseType = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.BaseType != null).ToList();
@@ -116,9 +119,9 @@ namespace UnitTests
         public void CheckAmountOfPublicClasses()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> publicClasses = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Modifiers.AccessLevel == AccessLevel.Public).ToList();
@@ -129,9 +132,9 @@ namespace UnitTests
         public void CheckAmountOfClassesWithImplementedInterfaces()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> classesWithImplementedInterfaces = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.ImplementedInterfaces.Count > 0).ToList();
@@ -142,9 +145,9 @@ namespace UnitTests
         public void CheckAmountOfClassesWithNestedTypes()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> classesWithNestedTypes = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary.NamespaceTwo").Types.Where(t => t.NestedTypes.Count > 0).ToList();
@@ -155,9 +158,9 @@ namespace UnitTests
         public void CheckAmountOfPropertiesInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> classes = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Name == "PublicClass").ToList();
@@ -168,9 +171,9 @@ namespace UnitTests
         public void CheckAmountOfMethodsInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> classes = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Name == "PublicClass").ToList();
@@ -181,9 +184,9 @@ namespace UnitTests
         public void CheckAmountOfConstructorsInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> classes = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Name == "PublicClass").ToList();
@@ -194,9 +197,9 @@ namespace UnitTests
         public void CheckAmountOfFieldsInClass()
         {
             Reflector reflector = new Reflector(reflectorPath);
-            XMLSerializer.XMLSerializer xmlSerialization = new XMLSerializer.XMLSerializer();
-            xmlSerialization.Serialize(reflector.AssemblyModel, path);
-            AssemblyModel model = xmlSerialization.Deserialize<AssemblyModel>(path);
+            XMLSerializer xmlSerialization = new XMLSerializer();
+            xmlSerialization.Save(AssemblyModelMapper.MapDown(reflector.AssemblyModel, assemblyModel.GetType()), path);
+            AssemblyModel model = AssemblyModelMapper.MapUp(xmlSerialization.Read(path));
 
             List<TypeModel> classes = model.NamespaceModels
                 .Find(t => t.Name == "TestLibrary").Types.Where(t => t.Name == "PublicClass").ToList();

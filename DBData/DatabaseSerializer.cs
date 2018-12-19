@@ -14,7 +14,7 @@ namespace DBData
 
         public void Save(BaseAssemblyModel _object, string path)
         {
-            Database.SetInitializer(new DropCreateDatabaseAlways<TPADBContext>());
+            ClearDB();
             using (TPADBContext context = new TPADBContext())
             {
                 DBAssemblyModel assemblyModel = (DBAssemblyModel)_object;
@@ -27,10 +27,9 @@ namespace DBData
         {
             using (TPADBContext context = new TPADBContext())
             {
-                context.ParameterModel
-                    .Include(p => p.Type)
-                    .Include(p => p.TypeFields)
-                    .Include(p => p.MethodParameters)
+                context.Configuration.ProxyCreationEnabled = false;
+                context.NamespaceModel
+                    .Include(n => n.Types)
                     .Load();
                 context.TypeModel
                     .Include(t => t.Constructors)
@@ -46,6 +45,13 @@ namespace DBData
                     .Include(t => t.TypeImplementedInterfaces)
                     .Include(t => t.TypeNestedTypes)
                     .Include(t => t.MethodGenericArguments)
+                    .Include(t => t.TypeBaseTypes)
+                    .Include(t=> t.TypeDeclaringTypes)
+                    .Load();
+                context.ParameterModel
+                    .Include(p => p.Type)
+                    .Include(p => p.TypeFields)
+                    .Include(p => p.MethodParameters)
                     .Load();
                 context.MethodModel
                     .Include(m => m.GenericArguments)
@@ -58,13 +64,13 @@ namespace DBData
                     .Include(p => p.Type)
                     .Include(p => p.TypeProperties)
                     .Load();
-                context.NamespaceModel
-                    .Include(n => n.Types)
-                    .Load();
+
 
                 DBAssemblyModel dbAssemblyModel = context.AssemblyModel
                     .Include(a => a.NamespaceModels)
-                    .ToList()[0];
+                    .ToList().FirstOrDefault();
+                if (dbAssemblyModel == null)
+                    throw new ArgumentException("Database is empty");
                 return dbAssemblyModel;
             }
         }
@@ -73,11 +79,13 @@ namespace DBData
         {
             using (TPADBContext context = new TPADBContext())
             {
-                context.AssemblyModel.RemoveRange(context.AssemblyModel);
-                context.NamespaceModel.RemoveRange(context.NamespaceModel);
-                context.TypeModel.RemoveRange(context.TypeModel);
-                context.ParameterModel.RemoveRange(context.ParameterModel);
-                context.PropertyModel.RemoveRange(context.PropertyModel);
+                context.Database.ExecuteSqlCommand("DELETE FROM ParameterModel WHERE ID != -1");
+                context.Database.ExecuteSqlCommand("DELETE FROM PropertyModel WHERE ID != -1");
+                context.Database.ExecuteSqlCommand("DELETE FROM MethodModel WHERE ID != -1");
+                context.Database.ExecuteSqlCommand("DELETE FROM TypeModel ");
+                context.Database.ExecuteSqlCommand("DELETE FROM NamespaceModel WHERE ID != -1");
+                context.Database.ExecuteSqlCommand("DELETE FROM AssemblyModel WHERE ID != -1");
+                context.SaveChanges();
             }
         }
     }

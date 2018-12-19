@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILogFactory.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="LogCategoryEnum.cs" />
     <Compile Include="LogLevelEnum.cs" />

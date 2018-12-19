@@ -25,6 +25,7 @@ namespace ViewModels.Pages
 
         public ICommand OpenCommand { get; }
         public ICommand SaveCommand { get; }
+        public ICommand LoadCommand { get; }
 
         #endregion
 
@@ -32,8 +33,8 @@ namespace ViewModels.Pages
 
         [Import(typeof(IPathLoader))]
         public IPathLoader PathLoader { get; set; }
-        [Import(typeof(ILogFactory))]
-        public ILogFactory LoggerFactory { get; set; }
+        [Import(typeof(ILogger))]
+        public ILogger Logger { get; set; }
         [Import(typeof(IInformationDisplay))]
         public IInformationDisplay DisplayInfo { get; set; }
 
@@ -45,13 +46,12 @@ namespace ViewModels.Pages
         private AssemblyTreeItem _viewModelAssemblyMetadata;
         private string _pathVariable;
         private ObservableCollection<TreeViewItem> _hierarchicalAreas;
+        private bool _isBusy;
+        private string _busyContent;
 
         #endregion
 
         #region Properties
-
-        [Inject]
-        public string SerializePath { get; set; }
         [ImportMany(typeof(LogicService))]
         public IEnumerable<LogicService> Service { get; set; }
 
@@ -75,6 +75,25 @@ namespace ViewModels.Pages
             }
         }
 
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged(nameof(IsBusy));
+            }
+        }
+        public string BusyContent
+        {
+            get => _busyContent;
+            set
+            {
+                _busyContent = value;
+                OnPropertyChanged(nameof(BusyContent));
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -83,6 +102,33 @@ namespace ViewModels.Pages
         {
             OpenCommand = new RelayCommand(async () => await Task.Run(() => { Open(); }));
             SaveCommand = new RelayCommand(async () => await Task.Run(() => { Save(); }));
+            LoadCommand = new RelayCommand(async () => await Task.Run(() => { Load(); }));
+        }
+
+        private void Load()
+        {
+            BusyContent = "Loading...";
+            IsBusy = true;
+            Logger.Log(new MessageStructure("Deserialization started..."));
+            string path = ConfigurationManager.AppSettings["serializationFilename"];
+            try
+            {               
+                _reflector = new Reflector(Service.ToList().FirstOrDefault()?.Load(path));
+
+                IsBusy = false;
+                Logger.Log(new MessageStructure("Deserialization success"), LogCategoryEnum.Success);
+                DisplayInfo.ShowInfo("Deserialization success");
+
+                _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
+                HierarchicalAreas = new ObservableCollection<TreeViewItem> { _viewModelAssemblyMetadata };
+            }
+            catch (Exception e)
+            {
+                IsBusy = false;
+                Logger.Log(new MessageStructure("Deserialization failed "+e.Message), LogCategoryEnum.Error);
+                DisplayInfo.ShowInfo("Deserialization failed "+e.Message);
+            }
+
         }
 
         #endregion
@@ -91,79 +137,65 @@ namespace ViewModels.Pages
 
         private void Save()
         {
-            LoggerFactory.Log(new MessageStructure("Serialize started..."));
-            if (SerializePath != null)
+            BusyContent = "Saving...";
+            IsBusy = true;
+            Logger.Log(new MessageStructure("Serialize started..."));
+            string serializePath = ConfigurationManager.AppSettings["serializationFilename"];
+            if (serializePath != null)
             {
-                Service.ToList().FirstOrDefault()?.Save(_reflector.AssemblyModel, SerializePath);
-                LoggerFactory.Log(new MessageStructure("Serialize completed"), LogCategoryEnum.Success);
+                Service.ToList().FirstOrDefault()?.Save(_reflector.AssemblyModel, serializePath);
+                IsBusy = false;
+                Logger.Log(new MessageStructure("Serialization completed"), LogCategoryEnum.Success);
                 DisplayInfo.ShowInfo("Serialization Completed");
             }
             else
             {
-                LoggerFactory.Log(new MessageStructure("Serialize failed-Path is null"), LogCategoryEnum.Error);
+                IsBusy = false;
+                Logger.Log(new MessageStructure("Serialization failed-Path is null"), LogCategoryEnum.Error);
+                DisplayInfo.ShowInfo("Serialization failed - path is null");
             }
-
+            
         }
         private void Open()
         {
-            LoggerFactory.Log(new MessageStructure("Loading Path..."));
+            BusyContent = "Opening...";
+            IsBusy = true;
+            Logger.Log(new MessageStructure("Loading Path..."));
 
             string path = PathLoader.LoadPath();
-            if (path != null)
+            if (path != null && path.Contains(".dll"))
             {
-                if (path.Contains(".dll"))
+
+                Logger.Log(new MessageStructure("Path Loaded"), LogCategoryEnum.Success);
+
+                PathVariable = path;
+                try
                 {
-                    LoggerFactory.Log(new MessageStructure("Path Loaded"), LogCategoryEnum.Success);
-
-                    PathVariable = path;
-                    try
-                    {
-                        LoggerFactory.Log(new MessageStructure("Reflection started..."));
-                        _reflector = new Reflector(Assembly.LoadFrom(PathVariable));
-                    }
-                    catch (Exception e)
-                    {
-                        LoggerFactory.Log(new MessageStructure("Reflection failed"), LogCategoryEnum.Error);
-                    }
-
-                    LoggerFactory.Log(new MessageStructure("Reflection success"), LogCategoryEnum.Success);
-
-                    _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
-                    HierarchicalAreas = new ObservableCollection<TreeViewItem> { _viewModelAssemblyMetadata };
+                    Logger.Log(new MessageStructure("Reflection started..."));
+                    _reflector = new Reflector(Assembly.LoadFrom(PathVariable));
                 }
-
-                else if (path.Contains(".xml"))
+                catch (Exception e)
                 {
-                    LoggerFactory.Log(new MessageStructure("Path Loaded"), LogCategoryEnum.Success);
-
-                    PathVariable = path;
-                    try
-                    {
-                        LoggerFactory.Log(new MessageStructure("Deserialization started..."));
-                        _reflector = new Reflector(Service.ToList().FirstOrDefault()?.Load(path));
-                    }
-                    catch (Exception e)
-                    {
-                        LoggerFactory.Log(new MessageStructure("Deserialization failed"), LogCategoryEnum.Error);
-                    }
-
-                    LoggerFactory.Log(new MessageStructure("Deserialization success"), LogCategoryEnum.Success);
-
-                    _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
-                    HierarchicalAreas = new ObservableCollection<TreeViewItem> { _viewModelAssemblyMetadata };
+                    IsBusy = false;
+                    Logger.Log(new MessageStructure("Reflection failed"), LogCategoryEnum.Error);
+                    DisplayInfo.ShowInfo("Reflection failed");
                 }
-                else
-                    LoggerFactory.Log(new MessageStructure("Reflection failed"), LogCategoryEnum.Error);
+                _viewModelAssemblyMetadata = new AssemblyTreeItem(_reflector.AssemblyModel);
+                HierarchicalAreas = new ObservableCollection<TreeViewItem> { _viewModelAssemblyMetadata };
+                IsBusy = false;
+                Logger.Log(new MessageStructure("Reflection success"), LogCategoryEnum.Success);
+                DisplayInfo.ShowInfo("Reflection success");
             }
             else
             {
-                LoggerFactory.Log(new MessageStructure("Path not loaded"), LogCategoryEnum.Error);
+                IsBusy = false;
+                Logger.Log(new MessageStructure("Path not loaded or wrong format"), LogCategoryEnum.Error);
             }
-
+            
         }
 
 
         #endregion
-  
+
     }
 }
