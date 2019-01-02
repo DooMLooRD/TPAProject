@@ -8,17 +8,17 @@ using DataLayer.DataModel.Enums;
 
 namespace DataLayer.DataModel
 {
-    [DataContract(IsReference = true)]
+
     public abstract class BaseTypeModel
     {
-        [DataMember] public virtual string Name { get; set; }
-        [DataMember] public virtual string AssemblyName { get; set; }
-        [DataMember] public virtual bool IsExternal { get; set; }
-        [DataMember] public virtual bool IsGeneric { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string AssemblyName { get; set; }
+        public virtual bool IsExternal { get; set; }
+        public virtual bool IsGeneric { get; set; }
         public virtual BaseTypeModel BaseType { get; set; }
         public virtual List<BaseTypeModel> GenericArguments { get; set; }
-        [DataMember] public virtual TypeModifiers Modifiers { get; set; }
-        [DataMember] public virtual TypeEnum Type { get; set; }
+        public virtual TypeModifiers Modifiers { get; set; }
+        public virtual TypeEnum Type { get; set; }
         public virtual List<BaseTypeModel> ImplementedInterfaces { get; set; }
         public virtual List<BaseTypeModel> NestedTypes { get; set; }
         public virtual List<BasePropertyModel> Properties { get; set; }

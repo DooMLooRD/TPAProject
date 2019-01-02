@@ -5,13 +5,13 @@ using DataLayer.DataModel;
 
 namespace FileData.XMLModel
 {
-    [DataContract(IsReference = true)]
+    
     public class XMLNamespaceModel : BaseNamespaceModel
     {
 
-        [DataMember] public override string Name { get; set; }
+         public override string Name { get; set; }
 
-        [DataMember] public new List<XMLTypeModel> Types { get; set; }
+         public new List<XMLTypeModel> Types { get; set; }
 
     }
 }

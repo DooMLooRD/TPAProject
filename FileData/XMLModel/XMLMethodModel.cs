@@ -5,19 +5,19 @@ using DataLayer.DataModel;
 
 namespace FileData.XMLModel
 {
-    [DataContract(IsReference = true)]
+
     public class XMLMethodModel : BaseMethodModel
     {
-        [DataMember] public override string Name { get; set; }
+        public override string Name { get; set; }
 
-        [DataMember] public new List<XMLTypeModel> GenericArguments { get; set; }
+        public new List<XMLTypeModel> GenericArguments { get; set; }
 
-        [DataMember] public new XMLTypeModel ReturnType { get; set; }
+        public new XMLTypeModel ReturnType { get; set; }
 
-        [DataMember] public override bool Extension { get; set; }
+        public override bool Extension { get; set; }
 
-        [DataMember] public new List<XMLParameterModel> Parameters { get; set; }
+        public new List<XMLParameterModel> Parameters { get; set; }
 
-        [DataMember] public override MethodModifiers Modifiers { get; set; }
+        public override MethodModifiers Modifiers { get; set; }
     }
 }

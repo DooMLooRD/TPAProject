@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using DataLayer;
 using DataLayer.DataModel;
 using FileData.XMLModel;
+using Newtonsoft.Json;
 
 
 namespace FileData
@@ -15,14 +16,17 @@ namespace FileData
     {
         public void Save(BaseAssemblyModel _object, string path)
         {
+            
             XMLAssemblyModel assembly = (XMLAssemblyModel)_object;
-            DataContractSerializer dataContractSerializer =
-                new DataContractSerializer(typeof(XMLAssemblyModel));
+            string name = JsonConvert.SerializeObject(assembly, Formatting.Indented,
+                new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
 
-            using (FileStream fileStream = new FileStream(path, FileMode.Create))
+            using (System.IO.StreamWriter file =
+                new System.IO.StreamWriter(path, true))
             {
-                dataContractSerializer.WriteObject(fileStream, assembly);
+                file.Write(name);
             }
+
         }
 
         public BaseAssemblyModel Read(string path)
@@ -30,10 +34,12 @@ namespace FileData
             XMLAssemblyModel model;
             if (!File.Exists(path))
                 throw new ArgumentException("File not exist");
-            DataContractSerializer dataContractSerializer = new DataContractSerializer(typeof(XMLAssemblyModel));
-            using (FileStream fileStream = new FileStream(path, FileMode.Open))
+            using (System.IO.StreamReader file =
+                new System.IO.StreamReader(path, true))
             {
-                model = (XMLAssemblyModel)dataContractSerializer.ReadObject(fileStream);
+                var reader = file.ReadToEnd();
+                model= JsonConvert.DeserializeObject<XMLAssemblyModel>(reader,
+                    new JsonSerializerSettings { PreserveReferencesHandling = PreserveReferencesHandling.Objects });
             }
 
             return model;

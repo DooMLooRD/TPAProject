@@ -7,15 +7,14 @@ using DataLayer.DataModel;
 
 namespace FileData.XMLModel
 {
-    [DataContract(IsReference = true)]
+    
     [Export(typeof(BaseAssemblyModel))]
     public class XMLAssemblyModel : BaseAssemblyModel
     {
+        public override string Name { get; set; }
 
-        [DataMember] public override string Name { get; set; }
 
-
-        [DataMember] public new List<XMLNamespaceModel> NamespaceModels { get; set; }
+         public new List<XMLNamespaceModel> NamespaceModels { get; set; }
 
     }
 }
